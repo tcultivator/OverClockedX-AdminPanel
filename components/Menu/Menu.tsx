@@ -13,9 +13,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 import { useState } from 'react';
 import { signOut } from 'next-auth/react';
+
+import { useRouter } from 'next/navigation';
 const Menu = () => {
   const [open, setOpen] = useState(true)
   const [parentOpen, setParentOpen] = useState(true)
+  const router = useRouter()
   const menuBarToggle = () => {
     setParentOpen(prev => !prev)
     setTimeout(() => {
@@ -23,41 +26,20 @@ const Menu = () => {
     }, 100);
   }
   return (
-    <div className={`${parentOpen ? 'w-[250px]' : 'w-[50px]'} duration-200 bg-[#171717] border-r border-white/15 text-white rounded[10px] h-screen`}>
+    <div className={`${parentOpen ? 'w-[250px]' : 'w-[50px]'} duration-200 bg-[#171717] rounded border border-white/15 text-white rounded[10px] h-screen`}>
       <div className={`flex ${open ? 'justify-between  p-5' : 'justify-center  p-2 text-[25px] text-center'} items-center border-b border-white/15`}>
         {open && <Label>OverClockedX</Label>}
         <button className='cursor-pointer' onClick={menuBarToggle}><FiSidebar /></button>
       </div>
       <div className={`flex flex-col justify-between gap-10 ${open ? 'p-5' : 'p-0 py-5 justify-center items-center text-[20px]'}`}>
         <div className='flex flex-col gap-5'>
-          <div className='flex gap-2 justify-start items-center cursor-pointer '>
+          <div onClick={()=>router.push('/LandingPage')} className='flex gap-2 justify-start items-center cursor-pointer '>
             <MdDashboard className={`p-1 text-[30px] rounded ${!open && 'border border-white/15 text-[35px] hover:bg-blue-800'}`} />
             {open && <Label className='cursor-pointer'>Dashboard</Label>}
           </div>
-          <div className='flex gap-2 justify-start items-center '>
-
-            <Accordion
-              type="single"
-              collapsible
-              className="w-full"
-              defaultValue=""
-            >
-              <AccordionItem value="item-1">
-                <div className='flex gap-2 justify-start items-center delay-100'>
-                  <GoPackage className={`p-1 text-[30px] rounded cursor-pointer ${!open && 'border border-white/15 text-[35px] hover:bg-blue-800'}`} />
-                  {open && <AccordionTrigger className='delay-200 duration-200 cursor-pointer'>Products</AccordionTrigger>}
-                </div>
-                {open && <AccordionContent className="flex flex-col gap-3 text-balance text-white py-2 px-6 cursor-pointer">
-
-                  <Label className=''>Computers</Label>
-                  <Label className=''>Components</Label>
-                  <Label className=''>Peripherals</Label>
-                  <Label className=''>Networks</Label>
-
-
-                </AccordionContent>}
-              </AccordionItem>
-            </Accordion>
+          <div onClick={()=>router.push('/LandingPage/ProductPage')} className='flex gap-2 justify-start items-center cursor-pointer'>
+            <GoPackage className={`p-1 text-[30px] rounded ${!open && 'border border-white/15 text-[35px] hover:bg-blue-800'}`} />
+            {open && <Label className='cursor-pointer'>Inventory</Label>}
           </div>
           <div className='flex gap-2 justify-start items-center cursor-pointer'>
             <TbTruckDelivery className={`p-1 text-[30px] rounded ${!open && 'border border-white/15 text-[35px] hover:bg-blue-800'}`} />

@@ -12,7 +12,7 @@ export default function RootLayout({
     return (
 
 
-        <div className="flex gap-2">
+        <div className="flex p-2 gap-2">
             <Menu />
             {children}
         </div>
