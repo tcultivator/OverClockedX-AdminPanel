@@ -18,9 +18,16 @@ import db from '@/lib/db'
 import { ProductsType } from '@/types/ProductsType'
 import Image from 'next/image'
 import { SlOptions } from "react-icons/sl";
-
+import ProductsCard from './components/ProductsCard'
+type Count = {
+    total: Number
+}
 const ProductList = async () => {
-    const [rows] = await db.query('SELECT * FROM products LIMIT 20 OFFSET 0')
+    const totalCountOfProducts = await db.query('SELECT COUNT(*) AS total FROM products')
+    const totalCount = totalCountOfProducts[0] as Count[]
+    const limit = 2
+    const totalPages = Math.ceil(Number(totalCount[0].total) / limit);
+    const [rows] = await db.query('SELECT * FROM products LIMIT 2 OFFSET 0')
     const products = rows as ProductsType[];
     return (
         <div className=' rounded bg-[#171717] w-full h-full border border-white/15'>
@@ -57,56 +64,8 @@ const ProductList = async () => {
                     </div>
                 </div>
             </div>
-            <div className=' px-2 max-h-[76vh] overflow-auto sticky'>
-                <div className='flex items-center bg-neutral-800 rounded-t p-2 sticky top-0'>
-                    <div className='w-[40%] flex justify-start '>Products</div>
-                    <div className='w-[13%] flex justify-start '>Price</div>
-                    <div className='w-[13%] flex justify-start '>Status</div>
-                    <div className='w-[12%] flex justify-start '>Stocks</div>
-                    <div className='w-[12%] flex justify-start '>Total sales</div>
-                    <div className='w-[6%] flex justify-start '>Created_at</div>
-                    <div className='w-[4%] flex justify-start '></div>
-                </div>
-                <div className=''>
-                    {products.map((data, index) => (
-                        <div key={index} className='border-b border-white/15 p-2 flex items-center'>
-                            <div className='flex gap-2 w-[40%]'>
-                                <Image
-                                    src={data.product_image}
-                                    width={100}
-                                    height={100}
-                                    alt=''
-                                    className='w-[50px] border border-white/10 rounded h-[50px]' />
-                                <div className='flex flex-col justify-center'>
-                                    <Label>{data.product_name}</Label>
-                                    <Label className='font-thin text-[10px]'>{data.brand}</Label>
-                                </div>
-
-                            </div>
-                            <div className='w-[13%]'>
-                                <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
-                                    style: 'currency',
-                                    currency: 'PHP',
-                                }).format(data.price)}</Label>
-                            </div>
-                            <div className='w-[13%]'>
-                                <Label className={`${data.stocks > 0?'bg-green-600':'bg-red-600'} w-max px-2 py-1 rounded`}>{data.stocks > 0 ? 'Available' : 'Out of stock'}</Label>
-                            </div>
-                            <div className='w-[12%]'>
-                                <Label className='font-thin'>{data.stocks}</Label>
-                            </div>
-                            <div className='w-[12%]'>
-                                <Label className='font-thin'>{data.sales_count}</Label>
-                            </div>
-                            <div className='w-[6%]'>
-                                <Label className='font-thin'>{data.created_at.toLocaleDateString()}</Label>
-                            </div>
-                            <button className='cursor-pointer'><SlOptions /></button>
-
-                        </div>
-                    ))}
-                </div>
-            </div>
+            <ProductsCard products={products}
+                totalPages={totalPages} />
 
         </div>
     )
