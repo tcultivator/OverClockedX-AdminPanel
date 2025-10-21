@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { useLoading } from '@/stores/loadingStore'
 import { Skeleton } from '@/components/ui/skeleton'
-import { FaArrowDown19 } from "react-icons/fa6";
+import ProductCardLayout from './productCardComponents/ProductCardLayout'
 import { SortButton } from './sortByButtonComponents/SortButton'
 type Props = {
     products: ProductsType[]
@@ -25,15 +25,28 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 
+
+
+//products store
+import { useProductsStore } from '@/stores/productsStore'
+
 type SortField = 'price' | 'stocks' | 'sales_count' | 'created_at'
 type SortDirection = 'ASC' | 'DESC'
 
 const ProductsCard = ({ products, totalPages }: Props) => {
+    const productsData = useProductsStore((state) => state.productsData)
+    const storeProductsData = useProductsStore((state) => state.storeProductsData)
+    useEffect(() => {
+        storeProductsData(products)
+    },[])
     const [currentPage, setCurrentPage] = useState<number>(1)
-    const [productsPage, setProductsPage] = useState(products)
+
     const loading = useLoading((state) => state.loading)
+
     const setLoading = useLoading((state) => state.setLoading)
+
     const [orderBy, setOrderBy] = useState<string>('')
+
     const [totalpages] = useState(() => {
         const arr: number[] = []
         for (let index = 1; index <= totalPages; index++) {
@@ -52,7 +65,8 @@ const ProductsCard = ({ products, totalPages }: Props) => {
         })
         const response = await getProductsByPage.json()
         console.log(response)
-        setProductsPage(response)
+
+        storeProductsData(response) 
         setCurrentPage(page)
         console.log('wht is this? ', pagintionDisplayWindow[pagintionDisplayWindow.length - 1])
         if (page < totalpages[totalpages.length - 1] && page != 1) {
@@ -92,8 +106,8 @@ const ProductsCard = ({ products, totalPages }: Props) => {
             method: 'GET'
         })
         const response = await getProductsByPage.json()
-        console.log(response)
-        setProductsPage(response)
+        console.log('eto ung sorted',response)
+        storeProductsData(response) 
         setOrderBy(`&field=${field}&direction=${newDirection}`)
         console.log('wht is this? ', pagintionDisplayWindow[pagintionDisplayWindow.length - 1])
         if (currentPage < totalpages[totalpages.length - 1] && currentPage != 1) {
@@ -137,14 +151,14 @@ const ProductsCard = ({ products, totalPages }: Props) => {
                             direction={sortDirection}
                             onClick={() => placeOrderBy('stocks')} />
                     </div>
-                    <div className='w-[12%] flex justify-start '>
+                    <div className='w-[10%] flex justify-start '>
                         <SortButton
                             label='Total Sales'
                             active={sortField === 'sales_count'}
                             direction={sortDirection}
                             onClick={() => placeOrderBy('sales_count')} />
                     </div>
-                    <div className='w-[6%] flex justify-start '>
+                    <div className='w-[8%] flex justify-start '>
                         <SortButton
                             label='Created at'
                             active={sortField === 'created_at'}
@@ -154,7 +168,7 @@ const ProductsCard = ({ products, totalPages }: Props) => {
                     <div className='w-[4%] flex justify-start '></div>
                 </div>
                 <div className={`${loading && 'flex flex-col gap-2 full py-2'}`}>
-                    {productsPage.map((data, index) => (
+                    {productsData.map((data, index) => (
                         <div key={index}>
                             {loading ?
                                 <div className="flex items-center space-x-4 gap-2">
@@ -162,41 +176,10 @@ const ProductsCard = ({ products, totalPages }: Props) => {
 
                                 </div>
 
-                                : <div key={index} className='border-b border-white/15 p-2 flex items-center'>
-                                    <div className='flex gap-2 w-[40%]'>
-                                        <Image
-                                            src={data.product_image}
-                                            width={100}
-                                            height={100}
-                                            alt=''
-                                            className='w-[50px] border border-white/10 rounded h-[50px]' />
-                                        <div className='flex flex-col justify-center'>
-                                            <Label>{data.product_name}</Label>
-                                            <Label className='font-thin text-[10px]'>{data.brand}</Label>
-                                        </div>
+                                :
+                                <ProductCardLayout key={index} data={data} />
 
-                                    </div>
-                                    <div className='w-[13%]'>
-                                        <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
-                                            style: 'currency',
-                                            currency: 'PHP',
-                                        }).format(data.price)}</Label>
-                                    </div>
-                                    <div className='w-[13%]'>
-                                        <Label className={`${data.stocks > 0 ? 'bg-green-600' : 'bg-red-600'} w-max px-2 py-1 rounded`}>{data.stocks > 0 ? 'Available' : 'Out of stock'}</Label>
-                                    </div>
-                                    <div className='w-[12%]'>
-                                        <Label className='font-thin'>{data.stocks}</Label>
-                                    </div>
-                                    <div className='w-[12%]'>
-                                        <Label className='font-thin'>{data.sales_count}</Label>
-                                    </div>
-                                    <div className='w-[6%]'>
-                                        <Label className='font-thin'>{new Date(data.created_at).toLocaleDateString('en-GB')}</Label>
-                                    </div>
-                                    <button className='cursor-pointer'><SlOptions /></button>
-
-                                </div>}
+                            }
                         </div>
 
                     ))}
