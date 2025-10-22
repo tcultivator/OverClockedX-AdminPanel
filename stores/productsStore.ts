@@ -6,6 +6,8 @@ type productStore = {
     storeProductsData: (value: ProductsType[]) => void,
     removeProduct: (value: string) => void,
     editStocks: (pId: string, newStocks: number) => void,
+    updateProductsDetails: (value: ProductsType) => void
+
 }
 export const useProductsStore = create<productStore>((set) => ({
     productsData: [],
@@ -45,7 +47,7 @@ export const useProductsStore = create<productStore>((set) => ({
         try {
             useLoading.getState().setActionLoadingState({ display: true, loadingMessage: 'Updating Stocks! Please wait...' })
             const updateStocks = await fetch('/api/EditProductStocks', {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-type': 'application/json'
                 },
@@ -90,5 +92,55 @@ export const useProductsStore = create<productStore>((set) => ({
             useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
         }
 
+    },
+
+    updateProductsDetails: async (value: ProductsType) => {
+        const currentProducts = useProductsStore.getState().productsData
+        const finalProducts = []
+        try {
+            useLoading.getState().setActionLoadingState({ display: true, loadingMessage: 'Updating Products Details! Please wait...' })
+            const updateProducts = await fetch('/api/updateProductsDetails', {
+                method: 'PUT',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({ product_image: value.product_image, product_name: value.product_name, price: value.price, description: value.description, product_id: value.product_id })
+            })
+            const response = await updateProducts.json()
+            if (response.status != 500) {
+                for (const item of currentProducts) {
+                    if (item.product_id == value.product_id) {
+                        finalProducts.push({
+                            id: item.id,
+                            product_id: item.product_id,
+                            category: item.category,
+                            parent: item.parent,
+                            product_name: value.product_name,
+                            product_image: value.product_image,
+                            price: value.price,
+                            stocks: item.stocks,
+                            description: value.description,
+                            brand: item.brand,
+                            sales_count: item.sales_count,
+                            created_at: item.created_at,
+                            updated_at: item.updated_at
+                        })
+                    } else {
+                        finalProducts.push(item)
+                    }
+                }
+                set({
+                    productsData: finalProducts,
+
+                })
+            }
+            useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
+        } catch (err) {
+            useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
+        }
     }
+
+
+
+
 }))

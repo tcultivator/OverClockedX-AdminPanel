@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { ProductsType } from '@/types/ProductsType'
 import { Label } from '@/components/ui/label'
 import Image from 'next/image'
+
 type Props = {
     data: ProductsType
 }
@@ -24,6 +25,10 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+
+
+
+
 import { FiMinus } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
 import {
@@ -35,13 +40,15 @@ import { SlOptions } from "react-icons/sl";
 import { Badge } from "@/components/ui/badge"
 import { RemoveProduct } from './RemoveProduct/RemoveProduct'
 import { useProductsStore } from '@/stores/productsStore'
+
+import { EditProduct } from './EditProduct/EditProduct'
 const ProductCardLayout = ({ data }: Props) => {
     const [currentStocks, setCurrentStocks] = useState(data.stocks)
     const editStocks = useProductsStore((state) => state.editStocks)
-    
+
     return (
         <div className='border-b border-white/15 flex items-center p-2 relative'>
-            
+
             <div className='flex gap-2 w-[40%]'>
                 <Image
                     src={data.product_image}
@@ -83,7 +90,9 @@ const ProductCardLayout = ({ data }: Props) => {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <Label className='p-2 font-thin cursor-pointer rounded hover:bg-white/5'>Edit Product</Label>
+
+
+                    <EditProduct data={data} />
 
                     <RemoveProduct product_id={data.product_id} product_name={data.product_name} product_image={data.product_image} />
 

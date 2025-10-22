@@ -1,19 +1,46 @@
 // middleware.ts
-import { getToken } from "next-auth/jwt"
-import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
+import { getToken } from "next-auth/jwt";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-    const token = await getToken({ req: request, secret: process.env.AUTH_SECRET })
+  const { pathname } = request.nextUrl;
 
-    // If no token and trying to access protected route
-    if (!token) {
-        console.log('no token')
-        return NextResponse.redirect(new URL('/', request.url))
-    }
+  
+  if (
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/static") ||
+    pathname.startsWith("/favicon.ico")
+  ) {
+    return NextResponse.next();
+  }
 
-    return NextResponse.next()
+
+  if (pathname.startsWith("/api/edgestore")) {
+    return NextResponse.next();
+  }
+
+ 
+  const publicPaths = ["/", "/login", "/register"];
+  if (publicPaths.includes(pathname)) {
+    return NextResponse.next();
+  }
+
+ 
+  const token = await getToken({
+    req: request,
+    secret: process.env.AUTH_SECRET,
+  });
+
+  if (!token) {
+    console.log("No token – redirecting to login");
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  return NextResponse.next();
 }
+
+
 export const config = {
-    matcher: ["/LandingPage/:path*"],
+  matcher: ["/((?!_next|static|favicon.ico).*)"],
 };
