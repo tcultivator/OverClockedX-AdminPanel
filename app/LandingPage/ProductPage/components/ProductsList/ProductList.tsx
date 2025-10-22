@@ -48,7 +48,8 @@ const ProductList = async () => {
                 </div>
             </div>
             <ProductsCard products={products}
-                totalPages={totalPages} />
+                totalPages={totalPages}
+                 />
 
         </div>
     )

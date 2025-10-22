@@ -33,14 +33,15 @@ export const RemoveProduct = ({ product_id, product_name, product_image }: produ
         <AlertDialogContent>
             <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-2 p-2 border border-white/10 rounded bg-white/10">
                         <Image src={product_image} width={100} height={100} alt=" " className="w-[50px]" />
                         <Label>{product_name}</Label>
                     </div>
-                    This action cannot be undone. This will permanently delete this
-                    product and remove this data from our database.
-                </AlertDialogDescription>
+                    <AlertDialogDescription>This action cannot be undone. This will permanently delete this
+                        product and remove this data from our database.</AlertDialogDescription>
+
+                </div>
             </AlertDialogHeader>
             <AlertDialogFooter>
                 <AlertDialogCancel className="p-0">

@@ -11,5 +11,5 @@ export type ProductsType = {
     brand: string
     sales_count: number
     created_at: Date
-
+    updated_at: Date
 }
