@@ -2,7 +2,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import Menu from "@/components/Menu/Menu";
 import ActionLoading from "@/components/ActionsLoadingComponent/ActionLoading";
-
+import { EdgeStoreProvider } from '@/lib/edgestore'
 
 export default function RootLayout({
     children,
@@ -14,7 +14,10 @@ export default function RootLayout({
 
         <div className="flex p-2 gap-2">
             <Menu />
-            {children}
+
+            <EdgeStoreProvider>
+                {children}
+            </EdgeStoreProvider>
             <ActionLoading />
         </div>
 
