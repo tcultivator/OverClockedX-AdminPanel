@@ -25,7 +25,7 @@ type Count = {
 const ProductList = async () => {
     const totalCountOfProducts = await db.query('SELECT COUNT(*) AS total FROM products')
     const totalCount = totalCountOfProducts[0] as Count[]
-    const limit = 11
+    const limit = 3
     const totalPages = Math.ceil(Number(totalCount[0].total) / limit);
     console.log(totalPages)
     console.log(totalCount[0].total)
