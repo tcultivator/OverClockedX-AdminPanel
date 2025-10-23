@@ -31,27 +31,27 @@ const Menu = () => {
         {open && <Label>OverClockedX</Label>}
         <button className='cursor-pointer' onClick={menuBarToggle}><FiSidebar /></button>
       </div>
-      <div className={`flex flex-col justify-between gap-10 ${open ? 'p-5' : 'p-0 py-5 justify-center items-center text-[20px]'}`}>
-        <div className='flex flex-col gap-5'>
-          <div onClick={()=>router.push('/LandingPage')} className='flex gap-2 justify-start items-center cursor-pointer '>
-            <MdDashboard className={`p-1 text-[30px] rounded ${!open && 'border border-white/15 text-[35px] hover:bg-blue-800'}`} />
+      <div className={`flex flex-col justify-between gap-10  h-[90vh] ${open ? 'p-5' : 'p-0 py-5 justify-between items-center text-[20px]'}`}>
+        <div className='flex flex-col gap-4'>
+          <div onClick={()=>router.push('/LandingPage')} className='flex gap-2 justify-start items-center cursor-pointer hover:bg-white/15 rounded p-1'>
+            <MdDashboard className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />
             {open && <Label className='cursor-pointer'>Dashboard</Label>}
           </div>
-          <div onClick={()=>router.push('/LandingPage/ProductPage')} className='flex gap-2 justify-start items-center cursor-pointer'>
-            <GoPackage className={`p-1 text-[30px] rounded ${!open && 'border border-white/15 text-[35px] hover:bg-blue-800'}`} />
+          <div onClick={()=>router.push('/LandingPage/ProductPage')} className='flex gap-2 justify-start items-center cursor-pointer hover:bg-white/15 rounded p-1'>
+            <GoPackage className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />
             {open && <Label className='cursor-pointer'>Inventory</Label>}
           </div>
-          <div className='flex gap-2 justify-start items-center cursor-pointer'>
-            <TbTruckDelivery className={`p-1 text-[30px] rounded ${!open && 'border border-white/15 text-[35px] hover:bg-blue-800'}`} />
+          <div className='flex gap-2 justify-start items-center cursor-pointer hover:bg-white/15 rounded p-1'>
+            <TbTruckDelivery className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />
             {open && <Label className='cursor-pointer'>Orders</Label>}
           </div>
-          <div className='flex gap-2 justify-start items-center cursor-pointer'>
-            <IoIosSettings className={`p-1 text-[30px] rounded ${!open && 'border border-white/15 text-[35px] hover:bg-blue-800'}`} />
+          <div className='flex gap-2 justify-start items-center cursor-pointer hover:bg-white/15 rounded p-1'>
+            <IoIosSettings className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />
             {open && <Label className='cursor-pointer'>Settings</Label>}
           </div>
         </div>
-        <button onClick={() => signOut()} className='flex items-center gap-2 justify-start cursor-pointer'>
-          <FaUserCircle className={`p-1 text-[30px] rounded ${!open && 'border border-white/15 text-[35px] hover:bg-blue-800'}`} />
+        <button onClick={() => signOut()} className='flex items-center gap-2 justify-start cursor-pointer hover:bg-white/15 rounded p-1'>
+          <FaUserCircle className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />
           {open && <label className='cursor-pointer'>Signout</label>}
         </button>
       </div>
