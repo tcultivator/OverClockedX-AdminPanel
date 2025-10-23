@@ -86,7 +86,7 @@ const AddProducts = () => {
     <Dialog>
       <div>
         <DialogTrigger className='w-full'>
-          <Button className='cursor-pointer font-thin'><GoPlus />Add Products</Button>
+          {/* <Button className='cursor-pointer font-thin'><GoPlus />Add Products</Button> */}
         </DialogTrigger>
         <DialogContent className="sm:max-w-[825px]">
           <DialogHeader>

@@ -25,21 +25,34 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 
-
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 //products store
 import { useProductsStore } from '@/stores/productsStore'
 
 type SortField = 'price' | 'stocks' | 'sales_count' | 'created_at'
 type SortDirection = 'ASC' | 'DESC'
-
+import { useSearchParams } from 'next/navigation'
+import { usePaginationStore } from '@/stores/paginationPageStore'
 const ProductsCard = ({ products, totalPages }: Props) => {
     const productsData = useProductsStore((state) => state.productsData)
     const storeProductsData = useProductsStore((state) => state.storeProductsData)
+    const searchParams = useSearchParams();
+    const category = searchParams.get('category') || ''
+    // const [pagesTotal, setPagesTotal] = useState(totalPages)
+    const pagintionDisplayWindow = usePaginationStore((state) => state.pagintionDisplayWindow)
+    const setTotalPage = usePaginationStore((state) => state.setTotalPage)
+    const totalPage = usePaginationStore((state) => state.totalPage)
+    const currentPage = usePaginationStore((state) => state.currentPage)
+    const setCurrentPage = usePaginationStore((state) => state.setCurrentPage)
     useEffect(() => {
         storeProductsData(products)
-    },[])
-    const [currentPage, setCurrentPage] = useState<number>(1)
+        setTotalPage({ totalPage: totalPages, currentPage: currentPage })
+    }, [])
+
+
+
+    // const [currentPage, setCurrentPage] = useState<number>(1)
 
     const loading = useLoading((state) => state.loading)
 
@@ -47,49 +60,40 @@ const ProductsCard = ({ products, totalPages }: Props) => {
 
     const [orderBy, setOrderBy] = useState<string>('')
 
-    const [totalpages] = useState(() => {
-        const arr: number[] = []
-        for (let index = 1; index <= totalPages; index++) {
-            arr.push(index)
+    const [selectedCategory, setSelectedCategory] = useState('')
 
-        }
-        return arr
-    })
-    const [pagintionDisplayWindow, setPaginationDisplayWindow] = useState(() => {
-        return totalpages.slice(currentPage - 1, (currentPage - 1) + 3)
-    })
+    // const [totalpages] = useState(() => {
+    //     const arr: number[] = []
+    //     for (let index = 1; index <= pagesTotal; index++) {
+    //         arr.push(index)
+    //     }
+    //     return arr
+    // })
+    // const [pagintionDisplayWindow, setPaginationDisplayWindow] = useState(() => {
+    //     return totalpages.slice(currentPage - 1, (currentPage - 1) + 3)
+    // })
+
+    //navigate through pagination
     const navigatePagination = async (page: number) => {
         setLoading(true)
-        const getProductsByPage = await fetch(`/api/productListPagination?page=${page}${orderBy}`, {
+        const getProductsByPage = await fetch(`/api/productListPagination?page=${page}${orderBy}${selectedCategory}`, {
             method: 'GET'
         })
         const response = await getProductsByPage.json()
-        console.log(response)
 
-        storeProductsData(response) 
+        storeProductsData(response.result)
+        setTotalPage({ totalPage: response.totalPages, currentPage: page })
         setCurrentPage(page)
-        console.log('wht is this? ', pagintionDisplayWindow[pagintionDisplayWindow.length - 1])
-        if (page < totalpages[totalpages.length - 1] && page != 1) {
-            setPaginationDisplayWindow(() => {
-                return totalpages.slice(page - 2, (page - 2) + 3)
-            })
-        }
-        if (page == 1) {
-            setPaginationDisplayWindow(() => {
-                return totalpages.slice(page - 1, (page - 1) + 3)
-            })
-        }
-        if (page == totalpages[totalpages.length - 1]) {
-            setPaginationDisplayWindow(() => {
-                return totalpages.slice(page - 3, (page - 3) + 3)
-            })
-        }
+        console.log(response.totalPages)
+
         setLoading(false)
 
 
     }
     const [sortField, setSortField] = useState<SortField>('created_at')
     const [sortDirection, setSortDirection] = useState<SortDirection>('ASC')
+
+    //select order by
     const placeOrderBy = async (field: SortField) => {
         setLoading(true)
 
@@ -102,35 +106,63 @@ const ProductsCard = ({ products, totalPages }: Props) => {
         setSortField(field)
         setSortDirection(newDirection)
 
-        const getProductsByPage = await fetch(`/api/productListPagination?page=${currentPage}&field=${field}&direction=${newDirection}`, {
+        const getProductsByPage = await fetch(`/api/productListPagination?page=${currentPage}&field=${field}&direction=${newDirection}${selectedCategory}`, {
             method: 'GET'
         })
         const response = await getProductsByPage.json()
-        console.log('eto ung sorted',response)
-        storeProductsData(response) 
+
+
+        storeProductsData(response.result)
+        setTotalPage({ totalPage: response.totalPages, currentPage: currentPage })
+        console.log(response.totalPages)
         setOrderBy(`&field=${field}&direction=${newDirection}`)
-        console.log('wht is this? ', pagintionDisplayWindow[pagintionDisplayWindow.length - 1])
-        if (currentPage < totalpages[totalpages.length - 1] && currentPage != 1) {
-            setPaginationDisplayWindow(() => {
-                return totalpages.slice(currentPage - 2, (currentPage - 2) + 3)
-            })
-        }
-        if (currentPage == 1) {
-            setPaginationDisplayWindow(() => {
-                return totalpages.slice(currentPage - 1, (currentPage - 1) + 3)
-            })
-        }
-        if (currentPage == totalpages[totalpages.length - 1]) {
-            setPaginationDisplayWindow(() => {
-                return totalpages.slice(currentPage - 3, (currentPage - 3) + 3)
-            })
-        }
+
+        
         setLoading(false)
     }
 
+
+
+    //select category filter
+    useEffect(() => {
+        if (category !== '') {
+            console.log('nabago ung search params')
+            console.log(category)
+            const getCategoryFilter = async () => {
+                setLoading(true)
+                const getProductsByPage = await fetch(`/api/productListPagination?page=${1}${orderBy}&category=${category}`, {
+                    method: 'GET'
+                })
+                const response = await getProductsByPage.json()
+
+
+                storeProductsData(response.result)
+                setCurrentPage(1)
+                setSelectedCategory(`&category=${category}`)
+                setTotalPage({ totalPage: response.totalPages, currentPage: 1 })
+                console.log(response.totalPages)
+                
+                setLoading(false)
+
+
+            }
+            getCategoryFilter()
+        }
+
+    }, [searchParams])
+
+
+
+
+
+
+
+
+
     return (
         <div className='flex flex-col h-[80vh] justify-between'>
-            <div className=' px-2 max-h-[76vh] overflow-auto sticky'>
+            <ScrollArea className="px-2 max-h-[76vh] overflow-auto sticky">
+
                 <div className='flex items-center bg-neutral-800 rounded-t p-2 sticky top-0 z-40'>
                     <div className='w-[40%] flex justify-start '>Products</div>
                     <div className='w-[13%] flex justify-start gap-2 '>
@@ -184,7 +216,9 @@ const ProductsCard = ({ products, totalPages }: Props) => {
 
                     ))}
                 </div>
-            </div>
+
+            </ScrollArea>
+
             <div className='bg-red-400 items-end flex justify-start relative'>
                 <Pagination className=' w-max right-10 absolute '>
                     <PaginationContent>
@@ -213,14 +247,14 @@ const ProductsCard = ({ products, totalPages }: Props) => {
                             </PaginationItem>
                         ))}
 
-                        {currentPage < totalpages[totalpages.length - 2] && <PaginationItem>
+                        {currentPage < totalPage[totalPage.length - 2] && <PaginationItem>
                             <PaginationEllipsis onClick={() => {
-                                navigatePagination(totalpages[totalpages.length - 1])
+                                navigatePagination(totalPage[totalPage.length - 1])
                             }} />
                         </PaginationItem>}
                         <PaginationItem>
                             <PaginationNext className='cursor-pointer' onClick={() => {
-                                if (currentPage < totalpages[totalpages.length - 1]) {
+                                if (currentPage < totalPage[totalPage.length - 1]) {
                                     navigatePagination(currentPage + 1)
                                 }
 
