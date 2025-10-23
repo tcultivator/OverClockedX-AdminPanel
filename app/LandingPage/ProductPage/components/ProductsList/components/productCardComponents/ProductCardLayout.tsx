@@ -27,6 +27,11 @@ import {
 } from "@/components/ui/dialog"
 
 
+import { IoMdCheckmark } from "react-icons/io";
+import { RxCross1 } from "react-icons/rx";
+import { IoIosWarning } from "react-icons/io";
+import { MdNewReleases } from "react-icons/md";
+
 
 
 import { FiMinus } from "react-icons/fi";
@@ -42,14 +47,16 @@ import { RemoveProduct } from './RemoveProduct/RemoveProduct'
 import { useProductsStore } from '@/stores/productsStore'
 
 import { EditProduct } from './EditProduct/EditProduct'
+
+import { formatDateYYYYMMDD } from '@/utils/getCurrentDateFunction'
 const ProductCardLayout = ({ data }: Props) => {
     const [currentStocks, setCurrentStocks] = useState(data.stocks)
     const editStocks = useProductsStore((state) => state.editStocks)
-
+    const date = new Date()
     return (
         <div className='border-b border-white/15 flex items-center p-2 relative'>
 
-            <div className='flex gap-2 w-[40%]'>
+            <div className='flex gap-2 w-[40%] relative'>
                 <Image
                     src={data.product_image}
                     width={100}
@@ -61,6 +68,8 @@ const ProductCardLayout = ({ data }: Props) => {
                     <Label className='font-thin text-[10px]'>{data.brand}</Label>
                 </div>
 
+                {new Date(data.created_at).toLocaleDateString('en-GB') == formatDateYYYYMMDD(date) && <MdNewReleases className='absolute text-green-500 top-[-5px] left-[-10px]' />}
+
             </div>
             <div className='w-[13%]'>
                 <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
@@ -69,7 +78,11 @@ const ProductCardLayout = ({ data }: Props) => {
                 }).format(data.price)}</Label>
             </div>
             <div className='w-[13%]'>
-                <Label className={`${data.stocks > 0 ? (data.stocks <= 10 ? 'Low bg-yellow-600' : 'bg-green-600') : 'bg-red-600'} w-max px-2 py-1 rounded`}>{data.stocks > 0 ? (data.stocks <= 10 ? 'Low Stocks' : 'Available') : 'Out of stock'}</Label>
+                <div className={`${data.stocks > 0 ? (data.stocks <= 10 ? 'Low bg-[#C0A97E] text-yellow-800 border border-yellow-800' : 'bg-[#B4DDA1] text-green-800 border border-green-800') : 'bg-[#FF9294] text-red-500 border border-red-500'} w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]`}>
+                    {data.stocks > 0 ? (data.stocks <= 10 ? <IoIosWarning className='text-[12px]' /> : <IoMdCheckmark className='text-[12px]' />) : <RxCross1 className='text-[12px]' />}
+                    <Label className='text-[11px] flex items-center justify-center'>{data.stocks > 0 ? (data.stocks <= 10 ? 'Low Stocks' : 'Available') : 'Out of stock'}</Label>
+                </div>
+
             </div>
             <div className='w-[12%]'>
                 <Label className='font-thin'>{data.stocks}</Label>
@@ -132,7 +145,7 @@ const ProductCardLayout = ({ data }: Props) => {
                                             }
                                         }}><FiMinus /></button>
                                         <input type="number" className='border border-white/15 rounded text-center px-5 w-max ' value={currentStocks || ''} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrentStocks(Number(e.target.value))} />
-                                        <button className='bg-red-400 aspect-square w-7 cursor-pointer rounded bg-white/80 text-black flex items-center justify-center' onClick={() => { setCurrentStocks(prev => prev + 1) }}><GoPlus /></button>
+                                        <button className=' aspect-square w-7 cursor-pointer rounded bg-white/80 text-black flex items-center justify-center' onClick={() => { setCurrentStocks(prev => prev + 1) }}><GoPlus /></button>
                                     </div>
                                 </div>
                                 <DialogFooter>
