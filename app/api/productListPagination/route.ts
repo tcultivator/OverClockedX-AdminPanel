@@ -10,7 +10,7 @@ type SortDirection = 'ASC' | 'DESC'
 export async function GET(req: NextRequest) {
     try {
         const page = Number(req.nextUrl.searchParams.get("page"))
-        const limit = 6
+        const limit = 11
         const offset = (page - 1) * limit
         const field = req.nextUrl.searchParams.get("field")
         const direction = req.nextUrl.searchParams.get("direction")

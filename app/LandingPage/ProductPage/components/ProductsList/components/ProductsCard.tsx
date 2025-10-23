@@ -131,7 +131,7 @@ const ProductsCard = ({ products, totalPages }: Props) => {
     return (
         <div className='flex flex-col h-[80vh] justify-between'>
             <div className=' px-2 max-h-[76vh] overflow-auto sticky'>
-                <div className='flex items-center bg-neutral-800 rounded-t p-2 sticky top-0'>
+                <div className='flex items-center bg-neutral-800 rounded-t p-2 sticky top-0 z-40'>
                     <div className='w-[40%] flex justify-start '>Products</div>
                     <div className='w-[13%] flex justify-start gap-2 '>
                         <SortButton

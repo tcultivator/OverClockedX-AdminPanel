@@ -34,7 +34,8 @@ import { useEdgeStore } from '@/lib/edgestore'
 
 import { ProgressCircle } from '@/components/upload/progress-circle'
 import { useProductsStore } from '@/stores/productsStore'
-import { useLoading } from '@/stores/loadingStore'
+
+import { GoPlus } from "react-icons/go";
 
 type ProductsType = {
   category: string;
@@ -85,7 +86,7 @@ const AddProducts = () => {
     <Dialog>
       <div>
         <DialogTrigger className='w-full'>
-          <Label className='px-3 py-2 font-regular cursor-pointer bg-white text-black rounded-[10px] hover:bg-white/80 '>Add Products</Label>
+          <Button className='cursor-pointer font-thin'><GoPlus />Add Products</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[825px]">
           <DialogHeader>
