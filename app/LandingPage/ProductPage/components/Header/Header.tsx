@@ -3,6 +3,7 @@ import React from 'react'
 import { Label } from '@/components/ui/label'
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu"
 import { Button } from '@/components/ui/button'
+import AddProducts from './components/addProducts/AddProducts'
 const Header = () => {
     const Computer = ['Desktop', 'Laptop']
     const Components = ['PcCase', 'CPU', 'Motherboard', 'Memory', 'Storage', 'GPU', 'PowerSupply']
@@ -76,7 +77,7 @@ const Header = () => {
                     </NavigationMenu>
                 </div>
             </div>
-            <Button>Add Products</Button>
+            <AddProducts />
 
         </div>
     )

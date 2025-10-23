@@ -1,14 +1,44 @@
 import { create } from 'zustand'
 import { ProductsType } from '@/types/ProductsType'
 import { useLoading } from './loadingStore'
+import { parentClasses } from '@/utils/ParentClasses'
+import { formatDateYYYYMMDD } from '@/utils/getCurrentDateFunction'
 type productStore = {
     productsData: ProductsType[],
     storeProductsData: (value: ProductsType[]) => void,
     removeProduct: (value: string) => void,
     editStocks: (pId: string, newStocks: number) => void,
-    updateProductsDetails: (value: ProductsType) => void
+    updateProductsDetails: (value: ProductsType) => void,
+    addProductsToDatabase: (value: ProductsTypes) => void,
 
 }
+import { RandomString } from '@/utils/RandomStringGenerator'
+type ProductsTypes = {
+    category: string;
+    product_name: string;
+    product_image: string;
+    price: number;
+    stocks: number;
+    description: string;
+    brand: string;
+}
+
+type parentType = | "Desktop"
+    | "Laptop"
+    | "Pc Case"
+    | "CPU"
+    | "Motherboard"
+    | "Memory"
+    | "Storage"
+    | "GPU"
+    | "PowerSupply"
+    | "Monitor"
+    | "Keyboard"
+    | "Mouse"
+    | "Headphone"
+    | "Microphone"
+    | "Router"
+    | "Switch"
 export const useProductsStore = create<productStore>((set) => ({
     productsData: [],
     storeProductsData: (value: ProductsType[]) => {
@@ -138,9 +168,50 @@ export const useProductsStore = create<productStore>((set) => ({
         } catch (err) {
             useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
         }
+    },
+
+    addProductsToDatabase: async (value: ProductsTypes) => {
+        useLoading.getState().setActionLoadingState({ display: true, loadingMessage: 'Adding Products! Please wait...' })
+        const currentProducts = useProductsStore.getState().productsData
+        const pId = RandomString() //generate unique product id - string
+        const parentValue = parentClasses[value.category as keyof typeof parentClasses];
+        const date = new Date()
+        const final = formatDateYYYYMMDD(date)
+        const parsedDate = parseDateDDMMYYYY(final);
+        const finalProductsToInsert = {
+            id: 0,
+            product_id: pId,
+            category: value.category,
+            parent: parentValue,
+            product_name: value.product_name,
+            product_image: value.product_image,
+            price: value.price,
+            stocks: value.stocks,
+            description: value.description,
+            brand: value.brand,
+            sales_count: 0,
+            created_at: parsedDate,
+            updated_at: parsedDate,
+        }
+        const addProduct = await fetch('/api/addProducts', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ data: finalProductsToInsert })
+        })
+        const result = await addProduct.json()
+        if (result.status != 500) {
+            set({
+                productsData: [finalProductsToInsert, ...currentProducts]
+            })
+        }
+        useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
     }
 
-
-
-
 }))
+
+function parseDateDDMMYYYY(dateString: string): Date {
+    const [day, month, year] = dateString.split('/').map(Number);
+    return new Date(year, month - 1, day); // month is 0-based in JS Date
+}
