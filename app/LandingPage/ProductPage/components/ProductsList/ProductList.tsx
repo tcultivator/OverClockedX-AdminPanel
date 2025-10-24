@@ -1,13 +1,5 @@
 import React from 'react'
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -16,8 +8,7 @@ import { IoListOutline } from "react-icons/io5";
 import { CiGrid41 } from "react-icons/ci";
 import db from '@/lib/db'
 import { ProductsType } from '@/types/ProductsType'
-import Image from 'next/image'
-import { SlOptions } from "react-icons/sl";
+
 import ProductsCard from './components/ProductsCard'
 type Count = {
     total: number
@@ -27,8 +18,7 @@ const ProductList = async () => {
     const totalCount = totalCountOfProducts[0] as Count[]
     const limit = 3
     const totalPages = Math.ceil(Number(totalCount[0].total) / limit);
-    console.log(totalPages)
-    console.log(totalCount[0].total)
+    
     const [rows] = await db.query(`SELECT * FROM products LIMIT ${limit} OFFSET 0`)
     const products = rows as ProductsType[];
     return (

@@ -74,7 +74,7 @@ const AddProducts = () => {
           setProgress(progress)
         },
       });
-      console.log(res);
+      
       setAddedProducts((prev) => ({ ...prev, product_image: res.url }))
       setLoading(false)
       setProgress(0)
