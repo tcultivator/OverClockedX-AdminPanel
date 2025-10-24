@@ -39,7 +39,7 @@ const ProductsCard = ({ products, totalPages }: Props) => {
     const storeProductsData = useProductsStore((state) => state.storeProductsData)
     const searchParams = useSearchParams();
     const category = searchParams.get('category') || ''
-    // const [pagesTotal, setPagesTotal] = useState(totalPages)
+
     const pagintionDisplayWindow = usePaginationStore((state) => state.pagintionDisplayWindow)
     const setTotalPage = usePaginationStore((state) => state.setTotalPage)
     const totalPage = usePaginationStore((state) => state.totalPage)
@@ -52,7 +52,7 @@ const ProductsCard = ({ products, totalPages }: Props) => {
 
 
 
-    // const [currentPage, setCurrentPage] = useState<number>(1)
+
 
     const loading = useLoading((state) => state.loading)
 
@@ -62,16 +62,7 @@ const ProductsCard = ({ products, totalPages }: Props) => {
 
     const [selectedCategory, setSelectedCategory] = useState('')
 
-    // const [totalpages] = useState(() => {
-    //     const arr: number[] = []
-    //     for (let index = 1; index <= pagesTotal; index++) {
-    //         arr.push(index)
-    //     }
-    //     return arr
-    // })
-    // const [pagintionDisplayWindow, setPaginationDisplayWindow] = useState(() => {
-    //     return totalpages.slice(currentPage - 1, (currentPage - 1) + 3)
-    // })
+    const [noProductMessage, setNoProductMessage] = useState(false)
 
     //navigate through pagination
     const navigatePagination = async (page: number) => {
@@ -84,7 +75,7 @@ const ProductsCard = ({ products, totalPages }: Props) => {
         storeProductsData(response.result)
         setTotalPage({ totalPage: response.totalPages, currentPage: page })
         setCurrentPage(page)
-        console.log(response.totalPages)
+        
 
         setLoading(false)
 
@@ -114,10 +105,10 @@ const ProductsCard = ({ products, totalPages }: Props) => {
 
         storeProductsData(response.result)
         setTotalPage({ totalPage: response.totalPages, currentPage: currentPage })
-        console.log(response.totalPages)
+        
         setOrderBy(`&field=${field}&direction=${newDirection}`)
 
-        
+
         setLoading(false)
     }
 
@@ -126,22 +117,25 @@ const ProductsCard = ({ products, totalPages }: Props) => {
     //select category filter
     useEffect(() => {
         if (category !== '') {
-            console.log('nabago ung search params')
+
             console.log(category)
             const getCategoryFilter = async () => {
                 setLoading(true)
-                const getProductsByPage = await fetch(`/api/productListPagination?page=${1}${orderBy}&category=${category}`, {
+                const getProductsByPage = await fetch(`/api/productListPagination?page=${currentPage}${orderBy}&category=${category}`, {
                     method: 'GET'
                 })
                 const response = await getProductsByPage.json()
 
-
                 storeProductsData(response.result)
-                setCurrentPage(1)
+                setCurrentPage(response.currentPages || 1)
                 setSelectedCategory(`&category=${category}`)
-                setTotalPage({ totalPage: response.totalPages, currentPage: 1 })
-                console.log(response.totalPages)
-                
+                setTotalPage({ totalPage: response.totalPages, currentPage: response.currentPages || 1 })
+
+                if (response.totalPages == 0) {
+                    setNoProductMessage(true)
+                }else{
+                    setNoProductMessage(false)
+                }
                 setLoading(false)
 
 
@@ -199,22 +193,25 @@ const ProductsCard = ({ products, totalPages }: Props) => {
                     </div>
                     <div className='w-[4%] flex justify-start '></div>
                 </div>
-                <div className={`${loading && 'flex flex-col gap-2 full py-2'}`}>
-                    {productsData.map((data, index) => (
-                        <div key={index}>
-                            {loading ?
-                                <div className="flex items-center space-x-4 gap-2">
-                                    <Skeleton className="h-12 w-full rounded" />
-
-                                </div>
-
-                                :
-                                <ProductCardLayout key={index} data={data} />
-
-                            }
+                <div className={`${loading && 'flex flex-col gap-2 py-2'}`}>
+                    {productsData && productsData.length > 0 && (
+                        productsData.map((data, index) => (
+                            <div key={index}>
+                                {loading ? (
+                                    <div className="flex items-center space-x-4 gap-2">
+                                        <Skeleton className="h-12 w-full rounded" />
+                                    </div>
+                                ) : (
+                                    <ProductCardLayout key={index} data={data} />
+                                )}
+                            </div>
+                        ))
+                    )}
+                    {noProductMessage &&
+                        <div className=' p-10 flex justify-center items-center text-white/50'>
+                            No Products Found
                         </div>
-
-                    ))}
+                    }
                 </div>
 
             </ScrollArea>

@@ -17,13 +17,14 @@ export const usePaginationStore = create<pagination>((set) => ({
     totalPage: [],
     pagintionDisplayWindow: [],
     setTotalPage: ({ currentPage, totalPage }: Props) => {
+        
         const totalpages = usePaginationStore.getState().totalPage
         const arr: number[] = []
 
         for (let index = 1; index <= totalPage; index++) {
             arr.push(index)
         }
-        if (currentPage < totalpages[totalpages.length - 1] && currentPage != 1) {
+        if (currentPage < arr[arr.length - 1] && currentPage != 1) {
             set({
                 totalPage: arr,
                 pagintionDisplayWindow: arr.slice(currentPage - 2, (currentPage - 2) + 3)
@@ -37,7 +38,7 @@ export const usePaginationStore = create<pagination>((set) => ({
             })
 
         }
-        if (currentPage == totalpages[totalpages.length - 1]) {
+        if (currentPage == arr[arr.length - 1]) {
             set({
                 totalPage: arr,
                 pagintionDisplayWindow: arr.slice(currentPage - 3, (currentPage - 3) + 3)
@@ -48,17 +49,9 @@ export const usePaginationStore = create<pagination>((set) => ({
     },
     currentPage: 1,
     setCurrentPage: (value: number) => {
-        const isCurrentPagesIsInTotalPages = usePaginationStore.getState().totalPage.findIndex(item => item == value)
-        if (isCurrentPagesIsInTotalPages == -1) {
-            console.log('dapat mababago ung current page,')
-            set({
-                currentPage: usePaginationStore.getState().totalPage[usePaginationStore.getState().totalPage.length]
-            })
-        } else {
-            set({
-                currentPage: value
-            })
-        }
-
+        
+        set({
+            currentPage: value
+        })
     }
 }))
