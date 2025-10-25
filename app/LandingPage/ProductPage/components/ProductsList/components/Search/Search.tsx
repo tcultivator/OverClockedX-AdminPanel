@@ -67,24 +67,28 @@ const Search = () => {
 
     // };
 
-    const submitSearch = () => {
+    const submitSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
         if (inputRef.current) {
-            const params = new URLSearchParams(searchParams.toString());
-            console.log(inputRef.current.value)
-            params.set('category', inputRef.current.value.toString());
-            params.set('type', 'search')
-            window.history.pushState({}, '', `?${params.toString()}`);
-            inputRef.current.value = "";
-            searchProducts('')
-        }  
+            if (inputRef.current.value != '') {
+                const params = new URLSearchParams(searchParams.toString());
+                console.log(inputRef.current.value)
+                params.set('category', inputRef.current.value.toString());
+                params.set('type', 'search')
+                window.history.pushState({}, '', `?${params.toString()}`);
+                inputRef.current.value = "";
+                searchProducts('')
+            }
+
+        }
     }
 
     return (
         <div className='w-full relative'>
-            <div className='flex gap-1 items-center w-full '>
+            <form onSubmit={submitSearch} className='flex gap-1 items-center w-full '>
                 <Input type="text" placeholder="Search" ref={inputRef} onChange={(e) => searchProducts(e.target.value)} />
-                <Button onClick={submitSearch}><GoSearch /></Button>
-            </div>
+                <Button type='submit'><GoSearch /></Button>
+            </form>
             <div className={` bg-[#F1F0EE] max-h-[50vh] overflow-auto mt-1 rounded w-full absolute z-50  flex-col ${searchResults.length != 0 ? 'flex' : 'hidden'}`}>
                 <div className='flex bg-white text-black p-1 rounded-t sticky top-0 border-b border-black/30'>
                     <Label className='text-[11px] w-[45%]'>Products</Label>

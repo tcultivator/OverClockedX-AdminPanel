@@ -55,8 +55,10 @@ const ProductCardLayout = ({ data }: Props) => {
     const date = new Date()
     return (
         <div className='border-b border-white/15 flex items-center p-2 relative'>
-
-            <div className='flex gap-2 w-[40%] relative'>
+            <div className='w-[10%]'>
+                <Label className='font-thin'>{data.product_id}</Label>
+            </div>
+            <div className='flex gap-2 w-[33%] relative'>
                 <Image
                     src={data.product_image}
                     width={100}
@@ -71,7 +73,7 @@ const ProductCardLayout = ({ data }: Props) => {
                 {new Date(data.created_at).toLocaleDateString('en-GB') == formatDateYYYYMMDD(date) && <MdNewReleases className='absolute text-green-500 top-[-5px] left-[-10px]' />}
 
             </div>
-            <div className='w-[13%]'>
+            <div className='w-[10%]'>
                 <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
                     style: 'currency',
                     currency: 'PHP',

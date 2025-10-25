@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
             type == 'filter' ? (
                 category != null && category !== 'all' ? ` WHERE category = '${category}' OR parent = '${category}'` : ' '
             ) : (
-                category != null ? ` WHERE category LIKE '%${category}%' OR product_name LIKE '%${category}%'` : ' '
+                category != null ? ` WHERE category LIKE '%${category}%' OR product_name LIKE '%${category}%' OR product_id = '${category}'` : ' '
             )
         ) : ' '
         // category != null && category !== 'all' ? ` WHERE category = '${category}' OR parent = '${category}'` : ' '
