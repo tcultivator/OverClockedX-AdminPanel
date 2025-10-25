@@ -26,31 +26,31 @@ const Menu = () => {
     }, 100);
   }
   return (
-    <div className={`${parentOpen ? 'w-[250px]' : 'w-[50px]'} duration-200 bg-[#171717] rounded border border-white/15 text-white rounded[10px]`}>
+    <div className={`${parentOpen ? 'w-[250px]' : 'w-[50px]'} duration-200 bg-white shadow-xl rounded border border-black/15 rounded[10px] text-black/80`}>
       <div className={`flex ${open ? 'justify-between  p-5' : 'justify-center  p-2 text-[25px] text-center'} items-center border-b border-white/15`}>
         {open && <Label>OverClockedX</Label>}
         <button className='cursor-pointer' onClick={menuBarToggle}><FiSidebar /></button>
       </div>
       <div className={`flex flex-col justify-between gap-10  h-[90vh] ${open ? 'p-5' : 'p-0 py-5 justify-between items-center text-[20px]'}`}>
         <div className='flex flex-col gap-4'>
-          <div onClick={()=>router.push('/LandingPage')} className='flex gap-2 justify-start items-center cursor-pointer hover:bg-white/15 rounded p-1'>
+          <div onClick={()=>router.push('/LandingPage')} className='flex gap-2 justify-start items-center cursor-pointer hover:bg-black/15 rounded p-1'>
             <MdDashboard className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />
             {open && <Label className='cursor-pointer'>Dashboard</Label>}
           </div>
-          <div onClick={()=>router.push('/LandingPage/ProductPage')} className='flex gap-2 justify-start items-center cursor-pointer hover:bg-white/15 rounded p-1'>
+          <div onClick={()=>router.push('/LandingPage/ProductPage')} className='flex gap-2 justify-start items-center cursor-pointer hover:bg-black/15 rounded p-1'>
             <GoPackage className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />
             {open && <Label className='cursor-pointer'>Inventory</Label>}
           </div>
-          <div className='flex gap-2 justify-start items-center cursor-pointer hover:bg-white/15 rounded p-1'>
+          <div className='flex gap-2 justify-start items-center cursor-pointer hover:bg-black/15 rounded p-1'>
             <TbTruckDelivery className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />
             {open && <Label className='cursor-pointer'>Orders</Label>}
           </div>
-          <div className='flex gap-2 justify-start items-center cursor-pointer hover:bg-white/15 rounded p-1'>
+          <div className='flex gap-2 justify-start items-center cursor-pointer hover:bg-black/15 rounded p-1'>
             <IoIosSettings className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />
             {open && <Label className='cursor-pointer'>Settings</Label>}
           </div>
         </div>
-        <button onClick={() => signOut()} className='flex items-center gap-2 justify-start cursor-pointer hover:bg-white/15 rounded p-1'>
+        <button onClick={() => signOut()} className='flex items-center gap-2 justify-start cursor-pointer hover:bg-black/15 rounded p-1'>
           <FaUserCircle className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />
           {open && <label className='cursor-pointer'>Signout</label>}
         </button>

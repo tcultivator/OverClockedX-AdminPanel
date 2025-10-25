@@ -23,7 +23,7 @@ const ProductList = async () => {
     const [rows] = await db.query(`SELECT * FROM products LIMIT ${limit} OFFSET 0`)
     const products = rows as ProductsType[];
     return (
-        <div className=' rounded bg-[#171717] w-full h-full border border-white/15'>
+        <div className=' rounded bg-white shadow-xl w-full h-full border border-black/15'>
             <div className='border-b border-white/15 p-2 flex justify-end items-center'>
 
                 <div className='flex gap-5 items-center w-[50%]'>

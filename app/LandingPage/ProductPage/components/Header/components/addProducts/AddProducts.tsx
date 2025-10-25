@@ -54,7 +54,7 @@ const AddProducts = () => {
 
   const [addedProducts, setAddedProducts] = useState<ProductsType>({
     product_name: '',
-    product_image: 'https://files.edgestore.dev/ntg08iryivwbq4r2/publicFiles/_public/976cc66a-6928-49ad-8828-47d673a9f152.png',
+    product_image: 'https://files.edgestore.dev/ntg08iryivwbq4r2/publicFiles/_public/799c96fb-ea95-45d5-b927-f045fc56ec4f.png',
     price: 0,
     category: '',
     brand: '',
@@ -163,7 +163,7 @@ const AddProducts = () => {
               </UploaderProvider>
 
               <div className='relative flex justify-center items-center aspect-square'>
-                <Image src={addedProducts.product_image} alt='' width={1000} height={1000} className='w-full border border-white/40' />
+                <Image src={addedProducts.product_image} alt='' width={2000} height={2000} className='w-full border border-black/15 shadow-md' />
                 {loading && <div className="flex items-center space-x-4 p-4 absolute bg-black/50 top-0 left-0 w-full h-full justify-center">
                   <ProgressCircle progress={progress} />
                 </div>}

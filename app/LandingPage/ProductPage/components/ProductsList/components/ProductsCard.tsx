@@ -156,9 +156,9 @@ const ProductsCard = ({ products, totalPages }: Props) => {
 
     return (
         <div className='flex flex-col h-[80vh] justify-between'>
-            <ScrollArea className="px-2 max-h-[76vh] overflow-auto sticky">
+            <ScrollArea className="px-2 max-h-[76vh] overflow-auto sticky border-b border-black/15">
 
-                <div className='flex items-center bg-neutral-800 rounded-t p-2 sticky top-0 z-40'>
+                <div className='flex items-center bg-[#F1F0EE] rounded-t p-2 sticky top-0 z-40 border-b border-black/15 text-black/70 text-[14px]'>
                     <div className='w-[10%] flex justify-start '>Id</div>
                     <div className='w-[33%] flex justify-start '>Products</div>
                     <div className='w-[10%] flex justify-start gap-2 '>
@@ -218,7 +218,7 @@ const ProductsCard = ({ products, totalPages }: Props) => {
 
             </ScrollArea>
 
-            <div className='bg-red-400 items-end flex justify-start relative'>
+            <div className='items-end flex justify-start relative font-thin text-black/70'>
                 <Pagination className=' w-max right-10 absolute '>
                     <PaginationContent>
                         <PaginationItem>

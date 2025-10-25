@@ -42,21 +42,24 @@ import {
 
 import { Button } from '@/components/ui/button'
 import { SlOptions } from "react-icons/sl";
-import { Badge } from "@/components/ui/badge"
+
 import { RemoveProduct } from './RemoveProduct/RemoveProduct'
 import { useProductsStore } from '@/stores/productsStore'
 
 import { EditProduct } from './EditProduct/EditProduct'
 
 import { formatDateYYYYMMDD } from '@/utils/getCurrentDateFunction'
+import { RiStackLine } from "react-icons/ri";
+import { CiCalendarDate } from "react-icons/ci";
+
 const ProductCardLayout = ({ data }: Props) => {
     const [currentStocks, setCurrentStocks] = useState(data.stocks)
     const editStocks = useProductsStore((state) => state.editStocks)
     const date = new Date()
     return (
-        <div className='border-b border-white/15 flex items-center p-2 relative'>
+        <div className='border-b border-black/15 flex items-center p-2 relative'>
             <div className='w-[10%]'>
-                <Label className='font-thin'>{data.product_id}</Label>
+                <Label className='font-thin text-[12px]'>{data.product_id}</Label>
             </div>
             <div className='flex gap-2 w-[33%] relative'>
                 <Image
@@ -66,7 +69,7 @@ const ProductCardLayout = ({ data }: Props) => {
                     alt=''
                     className='w-[50px] border border-white/10 rounded h-[50px]' />
                 <div className='flex flex-col justify-center'>
-                    <Label>{data.product_name}</Label>
+                    <Label className='font-thin'>{data.product_name}</Label>
                     <Label className='font-thin text-[10px]'>{data.brand}</Label>
                 </div>
 
@@ -80,26 +83,28 @@ const ProductCardLayout = ({ data }: Props) => {
                 }).format(data.price)}</Label>
             </div>
             <div className='w-[13%]'>
-                <div className={`${data.stocks > 0 ? (data.stocks <= 10 ? 'Low bg-[#FFFBD3] text-[#F6BB3A] border border-[#F6BB3A]' : 'bg-[#C5FFC8] text-green-800 border border-green-800') : 'bg-[#FFD5D8] text-red-500 border border-red-500'} w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]`}>
+                <div className={`${data.stocks > 0 ? (data.stocks <= 10 ? 'Low bg-[#FFFBD3] text-[#F6BB3A] ' : 'bg-[#C5FFC8] text-green-800 ') : 'bg-[#FFD5D8] text-red-500 '} w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]`}>
                     {data.stocks > 0 ? (data.stocks <= 10 ? <IoIosWarning className='text-[12px]' /> : <IoMdCheckmark className='text-[12px]' />) : <RxCross1 className='text-[12px]' />}
                     <Label className='text-[11px] flex items-center justify-center'>{data.stocks > 0 ? (data.stocks <= 10 ? 'Low Stocks' : 'Available') : 'Out of stock'}</Label>
                 </div>
 
             </div>
-            <div className='w-[12%]'>
+            <div className='w-[12%] flex items-center gap-1'>
+                <RiStackLine className='text-[12px]'/>
                 <Label className='font-thin'>{data.stocks}</Label>
             </div>
             <div className='w-[10%]'>
                 <Label className='font-thin'>{data.sales_count} sold</Label>
             </div>
-            <div className='w-[8%]'>
+            <div className='w-[8%] flex items-center gap-1'>
+                <CiCalendarDate className='text[12px]'/>
                 <Label className='font-thin'>{new Date(data.created_at).toLocaleDateString('en-GB')}</Label>
             </div>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-[4%] p-0 cursor-pointer">
                         <span className="sr-only">Open menu</span>
-                        <SlOptions />
+                        <SlOptions className='font-thin text-black/70'/>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -152,12 +157,12 @@ const ProductCardLayout = ({ data }: Props) => {
                                 </div>
                                 <DialogFooter>
                                     <DialogClose asChild>
-                                        <DropdownMenuItem>
+                                        <DropdownMenuItem className='p-0'>
                                             <Button variant="outline">Cancel</Button>
                                         </DropdownMenuItem>
 
                                     </DialogClose>
-                                    <DropdownMenuItem>
+                                    <DropdownMenuItem className='p-0'>
                                         <Button type="button" onClick={() => {
                                             editStocks(data.product_id, currentStocks)
                                         }}>Save changes</Button>

@@ -20,15 +20,15 @@ const Header = () => {
 
     }
     return (
-        <div className='rounded bg-[#171717] border border-white/15 flex justify-between px-5 items-center'>
+        <div className='rounded bg-white shadow-xl border border-black/15 flex justify-between px-5 items-center'>
             <div>
                 <Label className='py-2 text-[30px]'>Products</Label>
-                <div className='flex gap-1 items-center'>
+                <div className='flex gap-1 items-center text-black'>
                     <NavigationMenu>
                         <NavigationMenuList>
                             <NavigationMenuItem>
                                 <NavigationMenuLink asChild>
-                                    <Label onClick={() => setCategoryFilter('all')}>All Products</Label>
+                                    <Label className='font-thin' onClick={() => setCategoryFilter('all')}>All Products</Label>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                         </NavigationMenuList>
@@ -36,7 +36,7 @@ const Header = () => {
                     <NavigationMenu>
                         <NavigationMenuList>
                             <NavigationMenuItem>
-                                <NavigationMenuTrigger className='py-0'>Computers</NavigationMenuTrigger>
+                                <NavigationMenuTrigger className='py-0 text-black font-thin'>Computers</NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <NavigationMenuLink onClick={() => setCategoryFilter('Computers')}>All</NavigationMenuLink>
                                     {Computer.map((data, index) => (
@@ -49,7 +49,7 @@ const Header = () => {
                     <NavigationMenu>
                         <NavigationMenuList>
                             <NavigationMenuItem>
-                                <NavigationMenuTrigger className=''>Components</NavigationMenuTrigger>
+                                <NavigationMenuTrigger className='py-0 text-black font-thin'>Components</NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <NavigationMenuLink onClick={() => setCategoryFilter('Components')}>All</NavigationMenuLink>
                                     {Components.map((data, index) => (
@@ -62,7 +62,7 @@ const Header = () => {
                     <NavigationMenu>
                         <NavigationMenuList>
                             <NavigationMenuItem>
-                                <NavigationMenuTrigger className=''>Peripherals</NavigationMenuTrigger>
+                                <NavigationMenuTrigger className='py-0 text-black font-thin'>Peripherals</NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <NavigationMenuLink onClick={() => setCategoryFilter('Peripherals')}>All</NavigationMenuLink>
                                     {Peripherals.map((data, index) => (
@@ -75,7 +75,7 @@ const Header = () => {
                     <NavigationMenu>
                         <NavigationMenuList>
                             <NavigationMenuItem>
-                                <NavigationMenuTrigger className=''>Networks</NavigationMenuTrigger>
+                                <NavigationMenuTrigger className='py-0 text-black font-thin'>Networks</NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <NavigationMenuLink onClick={() => setCategoryFilter('Networks')} >All</NavigationMenuLink>
                                     {Networks.map((data, index) => (

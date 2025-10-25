@@ -7,7 +7,7 @@ const ActionLoading = () => {
     const actionLoading = useLoading((state) => state.actionLoading)
     return (
         <>
-            {actionLoading.display && <div className='absolute w-full h-full bg-black/40 flex justify-center items-center'>
+            {actionLoading.display && <div className='absolute top-0 left-0 w-full h-full bg-black/40 flex justify-center items-center z-50'>
                 <div className='flex flex-col justify-center items-center gap-5'>
                     <DotLoader speedMultiplier={3} color='white' />
                     <Label>{actionLoading.loadingMessage}</Label>
