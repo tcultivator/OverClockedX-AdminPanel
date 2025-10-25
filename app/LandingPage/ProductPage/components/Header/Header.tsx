@@ -12,9 +12,10 @@ const Header = () => {
     const Networks = ['Router', 'Switch']
     const searchParams = useSearchParams();
 
-    const setCategoryFilter = (value:string) => {
+    const setCategoryFilter = (value: string) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('category', value.toString());
+        params.set('type', 'filter')
         window.history.pushState({}, '', `?${params.toString()}`);
 
     }
@@ -27,7 +28,7 @@ const Header = () => {
                         <NavigationMenuList>
                             <NavigationMenuItem>
                                 <NavigationMenuLink asChild>
-                                    <Label onClick={()=>setCategoryFilter('all')}>All Products</Label>
+                                    <Label onClick={() => setCategoryFilter('all')}>All Products</Label>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
                         </NavigationMenuList>
@@ -37,9 +38,9 @@ const Header = () => {
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger className='py-0'>Computers</NavigationMenuTrigger>
                                 <NavigationMenuContent>
-                                    <NavigationMenuLink onClick={()=>setCategoryFilter('Computers')}>All</NavigationMenuLink>
+                                    <NavigationMenuLink onClick={() => setCategoryFilter('Computers')}>All</NavigationMenuLink>
                                     {Computer.map((data, index) => (
-                                        <NavigationMenuLink onClick={()=>setCategoryFilter(data)} key={index}>{data}</NavigationMenuLink>
+                                        <NavigationMenuLink onClick={() => setCategoryFilter(data)} key={index}>{data}</NavigationMenuLink>
                                     ))}
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
@@ -50,9 +51,9 @@ const Header = () => {
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger className=''>Components</NavigationMenuTrigger>
                                 <NavigationMenuContent>
-                                    <NavigationMenuLink onClick={()=>setCategoryFilter('Components')}>All</NavigationMenuLink>
+                                    <NavigationMenuLink onClick={() => setCategoryFilter('Components')}>All</NavigationMenuLink>
                                     {Components.map((data, index) => (
-                                        <NavigationMenuLink onClick={()=>setCategoryFilter(data)} key={index}>{data}</NavigationMenuLink>
+                                        <NavigationMenuLink onClick={() => setCategoryFilter(data)} key={index}>{data}</NavigationMenuLink>
                                     ))}
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
@@ -63,9 +64,9 @@ const Header = () => {
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger className=''>Peripherals</NavigationMenuTrigger>
                                 <NavigationMenuContent>
-                                    <NavigationMenuLink onClick={()=>setCategoryFilter('Peripherals')}>All</NavigationMenuLink>
+                                    <NavigationMenuLink onClick={() => setCategoryFilter('Peripherals')}>All</NavigationMenuLink>
                                     {Peripherals.map((data, index) => (
-                                        <NavigationMenuLink onClick={()=>setCategoryFilter(data)} key={index}>{data}</NavigationMenuLink>
+                                        <NavigationMenuLink onClick={() => setCategoryFilter(data)} key={index}>{data}</NavigationMenuLink>
                                     ))}
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
@@ -76,9 +77,9 @@ const Header = () => {
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger className=''>Networks</NavigationMenuTrigger>
                                 <NavigationMenuContent>
-                                    <NavigationMenuLink onClick={()=>setCategoryFilter('Networks')} >All</NavigationMenuLink>
+                                    <NavigationMenuLink onClick={() => setCategoryFilter('Networks')} >All</NavigationMenuLink>
                                     {Networks.map((data, index) => (
-                                        <NavigationMenuLink onClick={()=>setCategoryFilter(data)} key={index}>{data}</NavigationMenuLink>
+                                        <NavigationMenuLink onClick={() => setCategoryFilter(data)} key={index}>{data}</NavigationMenuLink>
                                     ))}
                                 </NavigationMenuContent>
                             </NavigationMenuItem>

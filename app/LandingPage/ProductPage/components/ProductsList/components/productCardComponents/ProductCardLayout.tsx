@@ -78,7 +78,7 @@ const ProductCardLayout = ({ data }: Props) => {
                 }).format(data.price)}</Label>
             </div>
             <div className='w-[13%]'>
-                <div className={`${data.stocks > 0 ? (data.stocks <= 10 ? 'Low bg-[#C0A97E] text-yellow-800 border border-yellow-800' : 'bg-[#B4DDA1] text-green-800 border border-green-800') : 'bg-[#FF9294] text-red-500 border border-red-500'} w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]`}>
+                <div className={`${data.stocks > 0 ? (data.stocks <= 10 ? 'Low bg-[#FFFBD3] text-[#F6BB3A] border border-[#F6BB3A]' : 'bg-[#C5FFC8] text-green-800 border border-green-800') : 'bg-[#FFD5D8] text-red-500 border border-red-500'} w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]`}>
                     {data.stocks > 0 ? (data.stocks <= 10 ? <IoIosWarning className='text-[12px]' /> : <IoMdCheckmark className='text-[12px]' />) : <RxCross1 className='text-[12px]' />}
                     <Label className='text-[11px] flex items-center justify-center'>{data.stocks > 0 ? (data.stocks <= 10 ? 'Low Stocks' : 'Available') : 'Out of stock'}</Label>
                 </div>
