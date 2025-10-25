@@ -22,7 +22,7 @@ const Header = () => {
     return (
         <div className='rounded bg-white shadow-xl border border-black/15 flex justify-between px-5 items-center'>
             <div>
-                <Label className='py-2 text-[30px]'>Products</Label>
+                <Label className='py-2 text-[25px] text-black/70'>Products</Label>
                 <div className='flex gap-1 items-center text-black'>
                     <NavigationMenu>
                         <NavigationMenuList>
