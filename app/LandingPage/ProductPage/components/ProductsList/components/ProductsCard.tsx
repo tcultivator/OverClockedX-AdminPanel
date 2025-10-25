@@ -39,6 +39,7 @@ const ProductsCard = ({ products, totalPages }: Props) => {
     const storeProductsData = useProductsStore((state) => state.storeProductsData)
     const searchParams = useSearchParams();
     const category = searchParams.get('category') || ''
+    const type = searchParams.get('type') || ''
 
     const pagintionDisplayWindow = usePaginationStore((state) => state.pagintionDisplayWindow)
     const setTotalPage = usePaginationStore((state) => state.setTotalPage)
@@ -75,7 +76,7 @@ const ProductsCard = ({ products, totalPages }: Props) => {
         storeProductsData(response.result)
         setTotalPage({ totalPage: response.totalPages, currentPage: page })
         setCurrentPage(page)
-        
+
 
         setLoading(false)
 
@@ -105,7 +106,7 @@ const ProductsCard = ({ products, totalPages }: Props) => {
 
         storeProductsData(response.result)
         setTotalPage({ totalPage: response.totalPages, currentPage: currentPage })
-        
+
         setOrderBy(`&field=${field}&direction=${newDirection}`)
 
 
@@ -117,23 +118,23 @@ const ProductsCard = ({ products, totalPages }: Props) => {
     //select category filter
     useEffect(() => {
         if (category !== '') {
-
+            console.log(type)
             console.log(category)
             const getCategoryFilter = async () => {
                 setLoading(true)
-                const getProductsByPage = await fetch(`/api/productListPagination?page=${currentPage}${orderBy}&category=${category}`, {
+                const getProductsByPage = await fetch(`/api/productListPagination?page=${currentPage}${orderBy}&category=${category}&type=${type}`, {
                     method: 'GET'
                 })
                 const response = await getProductsByPage.json()
 
                 storeProductsData(response.result)
                 setCurrentPage(response.currentPages || 1)
-                setSelectedCategory(`&category=${category}`)
+                setSelectedCategory(`&category=${category}&type=${type}`)
                 setTotalPage({ totalPage: response.totalPages, currentPage: response.currentPages || 1 })
 
                 if (response.totalPages == 0) {
                     setNoProductMessage(true)
-                }else{
+                } else {
                     setNoProductMessage(false)
                 }
                 setLoading(false)

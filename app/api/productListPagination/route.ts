@@ -13,16 +13,28 @@ export async function GET(req: NextRequest) {
         const field = req.nextUrl.searchParams.get("field")
         const direction = req.nextUrl.searchParams.get("direction")
         const category = req.nextUrl.searchParams.get("category")
-        
+        const type = req.nextUrl.searchParams.get("type")
         const finalOrderBy = field != null && direction != null ? ` ORDER BY ${field} ${direction}` : ' '
-        const finalCategory = category != null && category !== 'all' ? ` WHERE category = '${category}' OR parent = '${category}'` : ' '
+
+        // logic if using search or categories filter
+
+
+        const finalCategory = type != null ? (
+            type == 'filter' ? (
+                category != null && category !== 'all' ? ` WHERE category = '${category}' OR parent = '${category}'` : ' '
+            ) : (
+                category != null ? ` WHERE category LIKE '%${category}%' OR product_name LIKE '%${category}%'` : ' '
+            )
+        ) : ' '
+        // category != null && category !== 'all' ? ` WHERE category = '${category}' OR parent = '${category}'` : ' '
         const totalCountOfProducts = await db.query(`SELECT COUNT(*) AS total FROM products ${finalCategory}`)
+
         const totalCount = totalCountOfProducts[0] as Count[]
-        
-        const limit = 3
+
+        const limit = 11
         const totalPages = Math.ceil(Number(totalCount[0].total) / limit);
         const finalPage = page > totalPages ? (totalPages == 0 ? 1 : totalPages) : (page == 0 ? 1 : page)
-        
+
         const offset = (finalPage - 1) * limit
 
 
@@ -35,7 +47,7 @@ export async function GET(req: NextRequest) {
         LIMIT ${limit} OFFSET ${offset}
         `;
 
-        
+
 
         const [rows] = await db.query(getProductsQuery, [limit, offset])
         const result = rows as ProductsType[]
@@ -44,7 +56,7 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ result: result, totalPages: totalPages, currentPages: finalPage })
 
     } catch (err) {
-        
+
 
         return NextResponse.json({ status: 500 })
     }
