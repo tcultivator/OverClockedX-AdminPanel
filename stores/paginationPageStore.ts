@@ -18,7 +18,7 @@ export const usePaginationStore = create<pagination>((set) => ({
     pagintionDisplayWindow: [],
     setTotalPage: ({ currentPage, totalPage }: Props) => {
         
-        const totalpages = usePaginationStore.getState().totalPage
+        
         const arr: number[] = []
 
         for (let index = 1; index <= totalPage; index++) {
