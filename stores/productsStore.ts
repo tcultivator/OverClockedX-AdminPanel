@@ -13,6 +13,7 @@ type productStore = {
 
 }
 import { RandomString } from '@/utils/RandomStringGenerator'
+import { useNotificationStore } from './notificationStore'
 type ProductsTypes = {
     category: string;
     product_name: string;
@@ -49,6 +50,13 @@ export const useProductsStore = create<productStore>((set) => ({
     },
     removeProduct: async (value: string) => {
         const currentProducts = useProductsStore.getState().productsData
+
+        //getting the system date, need this for setting notification, it needs current datetime
+        const date = new Date()
+        const final = formatDateYYYYMMDD(date)
+        const parsedDate = parseDateDDMMYYYY(final);
+        //logic for getting data for notification
+        const selectedProductsForNotification = currentProducts.filter(items => items.product_id == value)
         try {
             useLoading.getState().setActionLoadingState({ display: true, loadingMessage: 'Deleting Products! Please wait...' })
             const remove = await fetch('/api/removeProducts', {
@@ -63,6 +71,18 @@ export const useProductsStore = create<productStore>((set) => ({
                 set({
                     productsData: currentProducts.filter(items => items.product_id != value)
                 })
+
+                //adding notification
+                const notif_id = RandomString();
+                useNotificationStore.getState().addNotification({
+                    notif_id: notif_id,
+                    product_id: selectedProductsForNotification[0].product_id,
+                    product_name: selectedProductsForNotification[0].product_name,
+                    product_image: selectedProductsForNotification[0].product_image,
+                    action: 'Delete Product',
+                    isRead: false,
+                    created_at: parsedDate
+                })
             }
             useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
         } catch (err) {
@@ -74,7 +94,13 @@ export const useProductsStore = create<productStore>((set) => ({
     editStocks: async (pId: string, newStocks: number) => {
         const currentProducts = useProductsStore.getState().productsData
         const finalProducts = []
+        //getting the system date, need this for setting notification, it needs current datetime
+        const date = new Date()
+        const final = formatDateYYYYMMDD(date)
+        const parsedDate = parseDateDDMMYYYY(final);
         try {
+
+
             useLoading.getState().setActionLoadingState({ display: true, loadingMessage: 'Updating Stocks! Please wait...' })
             const updateStocks = await fetch('/api/EditProductStocks', {
                 method: 'PUT',
@@ -102,6 +128,17 @@ export const useProductsStore = create<productStore>((set) => ({
                             created_at: item.created_at,
                             updated_at: item.updated_at
                         })
+                        //this add notification on notification store
+                        const notif_id = RandomString();
+                        useNotificationStore.getState().addNotification({
+                            notif_id:notif_id,
+                            product_id: item.product_id,
+                            product_name: item.product_name,
+                            product_image: item.product_image,
+                            action: 'Edit Stock',
+                            isRead: false,
+                            created_at: parsedDate
+                        })
                     } else {
                         finalProducts.push(item)
                     }
@@ -127,6 +164,11 @@ export const useProductsStore = create<productStore>((set) => ({
     updateProductsDetails: async (value: ProductsType) => {
         const currentProducts = useProductsStore.getState().productsData
         const finalProducts = []
+
+        //getting the system date, need this for setting notification, it needs current datetime
+        const date = new Date()
+        const final = formatDateYYYYMMDD(date)
+        const parsedDate = parseDateDDMMYYYY(final);
         try {
             useLoading.getState().setActionLoadingState({ display: true, loadingMessage: 'Updating Products Details! Please wait...' })
             const updateProducts = await fetch('/api/updateProductsDetails', {
@@ -138,6 +180,7 @@ export const useProductsStore = create<productStore>((set) => ({
             })
             const response = await updateProducts.json()
             if (response.status != 500) {
+
                 for (const item of currentProducts) {
                     if (item.product_id == value.product_id) {
                         finalProducts.push({
@@ -154,6 +197,18 @@ export const useProductsStore = create<productStore>((set) => ({
                             sales_count: item.sales_count,
                             created_at: item.created_at,
                             updated_at: item.updated_at
+                        })
+
+                        //adding notification
+                        const notif_id = RandomString();
+                        useNotificationStore.getState().addNotification({
+                            notif_id:notif_id,
+                            product_id: item.product_id,
+                            product_name: item.product_name,
+                            product_image: item.product_image,
+                            action: 'Edit Product',
+                            isRead: false,
+                            created_at: parsedDate
                         })
                     } else {
                         finalProducts.push(item)
@@ -204,6 +259,17 @@ export const useProductsStore = create<productStore>((set) => ({
         if (result.status != 500) {
             set({
                 productsData: [finalProductsToInsert, ...currentProducts]
+            })
+            //adding notification
+            const notif_id = RandomString();
+            useNotificationStore.getState().addNotification({
+                notif_id:notif_id,
+                product_id: finalProductsToInsert.product_id,
+                product_name: finalProductsToInsert.product_name,
+                product_image: finalProductsToInsert.product_image,
+                action: 'Add New Product',
+                isRead: false,
+                created_at: parsedDate
             })
         }
         useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
