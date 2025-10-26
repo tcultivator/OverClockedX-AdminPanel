@@ -158,7 +158,7 @@ const ProductsCard = ({ products, totalPages }: Props) => {
         <div className='flex flex-col h-[80vh] justify-between'>
             <ScrollArea className="px-2 max-h-[76vh] overflow-auto sticky ">
 
-                <div className='flex items-center bg-[#F1F0EE] rounded-t p-2 sticky top-0 z-40 border-b border-black/15 text-black/70 text-[14px]'>
+                <div className='flex items-center bg-[#F1F0EE] rounded-t p-2 sticky top-0 z-30 border-b border-black/15 text-black/70 text-[14px]'>
                     <div className='w-[10%] flex justify-start '>Id</div>
                     <div className='w-[33%] flex justify-start '>Products</div>
                     <div className='w-[10%] flex justify-start gap-2 '>

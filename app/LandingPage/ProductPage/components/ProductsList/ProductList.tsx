@@ -11,13 +11,15 @@ import { ProductsType } from '@/types/ProductsType'
 
 import ProductsCard from './components/ProductsCard'
 import Search from './components/Search/Search';
-import { IoIosNotificationsOutline } from "react-icons/io";
+import Notification from './components/notification/Notification';
 import { RiStackLine } from "react-icons/ri";
 import { Separator } from "@/components/ui/separator"
+import { NotificationType } from '@/types/NotificationType';
 type Count = {
     total: number
 }
 const ProductList = async () => {
+    //get total count of products
     const totalCountOfProducts = await db.query('SELECT COUNT(*) AS total FROM products')
     const totalCount = totalCountOfProducts[0] as Count[]
 
@@ -26,8 +28,15 @@ const ProductList = async () => {
 
     const [rows] = await db.query(`SELECT * FROM products LIMIT ${limit} OFFSET 0`)
     const products = rows as ProductsType[];
+    //get total count of deleted products
     const totalCountOfDeletedProducts = await db.query('SELECT COUNT(*) AS total FROM deleted_products')
     const totalCountDeleted = totalCountOfDeletedProducts[0] as Count[]
+
+    //get all notification data
+
+    const notif = await db.query('SELECT * FROM notification ORDER by id DESC')
+    console.log(notif[0])
+    const notificationData = notif[0] as NotificationType[]
     return (
         <div className=' rounded bg-white shadow-xl w-full h-full border border-black/15'>
             <div className='border-b border-black/15 p-2 flex justify-between items-end'>
@@ -43,7 +52,7 @@ const ProductList = async () => {
 
                         </div>
                     </div>
-                    <Separator orientation="vertical" className='text-red-400'/>
+                    <Separator orientation="vertical" className='text-red-400' />
                     <div className='p-1 flex items-center gap-1'>
                         <div className='flex gap-1 items-center '>
                             <RiStackLine className='text-[12px] text-black/60' />
@@ -56,7 +65,7 @@ const ProductList = async () => {
                 </div>
                 <div className='flex gap-5 items-center w-[50%]'>
                     <Search />
-                    <Button variant={'secondary'} className='border border-black/50 cursor-pointer'><IoIosNotificationsOutline /></Button>
+                    <Notification notificationData={notificationData} />
                     <div className='flex items-center gap-2'>
                         <Label>View</Label>
                         <div className='flex gap-2 items-center'>
