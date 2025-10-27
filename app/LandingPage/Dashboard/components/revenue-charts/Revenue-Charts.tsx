@@ -122,7 +122,7 @@ const revenue_charts = () => {
                 </CardHeader>
 
                 <CardContent className="">
-                    <ChartContainer config={chartConfig} className="aspect-auto h-[350px] w-full">
+                    <ChartContainer config={chartConfig} className="aspect-auto h-[359px] w-full">
                         <AreaChart data={chartData} margin={{ left: 20, right: 20 }}>
                             <defs>
                                 <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">

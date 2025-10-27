@@ -12,7 +12,7 @@ const Dashboard = () => {
                 <Total_products_card />
                 <Total_products_card />
             </div>
-            <div className='flex gap-2'>
+            <div className='flex gap-2 items-center p-0'>
                 <Revenue_charts />
                 <Top_selling_products />
             </div>
