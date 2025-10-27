@@ -3,12 +3,11 @@ import React from 'react'
 import { Label } from '../ui/label'
 //icons
 import { FiSidebar } from "react-icons/fi";
-import { MdDashboard } from "react-icons/md";
-import { GoPackage } from "react-icons/go";
-import { TbTruckDelivery } from "react-icons/tb";
-import { IoIosSettings } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
-
+import { BiStoreAlt } from "react-icons/bi";
+import { BsHandbag } from "react-icons/bs";
+import { RxDashboard } from "react-icons/rx";
+import { RiSettings3Line } from "react-icons/ri";
 
 
 import { useState } from 'react';
@@ -28,13 +27,13 @@ const Menu = () => {
     }, 100);
   }
   const menuItems = [
-    { name: "Dashboard", icon: <MdDashboard className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />, path: "/LandingPage" },
-    { name: "Inventory", icon: <GoPackage className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />, path: "/LandingPage/ProductPage" },
-    { name: "Orders", icon: <TbTruckDelivery className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />, path: "/LandingPage/Orders" },
-    { name: "Settings", icon: <IoIosSettings className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />, path: "/LandingPage/Settings" },
+    { name: "Dashboard", icon: <RxDashboard className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />, path: "/LandingPage" },
+    { name: "Inventory", icon: <BiStoreAlt  className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />, path: "/LandingPage/ProductPage" },
+    { name: "Orders", icon: <BsHandbag className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />, path: "/LandingPage/Orders" },
+    { name: "Settings", icon: <RiSettings3Line className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />, path: "/LandingPage/Settings" },
   ];
   return (
-    <div className={`${parentOpen ? 'w-[250px]' : 'w-[50px]'} duration-200 bg-white shadow-xl rounded border border-black/15 rounded[10px] text-black/80`}>
+    <div className={`${parentOpen ? 'w-[300px]' : 'w-[50px] '} duration-200 bg-white shadow-xl rounded-[15px] border border-black/15 rounded[10px] text-black/80 py-2`}>
       <div className={`flex ${open ? 'justify-between  p-5' : 'justify-center  p-2 text-[25px] text-center'} items-center border-b border-white/15`}>
         {open && <Label>OverClockedX</Label>}
         <button className='cursor-pointer' onClick={menuBarToggle}><FiSidebar /></button>
@@ -51,7 +50,7 @@ const Menu = () => {
         </div>
         <button onClick={() => signOut()} className={`flex items-center gap-2 justify-start cursor-pointer hover:bg-[#1549e6] hover:text-white rounded p-1`}>
           <FaUserCircle className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />
-          {open && <label className='cursor-pointer'>Signout</label>}
+          {open && <label className='cursor-pointer text-black/60'>Logout</label>}
         </button>
       </div>
 

@@ -4,7 +4,7 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label';
 import { NotificationType } from '@/types/NotificationType';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import {
     DropdownMenu,
@@ -30,14 +30,37 @@ const Notification = ({ notificationData }: Props) => {
     useEffect(() => {
         setNotificationData(notificationData)
     }, [])
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as Node;
+
+            if (!dropdownRef.current) return;
+
+            if (dropdownRef.current.contains(target)) return;
+
+            if (document.querySelector("[data-radix-popper-content-wrapper]")?.contains(target)) {
+                return;
+            }
+           
+
+            setDisplay(false);
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     return (
         <div>
             <div className='relative'>
-                <Button onClick={() => setDisplay(prev => !prev)} variant={'secondary'} className='border border-black/50 cursor-pointer'><IoIosNotificationsOutline /></Button>
+                <Button id='open-btn' onClick={() => setDisplay(prev => !prev)} variant={'secondary'} className='border border-black/50 cursor-pointer'><IoIosNotificationsOutline /></Button>
                 <Label className='absolute top-[-5px] right-[-5px] bg-primary text-white rounded px-1 aspect-square w-max text-[10px]'>{notificationDataStore.length}</Label>
             </div>
 
-            <div className={`bg-white border border-black/15 shadow-2xl rounded w-[500px] max-h-[50vh] absolute z-40 right-42 mt-1 ${display ? 'block' : 'hidden'}`}>
+            <div ref={dropdownRef} className={`bg-white border border-black/15 shadow-2xl rounded w-[500px] max-h-[50vh] absolute z-40 right-42 mt-1 ${display ? 'block' : 'hidden'}`}>
                 <div className='sticky flex items-center text-black/75 p-1 border-b border-black/15'>
                     <Label className='w-[50%]'>Products</Label>
                     <Label className='w-[25%]'>Action</Label>
