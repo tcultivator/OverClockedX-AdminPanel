@@ -38,7 +38,7 @@ const ProductList = async () => {
     console.log(notif[0])
     const notificationData = notif[0] as NotificationType[]
     return (
-        <div className=' rounded bg-white shadow-xl w-full h-full border border-black/15'>
+        <div className=' rounded-[15px] bg-white shadow-xl w-full h-full border border-black/15'>
             <div className='border-b border-black/15 p-2 flex justify-between items-end'>
                 <div className='flex gap-2 h-5 items-center'>
                     <div className='px-2'>
