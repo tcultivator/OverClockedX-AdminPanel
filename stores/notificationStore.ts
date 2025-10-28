@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { NotificationType } from '@/types/NotificationType'
-import { RandomString } from '@/utils/RandomStringGenerator'
+
+
 type NotificationStoreType = {
     notificationDataStore: NotificationType[],
     setNotificationData: (value: NotificationType[]) => void,
