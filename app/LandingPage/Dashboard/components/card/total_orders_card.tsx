@@ -8,7 +8,7 @@ import { BsArrowUpRightCircle } from "react-icons/bs";
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 
-const total_orders_card = () => {
+const Total_orders_card = () => {
     const [loading, setLoading] = useState(false)
     const [totalOrders, setTotalOrders] = useState(0)
     const [pendingOrders, setPendingOrders] = useState(0)
@@ -62,4 +62,4 @@ const total_orders_card = () => {
     )
 }
 
-export default total_orders_card
+export default Total_orders_card
