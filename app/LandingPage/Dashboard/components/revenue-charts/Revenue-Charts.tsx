@@ -43,7 +43,7 @@ interface RevenueItem {
     total_amount: string;
     created_at: string;
 }
-const revenue_charts = () => {
+const Revenue_charts = () => {
     const [selectedYear, setSelectedYear] = useState('2025')
     const [chartData, setChartData] = useState<ChartDataItem[]>([]);
     const months = [
@@ -57,7 +57,6 @@ const revenue_charts = () => {
             });
             const response = await revenueData.json();
             if (response.status !== 500) {
-                console.log('eto ung laman ng response, ', response)
                 const newChartData: ChartDataItem[] = months.map((month, index) => {
                     const monthData = (response as RevenueItem[]).filter(
                         (d) => new Date(d.created_at).getMonth() === index// the .getMonth will return number , that's why the index is use for conditioning
@@ -71,6 +70,8 @@ const revenue_charts = () => {
             }
         };
         fetchDataForChart();
+        const interval = setInterval(fetchDataForChart, 10000); // refresh every 10s
+        return () => clearInterval(interval);
     }, [selectedYear]);
     const totalRevenue = chartData.reduce((sum, data) => sum + data.totalRevenue, 0);
 
@@ -170,4 +171,4 @@ const revenue_charts = () => {
     )
 }
 
-export default revenue_charts
+export default Revenue_charts

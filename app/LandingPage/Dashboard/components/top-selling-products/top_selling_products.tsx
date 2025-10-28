@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import React from 'react'
 import db from '@/lib/db'
 import {
@@ -27,7 +28,7 @@ type topSellingProducts = {
   sales_count: number;
   created_at: Date
 }
-const top_selling_products = async () => {
+const Top_selling_products = async () => {
   const [rows] = await db.query('SELECT products.product_name,products.product_image,products.base_stocks,products.stocks,products.price,products.sales_count,products.created_at FROM products WHERE YEAR(created_at) = 2025 AND sales_count > 0 ORDER BY sales_count DESC LIMIT 10')
   const topSellingProducts = rows as topSellingProducts[]
   console.log(topSellingProducts)
@@ -78,7 +79,7 @@ const top_selling_products = async () => {
                     <ProgressCircle size={40} progress={(data.stocks / data.base_stocks * 100)} className='text-black/50' />
                   </div>
                 </div>
-                
+
               </div>
             ))}
           </ScrollArea>
@@ -88,4 +89,4 @@ const top_selling_products = async () => {
   )
 }
 
-export default top_selling_products
+export default Top_selling_products

@@ -7,7 +7,7 @@ import { ClipLoader } from 'react-spinners';
 import { BsArrowUpRightCircle } from "react-icons/bs";
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-const total_products_card = () => {
+const Total_products_card = () => {
     const [totalProducts, setTotalProducts] = useState(0)
     const [totalSoldOut, setTotalSoldOut] = useState(0)
     const [loading, setLoading] = useState(false)
@@ -53,4 +53,4 @@ const total_products_card = () => {
     )
 }
 
-export default total_products_card
+export default Total_products_card
