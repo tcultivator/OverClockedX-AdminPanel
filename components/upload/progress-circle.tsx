@@ -69,7 +69,7 @@ const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCircleProps>(
             cy={size / 2}
             r={radius}
             strokeWidth={strokeWidth}
-            className="fill-none stroke-gray-500"
+            className="fill-none stroke-black/15"
           />
           {/* Progress arc */}
           <circle
@@ -77,7 +77,7 @@ const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCircleProps>(
             cy={size / 2}
             r={radius}
             strokeWidth={strokeWidth}
-            className="fill-none stroke-white"
+            className="fill-none stroke-green-400"
             strokeDasharray={circumference}
             strokeDashoffset={offset}
             style={{ transition: 'stroke-dashoffset 0.3s ease' }} // Smooth transition

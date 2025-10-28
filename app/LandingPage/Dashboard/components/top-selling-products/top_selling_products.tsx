@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/card"
 import Image from 'next/image'
 import { Label } from '@/components/ui/label'
+import { ProgressCircle } from '@/components/upload/progress-circle'
+import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   Select,
   SelectContent,
@@ -20,13 +22,16 @@ type topSellingProducts = {
   product_name: string;
   product_image: string;
   price: number;
+  base_stocks: number;
+  stocks: number;
   sales_count: number;
   created_at: Date
 }
 const top_selling_products = async () => {
-  const [rows] = await db.query('SELECT products.product_name,products.product_image,products.price,products.sales_count,products.created_at FROM products WHERE YEAR(created_at) = 2025 AND sales_count > 0 ORDER BY sales_count DESC LIMIT 10')
+  const [rows] = await db.query('SELECT products.product_name,products.product_image,products.base_stocks,products.stocks,products.price,products.sales_count,products.created_at FROM products WHERE YEAR(created_at) = 2025 AND sales_count > 0 ORDER BY sales_count DESC LIMIT 10')
   const topSellingProducts = rows as topSellingProducts[]
   console.log(topSellingProducts)
+
   return (
     <div className='w-[900px]'>
       <Card className="pt-0 gap-0">
@@ -49,28 +54,34 @@ const top_selling_products = async () => {
           </div>
 
         </CardHeader>
-        <CardContent className=" px-1 pb-0 mb-0 m-0 max-h-[50.5vh] overflow-y-auto">
-          <div className='flex flex-col gap-1'>
+        <CardContent className=" px-1 pb-0 mb-0 m-0 h-[50.5vh]">
+          <ScrollArea className='flex flex-col max-h-[50.5vh]'>
             {topSellingProducts.map((data, index) => (
-              <div key={index} className='p-2 flex justify-between w-full items-center border border-black/15 rounded'>
+              <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
+                <div className='flex justify-between w-full items-center'>
+                  <div className='flex items-center gap-1'>
+                    <Image src={data.product_image} alt='' width={200} height={200} className='w-[60px] rounded aspect-square' />
+                    <div className='flex flex-col gap-1'>
+                      <Label className='font-thin'>{data.product_name}</Label>
+                      <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
+                        style: 'currency',
+                        currency: 'PHP',
+                      }).format(data.price)}</Label>
+                    </div>
+                  </div>
 
-                <div className='flex items-center gap-1'>
-                  <Image src={data.product_image} alt='' width={200} height={200} className='w-[60px] rounded shadow-md bg-white aspect-square' />
-                  <div className='flex flex-col gap-1'>
-                    <Label className='font-thin'>{data.product_name}</Label>
-                    <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
-                      style: 'currency',
-                      currency: 'PHP',
-                    }).format(data.price)}</Label>
+                  <div className='flex gap-5'>
+                    <div className='flex flex-col gap-1'>
+                      <Label className='font-thin text-[12px]'>{data.sales_count} sold</Label>
+                      <Label className='font-thin text-[12px]'>{data.stocks}/{data.base_stocks}</Label>
+                    </div>
+                    <ProgressCircle size={40} progress={(data.stocks / data.base_stocks * 100)} className='text-black/50' />
                   </div>
                 </div>
-
-                <div>
-                  <Label className='font-thin'>{data.sales_count} sold</Label>
-                </div>
+                
               </div>
             ))}
-          </div>
+          </ScrollArea>
         </CardContent>
       </Card>
     </div >

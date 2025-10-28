@@ -36,7 +36,7 @@ export default function Home() {
     } catch (err) {
       setAlertNotif({ display: true, message: 'Something went wrong, please try again!', alertType: 'error' })
     }
-    setLoading(false)
+   
   }
   return (
     <div className="flex justify-center items-center w-full h-screen flex justify-center items-center gap-10">
@@ -44,7 +44,7 @@ export default function Home() {
         <Label htmlFor="" className="text-7xl text-blue-400 font-bold w-full text-start justify-start flex">OverClockedX - Admin Panel</Label>
         <Label htmlFor="" className="w-[70%] font-thin  flex justify-start text-start">OverClockedX is a modern e-commerce platform designed specifically for computer and hardware retail. It allows users to browse, search, and purchase components and peripherals from a streamlined and responsive web interface.</Label>
       </div>
-      <form onSubmit={submitCredentialsSignin} className="flex flex-col gap-5 w-[350px] p-7 rounded-[10px] bg-black inset-shadow-sm inset-shadow-white/50">
+      <form onSubmit={submitCredentialsSignin} className="flex flex-col gap-5 w-[350px] p-7 rounded-[10px] bg-white inset-shadow-sm inset-shadow-white/50">
         <Label htmlFor="" className="w-full flex justify-center text-lg font-medium">Admin Signin</Label>
         {alertNotif.display &&
           <div className={`${alertClasses[alertNotif.alertType]}`}>{alertNotif.message}</div>
@@ -57,7 +57,7 @@ export default function Home() {
           <Label htmlFor="" className="font-thin">Password</Label>
           <Input className="p-5" name="password" type="password" placeholder="Password" />
         </div>
-        <Button type="submit" className="p-5 cursor-pointer">{loading && <ClipLoader color="black" size={20} />} {loading ? 'Please wait...' : 'Submit'}</Button>
+        <Button type="submit" className="p-5 cursor-pointer">{loading && <ClipLoader color="white" size={20} />} {loading ? 'Please wait...' : 'Submit'}</Button>
       </form>
     </div>
   );

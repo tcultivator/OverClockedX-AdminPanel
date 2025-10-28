@@ -60,14 +60,14 @@ const revenue_charts = () => {
                 console.log('eto ung laman ng response, ', response)
                 const newChartData: ChartDataItem[] = months.map((month, index) => {
                     const monthData = (response as RevenueItem[]).filter(
-                        (d) => new Date(d.created_at).getMonth() === index
+                        (d) => new Date(d.created_at).getMonth() === index// the .getMonth will return number , that's why the index is use for conditioning
                     );
 
-                    const totalRevenue = monthData.reduce((sum: number, d: RevenueItem) => sum + Number(d.total_amount), 0);
+                    const totalRevenue = monthData.reduce((sum: number, d: RevenueItem) => sum + Number(d.total_amount), 0);// if the condition is match, which is the month converted to number and index which is the index of month it will add all the data using useReducer
 
-                    return { month, totalRevenue };
+                    return { month, totalRevenue };// return this object in newChartData
                 });
-                setChartData(newChartData);
+                setChartData(newChartData);//set the data to state which is use for displaying in chart
             }
         };
         fetchDataForChart();
