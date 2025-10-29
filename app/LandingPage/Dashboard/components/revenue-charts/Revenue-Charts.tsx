@@ -77,7 +77,7 @@ const Revenue_charts = () => {
 
 
     return (
-        <div className='w-full'>
+        <div className='w-full h-full'>
             <Card className="pt-0">
                 <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
                     <div className="grid flex-1 gap-1">
@@ -98,7 +98,7 @@ const Revenue_charts = () => {
                             </Select>
                         </div>
 
-                        <div className='flex items-center pt-3 border-t border-black/15'>
+                        <div className='flex items-center pt-1 border-t border-black/15'>
                             <div>
                                 <div className='flex items-center gap-1'>
                                     <RiCheckboxBlankFill className='text-primary text-[10px]' />
@@ -123,7 +123,7 @@ const Revenue_charts = () => {
                 </CardHeader>
 
                 <CardContent className="">
-                    <ChartContainer config={chartConfig} className="aspect-auto h-[359px] w-full">
+                    <ChartContainer config={chartConfig} className="aspect-auto h-[272px]  w-full">
                         <AreaChart data={chartData} margin={{ left: 20, right: 20 }}>
                             <defs>
                                 <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">

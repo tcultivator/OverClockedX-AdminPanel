@@ -32,31 +32,13 @@ const Total_orders_card = () => {
         fetchProductsCount()
     }, [])
     return (
-        <div className='p-2 flex flex-col justify-start bg-white rounded-[10px] border border-black/15 shadow-md h-max w-full'>
-            <div className='flex justify-between  border-b border-black/15 p-3 shadow-b-md'>
-                <div className='flex items-center gap-2'>
-                    <BsHandbag className='bg-primary text-white p-2 text-4xl rounded-[50%]' />
-                    <Label className='text-xl text-black/50'>Orders</Label>
-                </div>
-                <Button onClick={() => router.push('/LandingPage/Orders')} className='cursor-pointer' variant={'secondary'}><BsArrowUpRightCircle className='text-black/50' /></Button>
-
+        <div className='p-5 flex bg-white items-center gap-1 rounded-[10px] border border-black/15 shadow-sm h-max w-full'>
+            <div className='bg-blue-400 flex justify-center items-center p-2.5 rounded-[50%]'>
+                <BsHandbag className='text-white text-2xl' />
             </div>
-
-            <div className='flex items-center justify-between p-3 h-max'>
-                <div className='w-full items-center flex flex-col justify-center border-r border-black/15'>
-                    {loading ? <Label className='text-black/40 py-2'><ClipLoader size={17} /> processing...</Label> : <Label className='text-2xl'>{totalOrders}</Label>}
-                    <Label className='text-black/40'>Total</Label>
-                </div>
-                
-                <div className='w-full items-center flex flex-col justify-center border-r border-black/15'>
-                    {loading ? <Label className='text-black/40 py-2'><ClipLoader size={17} /> processing...</Label> : <Label className='text-2xl'>{pendingOrders}</Label>}
-                    <Label className='text-black/40'>Pending</Label>
-                </div>
-                
-                <div className='w-full items-center flex flex-col justify-center'>
-                    {loading ? <Label className='text-black/40 py-2'><ClipLoader size={17} /> processing...</Label> : <Label className='text-2xl'>{proccessedOrders}</Label>}
-                    <Label className='text-black/40'>Processed</Label>
-                </div>
+            <div>
+                <Label className='text-black/50 text-[13px]'>Total Orders</Label>
+                <Label className='text-black/70 text-[15px]'>{totalOrders}</Label>
             </div>
         </div>
     )

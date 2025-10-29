@@ -34,7 +34,7 @@ const Top_selling_products = async () => {
   console.log(topSellingProducts)
 
   return (
-    <div className='w-[900px]'>
+    <div className='w-full'>
       <Card className="pt-0 gap-0">
         <CardHeader className="flex items-center  space-y-0 border-b py-5 sm:flex-row">
           <div className='flex items-center justify-between w-full'>
@@ -55,8 +55,8 @@ const Top_selling_products = async () => {
           </div>
 
         </CardHeader>
-        <CardContent className=" px-1 pb-0 mb-0 m-0 h-[50.5vh]">
-          <ScrollArea className='flex flex-col max-h-[50.5vh]'>
+        <CardContent className=" px-1 pb-0 mb-0 m-0 h-[23.5vh]">
+          <ScrollArea className='flex flex-col max-h-[23.5vh]'>
             {topSellingProducts.map((data, index) => (
               <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
                 <div className='flex justify-between w-full items-center'>
