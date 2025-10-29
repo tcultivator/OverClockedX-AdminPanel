@@ -38,7 +38,7 @@ const Low_Stocks_Alert = () => {
 
     }, [])
     return (
-        <div className='w-full h-[33%]]'>
+        <div className='w-full h-[34%]]'>
             <Card className="pt-0 gap-0">
                 <CardHeader className="flex items-center  py-3 sm:flex-row">
                     <div className='flex items-center justify-between w-full gap-1'>
@@ -48,8 +48,8 @@ const Low_Stocks_Alert = () => {
                         </div>
                     </div>
                 </CardHeader>
-                <CardContent className=" px-1 pb-0 mb-0 m-0 h-[22vh] border-t     ">
-                    <ScrollArea className='flex flex-col max-h-[22vh]'>
+                <CardContent className=" px-1 pb-0 mb-0 m-0 h-[23.7vh] border-t">
+                    <ScrollArea className='flex flex-col max-h-[23.7vh]'>
                         {lowStocksProducts.map((data, index) => (
                             <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
                                 <div className='p-1 flex justify-between w-full items-center'>
