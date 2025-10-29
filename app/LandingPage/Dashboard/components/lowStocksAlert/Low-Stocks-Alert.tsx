@@ -18,6 +18,7 @@ type lowStocksProducts = {
 }
 const Low_Stocks_Alert = () => {
     const [lowStocksProducts, setLowStocksProducts] = useState<lowStocksProducts[]>([])
+    
     useEffect(() => {
 
         const fetchLowStocksProductsFunc = async () => {
@@ -27,7 +28,6 @@ const Low_Stocks_Alert = () => {
                 })
                 const low_stocks_products_results = await fetchLowStocksProducts.json()
                 if (low_stocks_products_results.status != 500) {
-                    console.log('eto ung low stocks Products, ', low_stocks_products_results)
                     setLowStocksProducts(low_stocks_products_results)
                 }
             } catch (err) {
@@ -38,7 +38,7 @@ const Low_Stocks_Alert = () => {
 
     }, [])
     return (
-        <div className='  w-full'>
+        <div className='w-full h-[33%]]'>
             <Card className="pt-0 gap-0">
                 <CardHeader className="flex items-center  py-3 sm:flex-row">
                     <div className='flex items-center justify-between w-full gap-1'>
@@ -48,8 +48,8 @@ const Low_Stocks_Alert = () => {
                         </div>
                     </div>
                 </CardHeader>
-                <CardContent className=" px-1 pb-0 mb-0 m-0 h-[23.1vh] border-t     ">
-                    <ScrollArea className='flex flex-col max-h-[23.1vh]'>
+                <CardContent className=" px-1 pb-0 mb-0 m-0 h-[22vh] border-t     ">
+                    <ScrollArea className='flex flex-col max-h-[22vh]'>
                         {lowStocksProducts.map((data, index) => (
                             <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
                                 <div className='p-1 flex justify-between w-full items-center'>

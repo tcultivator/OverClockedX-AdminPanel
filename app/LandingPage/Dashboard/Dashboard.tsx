@@ -4,6 +4,7 @@ import Total_orders_card from './components/card/total_orders_card'
 import Revenue_charts from './components/revenue-charts/Revenue-Charts'
 import Top_selling_products from './components/top-selling-products/top_selling_products'
 import Low_Stocks_Alert from './components/lowStocksAlert/Low-Stocks-Alert'
+import Popular_Product from './components/popular-product/Popular-Product'
 const Dashboard = () => {
     return (
         <div className='w-full'>
@@ -19,8 +20,8 @@ const Dashboard = () => {
                     <Top_selling_products />
                 </div>
                 <div className='flex flex-col gap-2 p-0 w-[35%]  '>
-                    {/* <Top_selling_products /> */}
-                    <Low_Stocks_Alert />
+                    
+                    <Popular_Product />
                     <Low_Stocks_Alert />
                     <Low_Stocks_Alert />
                 </div>

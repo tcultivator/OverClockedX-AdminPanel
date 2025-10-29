@@ -33,7 +33,7 @@ const Menu = () => {
     { name: "Settings", icon: <RiSettings3Line className={`p-1 text-[30px] rounded ${!open && ' text-[35px] '}`} />, path: "/LandingPage/Settings" },
   ];
   return (
-    <div className={`${parentOpen ? 'w-[300px]' : 'w-[50px] '} duration-200 bg-white shadow-xl rounded-[15px] border border-black/15 rounded[10px] text-black/80 py-2`}>
+    <div className={`${parentOpen ? 'w-[300px]' : 'w-[50px] '} duration-200 bg-white shadow-sm rounded-[15px]  rounded[10px] text-black/80 py-2`}>
       <div className={`flex ${open ? 'justify-between  p-5' : 'justify-center  p-2 text-[25px] text-center'} items-center border-b border-white/15`}>
         {open && <Label>OverClockedX</Label>}
         <button className='cursor-pointer' onClick={menuBarToggle}><FiSidebar /></button>
