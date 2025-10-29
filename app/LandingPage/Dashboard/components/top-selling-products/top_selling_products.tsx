@@ -74,7 +74,7 @@ const Top_selling_products = async () => {
                   <div className='flex gap-5'>
                     <div className='flex flex-col gap-1'>
                       <Label className='font-thin text-[12px]'>{data.sales_count} sold</Label>
-                      <Label className='font-thin text-[12px]'>{data.stocks}/{data.base_stocks}</Label>
+                      <Label className='font-thin text-[12px] text-black/70'>{data.stocks} left of {data.base_stocks}</Label>
                     </div>
                     <ProgressCircle size={40} progress={(data.stocks / data.base_stocks * 100)} className='text-black/50' />
                   </div>

@@ -26,6 +26,7 @@ import {
 import { RiCheckboxBlankFill } from "react-icons/ri";
 import { useState, useEffect } from 'react'
 export const description = "An interactive area chart"
+import { MdAttachMoney } from "react-icons/md";
 
 const chartConfig = {
     revenue: {
@@ -77,7 +78,7 @@ const Revenue_charts = () => {
 
 
     return (
-        <div className='w-full h-full'>
+        <div className='w-full'>
             <Card className="pt-0">
                 <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
                     <div className="grid flex-1 gap-1">
