@@ -53,7 +53,7 @@ export const RemoveProduct = ({ product_id, product_name, product_image }: produ
                     onClick={() => {
                         useProductsStore.getState().removeProduct(product_id)
                     }}>
-                    <DropdownMenuItem className="w-full h-full   px-10 cursor-pointer focus:bg-blue-800">
+                    <DropdownMenuItem className="w-full h-full   px-10 cursor-pointer focus:bg-transparent focus:text-white">
                         Continue
                     </DropdownMenuItem>
                 </AlertDialogAction>

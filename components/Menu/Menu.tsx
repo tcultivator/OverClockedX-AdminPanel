@@ -41,7 +41,7 @@ const Menu = () => {
       <div className={`flex flex-col justify-between gap-10  h-[90vh] ${open ? 'p-5' : 'p-0 py-5 justify-between items-center text-[20px]'}`}>
         <div className='flex flex-col gap-4'>
           {menuItems.map((data, index) => (
-            <div key={index} onClick={() => router.push(data.path)} className={`flex gap-2 justify-start items-center cursor-pointer hover:bg-[#1549e6] hover:text-white rounded p-1 ${pathname == data.path && 'bg-[#1549e6] text-white'}`}>
+            <div key={index} onClick={() => router.push(data.path)} className={`flex gap-2 justify-start items-center cursor-pointer hover:bg-[#fa6093] hover:text-white rounded p-1 ${pathname == data.path && 'bg-[#fa6093] text-white'}`}>
               {data.icon}
               {open && <Label className='cursor-pointer'>{data.name}</Label>}
             </div>
