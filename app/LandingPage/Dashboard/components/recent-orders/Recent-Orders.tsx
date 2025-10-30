@@ -95,7 +95,7 @@ const Recent_Orders = () => {
         }));
     };
     return (
-        <div className='flex flex-col w-full bg-white pb-5 rounded-[15px] shadow-sm'>
+        <div className='flex flex-col w-full bg-white pb-5 rounded-[15px] shadow-sm border border-black/15'>
             <div className='w-full p-3 px-5 border-b flex justify-between items-center'>
                 <Label className="text-[15px] font-semibold">Recent Orders</Label>
             </div>

@@ -46,7 +46,7 @@ const Popular_Product = () => {
 
 
     return (
-        <div className="rounded-[15px] shadow-sm bg-white h-[31%]">
+        <div className="rounded-[15px] shadow-sm bg-white h-[31%] border border-black/15">
 
             <div className="w-full p-3 px-5 border-b flex justify-between items-center">
                 <div>
@@ -65,23 +65,23 @@ const Popular_Product = () => {
 
             <div className="h-[75%] box-border">
                 {loading ? (
-
-                    <div className="flex h-[23vh] p-2">
+                    <div className="flex h-[23vh] p-2 items-center">
                         <div className="w-[40%]">
-                            <Skeleton className="w-full h-full rounded-l-[15px]" />
+                            <Skeleton className="h-50 w-full" />
                         </div>
-                        <div className="w-[60%] flex flex-col justify-center gap-3 px-4">
-                            <Skeleton className="h-5 w-3/4" />
-                            <Skeleton className="h-4 w-1/3" />
-                            <div className="flex items-center gap-2 mt-2">
-                                <Skeleton className="h-3 w-1/2" />
-                                <Skeleton className="h-30 w-30 rounded-full" />
-                            </div>
+                        <div className="w-[30%] flex flex-col justify-center gap-3 px-4">
+                            <Skeleton className="h-30 w-full" />
+                            <Skeleton className="h-4 w-full" />
+                        </div>
+                        <div className="flex items-center gap-2 mt-2 w-[30%] flex-col">
+                            
+                            <Skeleton className="h-40 w-40 rounded-full" />
+                            <Skeleton className="h-3 w-1/2" />
                         </div>
                     </div>
                 ) : popular_product?.length > 0 ? (
 
-                    <div className="flex h-[23vh]">
+                    <div className="flex h-[23vh] items-center">
                         <div className="w-[40%]">
                             <Image
                                 src={popular_product[0]?.product_image}
@@ -92,8 +92,8 @@ const Popular_Product = () => {
                             />
                         </div>
 
-                        <div className="w-[60%] flex flex-col justify-center">
-                            <Label className="text-lg font-medium">
+                        <div className="w-[30%] flex flex-col justify-center">
+                            <Label className="text-4xl font-medium font-anton">
                                 {popular_product[0]?.product_name}
                             </Label>
                             <Label className="text-gray-600 text-sm">
@@ -103,10 +103,11 @@ const Popular_Product = () => {
                                 }).format(popular_product[0]?.price)}
                             </Label>
 
-                            <div className='flex items-center justify-start gap-2 pr-5'>
-                                <Label className='font-thin text-[12px]'>{popular_product[0].sales_count} sold, out of {popular_product[0].base_stocks}</Label>
-                                <ProgressCircle size={100} strokeWidth={15} progress={(popular_product[0].sales_count / popular_product[0].base_stocks * 100)} className='text-black/50 ' />
-                            </div>
+
+                        </div>
+                        <div className='flex items-center flex-col justify-center gap-2 w-[30%]'>
+                            <ProgressCircle size={140} strokeWidth={25} progress={(popular_product[0].sales_count / popular_product[0].base_stocks * 100)} className='text-black/50 ' />
+                            <Label className='font-thin text-[12px]'>{popular_product[0].sales_count} sold, out of {popular_product[0].base_stocks}</Label>
                         </div>
                     </div>
                 ) : (

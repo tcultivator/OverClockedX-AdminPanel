@@ -1,9 +1,14 @@
 
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Orbitron, Anton } from "next/font/google";
+
 import Menu from "@/components/Menu/Menu";
 import ActionLoading from "@/components/ActionsLoadingComponent/ActionLoading";
 import { EdgeStoreProvider } from '@/lib/edgestore'
-
+const anton = Anton({
+  variable: "--font-anton",
+  subsets: ["latin"],
+  weight: "400", // Anton only comes in one weight
+});
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -12,7 +17,7 @@ export default function RootLayout({
     return (
 
 
-        <div className="flex p-2 gap-2">
+        <div className={`flex p-2 gap-2 ${anton.variable}`}>
             <Menu />
 
             <EdgeStoreProvider>

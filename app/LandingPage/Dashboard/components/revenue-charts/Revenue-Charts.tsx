@@ -77,7 +77,7 @@ const Revenue_charts = () => {
 
     return (
         <div className='w-full'>
-            <Card className="pt-0">
+            <Card className="pt-0 border border-black/15">
                 <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
                     <div className="grid flex-1 gap-1">
                         <div className='flex justify-between items-center'>
