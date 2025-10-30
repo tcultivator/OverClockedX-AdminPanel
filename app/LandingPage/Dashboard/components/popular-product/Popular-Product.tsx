@@ -66,7 +66,7 @@ const Popular_Product = () => {
             <div className="h-[75%] box-border">
                 {loading ? (
 
-                    <div className="flex h-[23vh]">
+                    <div className="flex h-[23vh] p-2">
                         <div className="w-[40%]">
                             <Skeleton className="w-full h-full rounded-l-[15px]" />
                         </div>
