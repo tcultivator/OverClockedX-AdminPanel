@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { Label } from '@/components/ui/label'
 import { ProgressCircle } from '@/components/upload/progress-circle'
 import { IoAlertSharp } from "react-icons/io5";
-
+import { Skeleton } from "@/components/ui/skeleton"
 type lowStocksProducts = {
     product_id: string;
     product_name: string;
@@ -18,10 +18,12 @@ type lowStocksProducts = {
 }
 const Low_Stocks_Alert = () => {
     const [lowStocksProducts, setLowStocksProducts] = useState<lowStocksProducts[]>([])
-    
+    const [loading, setLoading] = useState(true)
+
     useEffect(() => {
 
         const fetchLowStocksProductsFunc = async () => {
+            setLoading(true)
             try {
                 const fetchLowStocksProducts = await fetch('/api/Dashboard/low-stocks-products', {
                     method: 'GET'
@@ -33,6 +35,7 @@ const Low_Stocks_Alert = () => {
             } catch (err) {
                 console.log(err)
             }
+            setLoading(false)
         }
         fetchLowStocksProductsFunc()
 
@@ -49,33 +52,43 @@ const Low_Stocks_Alert = () => {
                     </div>
                 </CardHeader>
                 <CardContent className=" px-1 pb-0 mb-0 m-0 h-[23.7vh] border-t">
-                    <ScrollArea className='flex flex-col max-h-[23.7vh]'>
-                        {lowStocksProducts.map((data, index) => (
-                            <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
-                                <div className='p-1 flex justify-between w-full items-center'>
-                                    <div className='flex items-center gap-1'>
-                                        <Image src={data.product_image} alt='' width={200} height={200} className='w-[40px] rounded aspect-square' />
-                                        <div className=''>
+                    {
+                        loading ?
+                            <div className='flex flex-col max-h-[23.7vh] gap-1 p-1 h-full'>
+                                <Skeleton className="w-full h-full p-1 rounded" />
+                                <Skeleton className="w-full h-full p-1 rounded" />
+                                <Skeleton className="w-full h-full p-1 rounded" />
+                                <Skeleton className="w-full h-full p-1 rounded" />
+                            </div> :
+                            <ScrollArea className='flex flex-col max-h-[23.7vh]'>
+                                {lowStocksProducts.map((data, index) => (
+                                    <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
+                                        <div className='p-1 flex justify-between w-full items-center'>
+                                            <div className='flex items-center gap-1'>
+                                                <Image src={data.product_image} alt='' width={200} height={200} className='w-[40px] rounded aspect-square' />
+                                                <div className=''>
 
-                                            <Label className='font-thin text-black'>{data.product_name}</Label>
-                                            <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
-                                                style: 'currency',
-                                                currency: 'PHP',
-                                            }).format(data.price)}</Label>
+                                                    <Label className='font-thin text-black'>{data.product_name}</Label>
+                                                    <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
+                                                        style: 'currency',
+                                                        currency: 'PHP',
+                                                    }).format(data.price)}</Label>
+                                                </div>
+                                            </div>
+
+                                            <div className='flex gap-5 items-center'>
+                                                <div className='flex flex-col gap-1'>
+                                                    <Label className={`font-thin text-[12px] ${data.stocks <= data.base_stocks / 10 ? 'text-[#fa6093]' : 'text-orange-400'} `}>{data.stocks} / {data.base_stocks}</Label>
+                                                </div>
+                                                <ProgressCircle size={40} progress={(data.stocks / data.base_stocks * 100)} className='text-black/50 ' />
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div className='flex gap-5 items-center'>
-                                        <div className='flex flex-col gap-1'>
-                                            <Label className={`font-thin text-[12px] ${data.stocks <= data.base_stocks / 10 ? 'text-[#fa6093]' : 'text-orange-400'} `}>{data.stocks} / {data.base_stocks}</Label>
-                                        </div>
-                                        <ProgressCircle size={40} progress={(data.stocks / data.base_stocks * 100)} className='text-black/50 ' />
                                     </div>
-                                </div>
+                                ))}
+                            </ScrollArea>
+                    }
 
-                            </div>
-                        ))}
-                    </ScrollArea>
                 </CardContent>
             </Card>
         </div>
