@@ -5,3 +5,9 @@ export const alertClasses: Record<"success" | "error" | "base" | "warning", stri
     base: "hidden",
     warning: "text-[#F6BB3A] text-[13px] p-2 bg-[#FFF8A9] border border-[#F6BB3A] rounded-[10px] text-center flex item-center justify-center"
 };
+
+export const recentOrderStatus: Record<"success" | "pending" | "cancel", string> = {
+    success: "bg-[#C5FFC8] text-green-800 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
+    cancel: "bg-[#FFD5D8] text-red-500 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
+    pending: "bg-[#FFFBD3] text-[#F6BB3A] w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]"
+};

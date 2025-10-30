@@ -7,13 +7,15 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { Skeleton } from "@/components/ui/skeleton"
+import { recentOrderStatus } from '@/utils/AlertNotificationClass'
+
 type GroupedOrder = {
     order_id: number;
     email: string;
     reference_id: string;
     total_amount: number;
-    payment_status: string;
-    order_status: string;
+    payment_status: 'success' | 'pending' | 'cancel';
+    order_status: 'success' | 'pending' | 'cancel';
     created_at: string;
     items: {
         product_id: string;
@@ -99,7 +101,7 @@ const Recent_Orders = () => {
             <div className='w-full p-3 px-5 border-b flex justify-between items-center'>
                 <Label className="text-[15px] font-semibold">Recent Orders</Label>
             </div>
-            <div className='w-full border-b flex items-center px-3 bg-primary/30 py-2'>
+            <div className='w-full border-b flex items-center px-3 bg-primary/30 py-2 text-black/60'>
                 <div className='w-[6%] flex items-center justify-start '>
                     <Label className='font-thin text-[12px]'>Order id</Label>
                 </div>
@@ -118,7 +120,7 @@ const Recent_Orders = () => {
                 <div className='w-[7%] flex items-center justify-start '>
                     <Label className='font-thin text-[12px]'>Quantity</Label>
                 </div>
-                <div className='w-[9%] flex items-center justify-start '>
+                <div className='w-[9%] flex items-center justify-start'>
                     <Label className='font-thin text-[12px]'>Payment Status</Label>
                 </div>
                 <div className='w-[9%] flex items-center justify-start'>
@@ -186,14 +188,14 @@ const Recent_Orders = () => {
                                                     Gcash
                                                 </Label>
                                             </div>
-                                            <div className='w-[7%] flex items-center justify-start '>
+                                            <div className='w-[6%] flex items-center justify-start '>
                                                 <Label className='font-thin'>{item.quantity}</Label>
                                             </div>
-                                            <div className='w-[9%] flex items-center justify-start '>
-                                                <Label className='font-thin'>{group.payment_status}</Label>
+                                            <div className='w-[9%] flex items-center justify-start'>
+                                                <Label className={`${recentOrderStatus[group.payment_status]}font-thin`}>{group.payment_status}</Label>
                                             </div>
                                             <div className='w-[9%] flex items-center justify-start '>
-                                                <Label className='font-thin'>{group.order_status}</Label>
+                                                <Label className={`${recentOrderStatus[group.order_status]}font-thin`}>{group.order_status}</Label>
                                             </div>
 
                                         </div>
