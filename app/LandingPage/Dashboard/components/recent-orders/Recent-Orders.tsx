@@ -95,7 +95,7 @@ const Recent_Orders = () => {
         }));
     };
     return (
-        <div className='flex flex-col w-full bg-white rounded-[15px] shadow-sm'>
+        <div className='flex flex-col w-full bg-white pb-5 rounded-[15px] shadow-sm'>
             <div className='w-full p-3 px-5 border-b flex justify-between items-center'>
                 <Label className="text-[15px] font-semibold">Recent Orders</Label>
             </div>
@@ -126,14 +126,14 @@ const Recent_Orders = () => {
                 </div>
             </div>
             {loading ?
-                <div className='h-[33vh] flex flex-col gap-1 p-1 '>
+                <div className='h-[28.5vh] flex flex-col gap-1 p-1 '>
                     <Skeleton className="w-full h-full p-1 rounded" />
                     <Skeleton className="w-full h-full p-1 rounded" />
                     <Skeleton className="w-full h-full p-1 rounded" />
                     <Skeleton className="w-full h-full p-1 rounded" />
                     <Skeleton className="w-full h-full p-1 rounded" />
                 </div> :
-                <ScrollArea className='h-[33vh] '>
+                <ScrollArea className='h-[28.5vh] '>
                     {groupedData.map((group, groupIndex) => {
                         const isExpanded = expandedGroups[groupIndex] || false;
                         return (

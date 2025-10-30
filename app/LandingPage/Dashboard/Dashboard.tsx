@@ -14,8 +14,6 @@ const Dashboard = () => {
                     <div className='flex gap-2 w-full'>
                         <Total_products_card />
                         <Total_orders_card />
-                        <Total_products_card />
-                        <Total_products_card />
                     </div>
                     <Revenue_charts />
                     <Recent_Orders />

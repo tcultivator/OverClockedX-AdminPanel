@@ -51,16 +51,16 @@ const Low_Stocks_Alert = () => {
                         </div>
                     </div>
                 </CardHeader>
-                <CardContent className=" px-1 pb-0 mb-0 m-0 h-[23.7vh] border-t">
+                <CardContent className=" px-1 pb-0 mb-0 m-0 h-[23.9vh] border-t">
                     {
                         loading ?
-                            <div className='flex flex-col max-h-[23.7vh] gap-1 p-1 h-full'>
+                            <div className='flex flex-col max-h-[23.9vh] gap-1 p-1 h-full'>
                                 <Skeleton className="w-full h-full p-1 rounded" />
                                 <Skeleton className="w-full h-full p-1 rounded" />
                                 <Skeleton className="w-full h-full p-1 rounded" />
                                 <Skeleton className="w-full h-full p-1 rounded" />
                             </div> :
-                            <ScrollArea className='flex flex-col max-h-[23.7vh]'>
+                            <ScrollArea className='flex flex-col max-h-[23.9vh]'>
                                 {lowStocksProducts.map((data, index) => (
                                     <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
                                         <div className='p-1 flex justify-between w-full items-center'>
