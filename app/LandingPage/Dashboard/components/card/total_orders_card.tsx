@@ -31,7 +31,7 @@ const Total_orders_card = () => {
         fetchProductsCount()
     }, [])
     return (
-        <div className=' p-7 flex bg-white items-center gap-1 rounded-[10px] border border-black/15 shadow-sm h-max w-full px-9'>
+        <div className=' p-7 flex bg-white items-center gap-1 rounded-[10px] border border-black/15 shadow-sm h-max w-full px-9 border border-black/15'>
             <div className='flex gap-1 items-center w-full '>
                 <div className='bg-blue-300 flex justify-center items-center p-2.5 rounded-[50%]'>
                     <TbShoppingCart className='text-white text-2xl' />

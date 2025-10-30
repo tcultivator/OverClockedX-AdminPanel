@@ -39,7 +39,7 @@ const Top_selling_products = () => {
   }, [])
   return (
     <div className='w-full'>
-      <Card className="pt-0 gap-0">
+      <Card className="pt-0 gap-0 border border-black/15">
         <CardHeader className="flex items-center  space-y-0 border-b py-5 sm:flex-row">
           <div className='flex items-center justify-between w-full'>
             <CardTitle className=''>Top Selling Products</CardTitle>
