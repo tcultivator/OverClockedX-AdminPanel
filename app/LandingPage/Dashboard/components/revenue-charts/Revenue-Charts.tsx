@@ -26,8 +26,6 @@ import {
 import { RiCheckboxBlankFill } from "react-icons/ri";
 import { useState, useEffect } from 'react'
 export const description = "An interactive area chart"
-import { MdAttachMoney } from "react-icons/md";
-
 const chartConfig = {
     revenue: {
         label: "Total Revenue",
