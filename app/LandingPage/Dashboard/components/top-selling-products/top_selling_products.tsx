@@ -65,7 +65,7 @@ const Top_selling_products = () => {
               <Skeleton className="w-full h-full p-1 rounded" />
             </div> : (
               topSellingProducts?.length > 0 ?
-                < ScrollArea className='flex flex-col max-h-[23.5vh]'>
+                < ScrollArea className='flex flex-col max-h-[23.5vh] text-black/70'>
                   {topSellingProducts.map((data, index) => (
                     <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
                       <div className='flex justify-between w-full items-center'>

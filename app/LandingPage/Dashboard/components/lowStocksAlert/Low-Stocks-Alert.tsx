@@ -60,15 +60,15 @@ const Low_Stocks_Alert = () => {
                                 <Skeleton className="w-full h-full p-1 rounded" />
                                 <Skeleton className="w-full h-full p-1 rounded" />
                             </div> :
-                            <ScrollArea className='flex flex-col max-h-[25.1vh]'>
+                            <ScrollArea className='flex flex-col max-h-[25.1vh] text-black/70'>
                                 {lowStocksProducts.map((data, index) => (
                                     <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
                                         <div className='p-1 flex justify-between w-full items-center'>
                                             <div className='flex items-center gap-1'>
                                                 <Image src={data.product_image} alt='' width={200} height={200} className='w-[40px] rounded aspect-square' />
-                                                <div className=''>
+                                                <div className='flex flex-col gap-1'>
 
-                                                    <Label className='font-thin text-black'>{data.product_name}</Label>
+                                                    <Label className='font-thin '>{data.product_name}</Label>
                                                     <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
                                                         style: 'currency',
                                                         currency: 'PHP',

@@ -34,7 +34,7 @@ const Total_products_card = () => {
     return (
         <div className=' p-7 flex bg-white items-center gap-1 rounded-[10px] border border-black/15 shadow-sm h-max w-full px-9 border border-black/15'>
             <div className='flex gap-1 items-center w-full '>
-                <div className='bg-[#fa6093] flex justify-center items-center p-2.5 rounded-[50%]'>
+                <div className='bg-[#fa6093]/70 flex justify-center items-center p-2.5 rounded-[50%]'>
                     <LuPackageCheck className='text-white text-2xl' />
                 </div>
                 <div className='w-full'>
@@ -43,7 +43,7 @@ const Total_products_card = () => {
                 </div>
             </div>
             <div className='flex gap-1 items-center w-full '>
-                <div className='bg-[#fa6093] flex justify-center items-center p-2.5 rounded-[50%]'>
+                <div className='bg-[#fa6093]/70 flex justify-center items-center p-2.5 rounded-[50%]'>
                     <LuPackageX className='text-white text-2xl' />
                 </div>
                 <div className='w-full'>
@@ -52,7 +52,7 @@ const Total_products_card = () => {
                 </div>
             </div>
             <div className='flex gap-1 items-center w-full '>
-                <div className='bg-[#fa6093] flex justify-center items-center p-2.5 rounded-[50%]'>
+                <div className='bg-[#fa6093]/70 flex justify-center items-center p-2.5 rounded-[50%]'>
                     <TbPackageOff className='text-white text-2xl' />
                 </div>
                 <div className='w-full'>
