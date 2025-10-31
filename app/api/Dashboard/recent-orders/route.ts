@@ -5,6 +5,7 @@ type Recent_Orders = {
     email: string;
     reference_id: string;
     total_amount: number;
+    payment_method:string;
     payment_status: string;
     order_status: string;
     created_at: string;
@@ -20,7 +21,8 @@ export async function GET() {
         const query = `SELECT orders.id AS order_id, 
         orders.email, 
         orders.total_amount, 
-        orders.reference_id, 
+        orders.reference_id,
+        orders.payment_method,
         orders.payment_status, 
         orders.order_status, 
         orders.created_at, 
