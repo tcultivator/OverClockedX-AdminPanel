@@ -33,7 +33,6 @@ export const EditProduct = ({ data }: Props) => {
 
     const UploadNewPic = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const uploadedFile = e.target.files?.[0];
-        console.log(uploadedFile)
         if (!uploadedFile) return
         const updateImagePreview = await edgestore.publicFiles.upload({
             file: uploadedFile,
@@ -41,8 +40,6 @@ export const EditProduct = ({ data }: Props) => {
                 setProgress(progress)
             },
         })
-        console.log('test')
-        console.log(updateImagePreview)
         setCurrentData({ ...currentData, product_image: updateImagePreview.url })
     }
     return (

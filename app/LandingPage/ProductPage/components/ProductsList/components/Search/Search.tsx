@@ -41,7 +41,6 @@ const Search = () => {
     }
 
     const searchFunction = async (value: string) => {
-        console.log('eto ung search payload,', value)
         const searchproduct = await fetch('/api/searchProducts', {
             method: 'POST',
             headers: {
@@ -51,7 +50,6 @@ const Search = () => {
         })
         const result = await searchproduct.json()
         if (result.status !== 500) {
-            console.log('eto ung result ng search! ', result)
             setSearchResults(result)
         } else {
             console.log('something went wrong')

@@ -81,7 +81,6 @@ const Recent_Orders = () => {
                         })
                     }
                 }
-                console.log('eto ung laman ng tempGroup', tempGroup)
                 setGroupedData(tempGroup)
             } catch (error) {
                 console.error("Error fetching orders:", error)

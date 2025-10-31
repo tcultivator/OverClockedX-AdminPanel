@@ -4,7 +4,6 @@ import { ProductsType } from "@/types/ProductsType";
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json()
-        console.log('eto ung nasa route na ng search', body.searchValue)
         const query = 'SELECT * FROM products WHERE category LIKE ? OR product_name LIKE ? OR product_id = ?'
         const [rows] = await db.query(query, [`%${body.searchValue}%`, `%${body.searchValue}%`, body.searchValue])
         const result = rows as ProductsType[]

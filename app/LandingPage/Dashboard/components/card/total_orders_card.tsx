@@ -21,7 +21,6 @@ const Total_orders_card = () => {
             })
             const response = await totalCountInCard.json()
             if (response.status != 500) {
-                console.log(response)
                 setTotalOrders(response.totalOrders.totalOrders)
                 setPendingOrders(response.pendingOrders.pendingOrders)
                 setCancelOrders(response.cancelOrders.cancelOrders)

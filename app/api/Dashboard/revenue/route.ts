@@ -10,7 +10,6 @@ export async function GET(req: NextRequest) {
         const query = 'SELECT orders.total_amount,orders.created_at FROM orders WHERE YEAR(created_at) = ? ORDER BY created_at'
         const [rows] = await db.query(query, [year])
         const result = rows as data[]
-        console.log(result)
         return NextResponse.json(result)
     } catch (err) {
         return NextResponse.json({ status: 500 })
