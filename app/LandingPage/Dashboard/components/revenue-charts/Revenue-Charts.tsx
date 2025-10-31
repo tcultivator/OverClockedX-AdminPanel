@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select"
 import { RiCheckboxBlankFill } from "react-icons/ri";
 import { useState, useEffect } from 'react'
+import { year } from '@/utils/yearGenerator'
 export const description = "An interactive area chart"
 const chartConfig = {
     revenue: {
@@ -45,6 +46,7 @@ interface RevenueItem {
 const Revenue_charts = () => {
     const [selectedYear, setSelectedYear] = useState('2025')
     const [chartData, setChartData] = useState<ChartDataItem[]>([]);
+    const [dropDownYearSelection, setDropDownYearSelection] = useState<number[]>(() => year())
     const months = [
         "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -82,17 +84,17 @@ const Revenue_charts = () => {
                     <div className="grid flex-1 gap-1">
                         <div className='flex justify-between items-center'>
                             <CardTitle className=''>Revenues Overview</CardTitle>
-                            <Select onValueChange={(value) => setSelectedYear(value)}>
+                            <Select onValueChange={(value) => setSelectedYear(value)} defaultValue={dropDownYearSelection[dropDownYearSelection.length - 1].toString()}>
                                 <SelectTrigger
                                     className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex"
                                     aria-label="Select a range"
                                 >
-                                    <SelectValue placeholder="2025" />
+                                    <SelectValue placeholder={dropDownYearSelection[dropDownYearSelection.length - 1].toString()} />
                                 </SelectTrigger>
                                 <SelectContent className="rounded-xl">
-                                    <SelectItem value="2023">2023</SelectItem>
-                                    <SelectItem value="2024">2024</SelectItem>
-                                    <SelectItem value="2025">2025</SelectItem>
+                                    {dropDownYearSelection.map((data, index) => (
+                                        <SelectItem key={index} value={data.toString()}>{data}</SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -165,7 +167,7 @@ const Revenue_charts = () => {
                     </ChartContainer>
                 </CardContent>
             </Card>
-        </div>
+        </div >
 
     )
 }
