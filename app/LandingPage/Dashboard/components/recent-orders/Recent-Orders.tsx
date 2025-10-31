@@ -14,6 +14,7 @@ type GroupedOrder = {
     email: string;
     reference_id: string;
     total_amount: number;
+    payment_method: string;
     payment_status: 'success' | 'pending' | 'cancel';
     order_status: 'success' | 'pending' | 'cancel';
     created_at: string;
@@ -54,6 +55,7 @@ const Recent_Orders = () => {
                             email: product.email,
                             reference_id: product.reference_id,
                             total_amount: product.total_amount,
+                            payment_method: product.payment_method,
                             payment_status: product.payment_status,
                             order_status: product.order_status,
                             created_at: product.created_at,
@@ -185,7 +187,7 @@ const Recent_Orders = () => {
                                             </div>
                                             <div className='w-[10%] flex items-center justify-start '>
                                                 <Label className='font-thin'>
-                                                    Gcash
+                                                    {group.payment_method}
                                                 </Label>
                                             </div>
                                             <div className='w-[6%] flex items-center justify-start '>
