@@ -98,34 +98,34 @@ const Recent_Orders = () => {
         }));
     };
     return (
-        <div className='flex flex-col w-full bg-white pb-5 rounded-[15px] shadow-sm border border-black/15'>
+        <div className='flex flex-col w-full bg-white pb-5 rounded-[15px] shadow-sm border border-black/15 text-black/70'>
             <div className='w-full p-3 px-5 border-b flex justify-between items-center'>
                 <Label className="text-[15px] font-semibold">Recent Orders</Label>
             </div>
-            <div className='w-full border-b flex items-center px-3 bg-primary/30 py-2 text-black/60'>
+            <div className='w-full border-b flex items-center px-3 bg-black/10 py-2 text-black/60'>
                 <div className='w-[6%] flex items-center justify-start '>
-                    <Label className='font-thin text-[12px]'>Order id</Label>
+                    <Label className='text-black/70 text-[12px]'>Order id</Label>
                 </div>
                 <div className='w-[24%] flex items-center justify-start '>
-                    <Label className='font-thin text-[12px]'>Product</Label>
+                    <Label className='text-black/70 text-[12px]'>Product</Label>
                 </div>
                 <div className='w-[20%] flex items-center justify-start '>
-                    <Label className='font-thin text-[12px]'>Customer</Label>
+                    <Label className='text-black/70 text-[12px]'>Customer</Label>
                 </div>
-                <div className='w-[15%] flex items-center justify-start '>
-                    <Label className='font-thin text-[12px]'>Price</Label>
+                <div className='w-[15%] flex items-center justify-center '>
+                    <Label className='text-black/70 text-[12px]'>Price</Label>
                 </div>
-                <div className='w-[10%] flex items-center justify-start '>
-                    <Label className='font-thin text-[12px]'>Payment</Label>
+                <div className='w-[10%] flex items-center justify-center '>
+                    <Label className='text-black/70 text-[12px]'>Payment</Label>
                 </div>
-                <div className='w-[7%] flex items-center justify-start '>
-                    <Label className='font-thin text-[12px]'>Quantity</Label>
+                <div className='w-[7%] flex items-center justify-center '>
+                    <Label className='text-black/70 text-[12px]'>Quantity</Label>
                 </div>
-                <div className='w-[9%] flex items-center justify-start'>
-                    <Label className='font-thin text-[12px]'>Payment Status</Label>
+                <div className='w-[9%] flex items-center justify-center'>
+                    <Label className='text-black/70 text-[12px]'>Payment Status</Label>
                 </div>
-                <div className='w-[9%] flex items-center justify-start'>
-                    <Label className='font-thin text-[12px]'>Order Status</Label>
+                <div className='w-[9%] flex items-center justify-center'>
+                    <Label className='text-black/70 text-[12px]'>Order Status</Label>
                 </div>
             </div>
             {loading ?
@@ -171,12 +171,12 @@ const Recent_Orders = () => {
                                                 />
                                                 <Label className='font-thin'>{item.product_name}</Label>
                                             </div>
-                                            <div className='flex w-[20%]'>
+                                            <div className='flex w-[20%] items-center justify-start'>
                                                 <Label className='font-thin'>
                                                     {group.email}
                                                 </Label>
                                             </div>
-                                            <div className='w-[15%] flex items-center justify-start '>
+                                            <div className='w-[15%] flex items-center justify-center '>
                                                 <Label className='font-thin'>
                                                     {new Intl.NumberFormat('en-PH', {
                                                         style: 'currency',
@@ -184,18 +184,18 @@ const Recent_Orders = () => {
                                                     }).format(item.price)}
                                                 </Label>
                                             </div>
-                                            <div className='w-[10%] flex items-center justify-start '>
+                                            <div className='w-[10%] flex items-center justify-center '>
                                                 <Label className='font-thin'>
                                                     {group.payment_method}
                                                 </Label>
                                             </div>
-                                            <div className='w-[6%] flex items-center justify-start '>
+                                            <div className='w-[6%] flex items-center justify-center '>
                                                 <Label className='font-thin'>{item.quantity}</Label>
                                             </div>
-                                            <div className='w-[9%] flex items-center justify-start'>
+                                            <div className='w-[9%] flex items-center justify-center'>
                                                 <Label className={`${recentOrderStatus[group.payment_status]}font-thin`}>{group.payment_status}</Label>
                                             </div>
-                                            <div className='w-[9%] flex items-center justify-start '>
+                                            <div className='w-[9%] flex items-center justify-center '>
                                                 <Label className={`${recentOrderStatus[group.order_status]}font-thin`}>{group.order_status}</Label>
                                             </div>
 

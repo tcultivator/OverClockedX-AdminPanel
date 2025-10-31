@@ -96,7 +96,7 @@ const Popular_Product = () => {
                             <Label className="text-4xl font-medium font-anton">
                                 {popular_product[0]?.product_name}
                             </Label>
-                            <Label className="text-gray-600 text-sm">
+                            <Label className="text-black/70 text-sm font-thin">
                                 {new Intl.NumberFormat('en-PH', {
                                     style: 'currency',
                                     currency: 'PHP',
@@ -107,7 +107,7 @@ const Popular_Product = () => {
                         </div>
                         <div className='flex items-center flex-col justify-center gap-2 w-[30%]'>
                             <ProgressCircle size={140} strokeWidth={25} progress={(popular_product[0].sales_count / popular_product[0].base_stocks * 100)} className='text-black/50 ' />
-                            <Label className='font-thin text-[12px]'>{popular_product[0].sales_count} sold, out of {popular_product[0].base_stocks}</Label>
+                            <Label className='font-thin text-[12px] text-black/70'>{popular_product[0].sales_count} sold, out of {popular_product[0].base_stocks}</Label>
                         </div>
                     </div>
                 ) : (
