@@ -6,7 +6,7 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  
+
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/static") ||
@@ -20,17 +20,19 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
- 
-  const publicPaths = ["/", "/login", "/register"];
+
+  const publicPaths = ["/", "/login", "/register","/LandingPage/ReadyToShip"];
   if (publicPaths.includes(pathname)) {
     return NextResponse.next();
   }
 
- 
+
   const token = await getToken({
     req: request,
     secret: process.env.AUTH_SECRET,
   });
+  console.log("Token result:", token);
+  console.log("Cookies sent:", request.cookies.getAll());
 
   if (!token) {
     console.log("No token – redirecting to login");

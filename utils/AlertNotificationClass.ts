@@ -6,8 +6,10 @@ export const alertClasses: Record<"success" | "error" | "base" | "warning", stri
     warning: "text-[#F6BB3A] text-[13px] p-2 bg-[#FFF8A9] border border-[#F6BB3A] rounded-[10px] text-center flex item-center justify-center"
 };
 
-export const recentOrderStatus: Record<"success" | "pending" | "cancel", string> = {
+export const recentOrderStatus: Record<"success" | "pending" | "cancel" | "preparing" | "On Delivery", string> = {
     success: "text-green-400 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
     cancel: "text-red-500 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
-    pending: " text-[#fa6093]/70 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]"
+    pending: " text-[#fa6093]/70 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
+    preparing: " text-[#fa6093]/70 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
+    "On Delivery": " text-[#fa6093]/70 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]"
 };

@@ -30,7 +30,7 @@ export const RemoveProduct = ({ product_id, product_name, product_image }: produ
         <AlertDialogTrigger asChild>
             <Label className='p-2 font-thin cursor-pointer rounded hover:bg-white/5'>Remove Product</Label>
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-lg">
             <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                 <div className="flex flex-col gap-1">
