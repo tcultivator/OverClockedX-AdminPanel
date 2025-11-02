@@ -59,34 +59,40 @@ const Low_Stocks_Alert = () => {
                                 <Skeleton className="w-full h-full p-1 rounded" />
                                 <Skeleton className="w-full h-full p-1 rounded" />
                                 <Skeleton className="w-full h-full p-1 rounded" />
-                            </div> :
-                            <ScrollArea className='flex flex-col max-h-[25.1vh] text-black/70'>
-                                {lowStocksProducts.map((data, index) => (
-                                    <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
-                                        <div className='p-1 flex justify-between w-full items-center'>
-                                            <div className='flex items-center gap-1'>
-                                                <Image src={data.product_image} alt='' width={200} height={200} className='w-[40px] rounded aspect-square' />
-                                                <div className='flex flex-col gap-1'>
+                            </div> : (
+                                lowStocksProducts.length > 0 ?
+                                    <ScrollArea className='flex flex-col max-h-[25.1vh] text-black/70'>
+                                        {lowStocksProducts.map((data, index) => (
+                                            <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
+                                                <div className='p-1 flex justify-between w-full items-center'>
+                                                    <div className='flex items-center gap-1'>
+                                                        <Image src={data.product_image} alt='' width={200} height={200} className='w-[40px] rounded aspect-square' />
+                                                        <div className='flex flex-col gap-1'>
 
-                                                    <Label className='font-thin '>{data.product_name}</Label>
-                                                    <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
-                                                        style: 'currency',
-                                                        currency: 'PHP',
-                                                    }).format(data.price)}</Label>
+                                                            <Label className='font-thin '>{data.product_name}</Label>
+                                                            <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
+                                                                style: 'currency',
+                                                                currency: 'PHP',
+                                                            }).format(data.price)}</Label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className='flex gap-5 items-center'>
+                                                        <div className='flex flex-col gap-1'>
+                                                            <Label className={`font-thin text-[12px] ${data.stocks <= data.base_stocks / 10 ? 'text-[#fa6093]' : 'text-orange-400'} `}>{data.stocks} / {data.base_stocks}</Label>
+                                                        </div>
+                                                        <ProgressCircle size={40} progress={(data.stocks / data.base_stocks * 100)} className='text-black/50 ' />
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div className='flex gap-5 items-center'>
-                                                <div className='flex flex-col gap-1'>
-                                                    <Label className={`font-thin text-[12px] ${data.stocks <= data.base_stocks / 10 ? 'text-[#fa6093]' : 'text-orange-400'} `}>{data.stocks} / {data.base_stocks}</Label>
-                                                </div>
-                                                <ProgressCircle size={40} progress={(data.stocks / data.base_stocks * 100)} className='text-black/50 ' />
                                             </div>
-                                        </div>
-
+                                        ))}
+                                    </ScrollArea> :
+                                    <div className="flex items-center justify-center h-full text-gray-400">
+                                        No Low Stocks Products Found
                                     </div>
-                                ))}
-                            </ScrollArea>
+                            )
+
                     }
 
                 </CardContent>
