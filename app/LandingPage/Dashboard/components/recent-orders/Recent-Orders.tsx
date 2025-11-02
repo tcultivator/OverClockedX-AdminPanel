@@ -136,88 +136,95 @@ const Recent_Orders = () => {
                     <Skeleton className="w-full h-full p-1 rounded" />
                     <Skeleton className="w-full h-full p-1 rounded" />
                 </div> :
-                <ScrollArea className='h-[28.5vh] '>
-                    {groupedData.map((group, groupIndex) => {
-                        const isExpanded = expandedGroups[groupIndex] || false;
-                        return (
-                            <div
-                                className='flex flex-col border-b relative '
-                                key={groupIndex}
-                            >
-                                <div
-                                    style={{
-                                        maxHeight: isExpanded ? 'none' : '60px',
-                                        overflow: 'hidden',
-                                        transition: 'max-height 0.6s ease',
-                                    }}
-                                    className=''
-                                >
-
-                                    {group.items.map((item, itemIndex) => (
+                (
+                    groupedData.length > 0 ?
+                        <ScrollArea className='h-[28.5vh] '>
+                            {groupedData.map((group, groupIndex) => {
+                                const isExpanded = expandedGroups[groupIndex] || false;
+                                return (
+                                    <div
+                                        className='flex flex-col border-b relative '
+                                        key={groupIndex}
+                                    >
                                         <div
-                                            className='flex items-center'
-                                            key={itemIndex}
+                                            style={{
+                                                maxHeight: isExpanded ? 'none' : '60px',
+                                                overflow: 'hidden',
+                                                transition: 'max-height 0.6s ease',
+                                            }}
+                                            className=''
                                         >
-                                            <div className='flex items-center justify-center w-[6%]   '>
-                                                <Label className='font-thin'>{group.order_id}</Label>
-                                            </div>
-                                            <div className='flex gap-1 items-center justify-start w-[24%] pr-1'>
-                                                <Image
-                                                    src={item.product_image}
-                                                    alt=""
-                                                    className='w-15 border border-white/50'
-                                                    width={100}
-                                                    height={100}
-                                                />
-                                                <Label className='font-thin'>{item.product_name}</Label>
-                                            </div>
-                                            <div className='flex w-[20%] items-center justify-start'>
-                                                <Label className='font-thin'>
-                                                    {group.email}
-                                                </Label>
-                                            </div>
-                                            <div className='w-[15%] flex items-center justify-center '>
-                                                <Label className='font-thin'>
-                                                    {new Intl.NumberFormat('en-PH', {
-                                                        style: 'currency',
-                                                        currency: 'PHP',
-                                                    }).format(item.price)}
-                                                </Label>
-                                            </div>
-                                            <div className='w-[10%] flex items-center justify-center '>
-                                                <Label className='font-thin'>
-                                                    {group.payment_method}
-                                                </Label>
-                                            </div>
-                                            <div className='w-[6%] flex items-center justify-center '>
-                                                <Label className='font-thin'>{item.quantity}</Label>
-                                            </div>
-                                            <div className='w-[9%] flex items-center justify-center'>
-                                                <Label className={`${recentOrderStatus[group.payment_status]}font-thin`}>{group.payment_status}</Label>
-                                            </div>
-                                            <div className='w-[9%] flex items-center justify-center '>
-                                                <Label className={`${recentOrderStatus[group.order_status]}font-thin`}>{group.order_status}</Label>
-                                            </div>
+
+                                            {group.items.map((item, itemIndex) => (
+                                                <div
+                                                    className='flex items-center'
+                                                    key={itemIndex}
+                                                >
+                                                    <div className='flex items-center justify-center w-[6%]   '>
+                                                        <Label className='font-thin'>{group.order_id}</Label>
+                                                    </div>
+                                                    <div className='flex gap-1 items-center justify-start w-[24%] pr-1'>
+                                                        <Image
+                                                            src={item.product_image}
+                                                            alt=""
+                                                            className='w-15 border border-white/50'
+                                                            width={100}
+                                                            height={100}
+                                                        />
+                                                        <Label className='font-thin'>{item.product_name}</Label>
+                                                    </div>
+                                                    <div className='flex w-[20%] items-center justify-start'>
+                                                        <Label className='font-thin'>
+                                                            {group.email}
+                                                        </Label>
+                                                    </div>
+                                                    <div className='w-[15%] flex items-center justify-center '>
+                                                        <Label className='font-thin'>
+                                                            {new Intl.NumberFormat('en-PH', {
+                                                                style: 'currency',
+                                                                currency: 'PHP',
+                                                            }).format(item.price)}
+                                                        </Label>
+                                                    </div>
+                                                    <div className='w-[10%] flex items-center justify-center '>
+                                                        <Label className='font-thin'>
+                                                            {group.payment_method}
+                                                        </Label>
+                                                    </div>
+                                                    <div className='w-[6%] flex items-center justify-center '>
+                                                        <Label className='font-thin'>{item.quantity}</Label>
+                                                    </div>
+                                                    <div className='w-[9%] flex items-center justify-center'>
+                                                        <Label className={`${recentOrderStatus[group.payment_status]}font-thin`}>{group.payment_status}</Label>
+                                                    </div>
+                                                    <div className='w-[9%] flex items-center justify-center '>
+                                                        <Label className={`${recentOrderStatus[group.order_status]}font-thin`}>{group.order_status}</Label>
+                                                    </div>
+
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div className=' flex justify-center items-center absolute bottom-2 right-4'>
+                                            {group.items.length > 1 && (
+                                                <button
+                                                    onClick={() => toggleExpand(groupIndex)}
+                                                    className='text-blue-400 text-[17px] cursor-pointer'
+                                                >
+                                                    {isExpanded ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                                                </button>
+                                            )}
 
                                         </div>
-                                    ))}
-                                </div>
+                                    </div>
+                                );
+                            })}
+                        </ScrollArea > :
+                        <div className="flex items-center justify-center h-full text-gray-400">
+                            No Recent Orders Found
+                        </div>
+                )
 
-                                <div className=' flex justify-center items-center absolute bottom-2 right-4'>
-                                    {group.items.length > 1 && (
-                                        <button
-                                            onClick={() => toggleExpand(groupIndex)}
-                                            className='text-blue-400 text-[17px] cursor-pointer'
-                                        >
-                                            {isExpanded ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                                        </button>
-                                    )}
-
-                                </div>
-                            </div>
-                        );
-                    })}
-                </ScrollArea >
             }
 
 

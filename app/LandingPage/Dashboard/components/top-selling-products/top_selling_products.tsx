@@ -94,7 +94,7 @@ const Top_selling_products = () => {
                 </ScrollArea>
                 :
                 <div className="flex items-center justify-center h-full text-gray-400">
-                  No Top Selling Products found
+                  No Top Selling Products Found
                 </div>
             )
 
