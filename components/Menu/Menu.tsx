@@ -33,7 +33,7 @@ const Menu = () => {
   const menuItems = [
     { name: "Dashboard", icon: <RxDashboard className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage" },
     { name: "Inventory", icon: <GoPackage className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/ProductPage" },
-    { name: "Orders", icon: <BsMinecart className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/Orders" },
+    { name: "Orders", icon: <BsMinecart className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/OrdersPage" },
     { name: "Settings", icon: <RiSettings3Line className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/Settings" },
   ];
   return (
