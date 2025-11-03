@@ -12,6 +12,7 @@ import { SlOptions } from "react-icons/sl";
 import { useOrderStore } from '@/stores/ordersStore';
 import { GroupedOrder } from '@/types/GroupDataType';
 import Accept_Order from '../actions/Accept-Order/Accept-Order';
+import View_Order_Details from '../actions/View-Order-Details/View-Order-Details';
 import { socket } from '@/lib/socket-io'
 const Order_list = () => {
     const orders_data = useOrderStore((state) => state.orders_data)
@@ -226,9 +227,7 @@ const Order_list = () => {
                                                             <DropdownMenuContent className="sm:max-w-[425px]" align="end">
                                                                 <DropdownMenuLabel>Order Action</DropdownMenuLabel>
                                                                 <DropdownMenuGroup>
-                                                                    <DropdownMenuItem>
-                                                                        View Order Details
-                                                                    </DropdownMenuItem>
+                                                                    <View_Order_Details orderData={group} />
                                                                     <Accept_Order orderData={group} />
                                                                     <DropdownMenuItem>
                                                                         Decline Order
