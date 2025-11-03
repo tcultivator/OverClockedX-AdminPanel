@@ -1,7 +1,5 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import QRCode from "qrcode";
-import { io } from "socket.io-client";
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -97,6 +95,10 @@ const Accept_Order = ({ orderData }: props) => {
                                             </div>
                                             <Label className="text-sm text-gray-500">A summary of the customer's order details.</Label>
                                             <div className='flex flex-col gap-2'>
+                                                <div className='flex items-center justify-between text-black/70'>
+                                                    <Label className='font-thin'>Payment</Label>
+                                                    <Label className='font-thin'>{orderData.payment_method}</Label>
+                                                </div>
                                                 <div className='flex items-center justify-between text-black/70'>
                                                     <Label className='font-thin'>Subtotal</Label>
                                                     <div className='flex items-center gap-5'>
