@@ -21,7 +21,7 @@ export async function middleware(request: NextRequest) {
   }
 
 
-  const publicPaths = ["/", "/login", "/register","/LandingPage/ReadyToShip"];
+  const publicPaths = ["/", "/login", "/register","/ReadyToShip"];
   if (publicPaths.includes(pathname)) {
     return NextResponse.next();
   }

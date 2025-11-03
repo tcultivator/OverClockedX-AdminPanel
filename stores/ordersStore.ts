@@ -1,11 +1,14 @@
 import { create } from 'zustand'
 import { GroupedOrder } from '@/types/GroupDataType';
 import { useLoading } from './loadingStore';
+import QRCode from "qrcode";
 type orders = {
     orders_data: GroupedOrder[],
     setOrders_data: (value: GroupedOrder[]) => void,
     acceptOrder: (value: number) => void,
     QRCodeData: string,
+    GenerateQR: (value: number) => void,
+    updateStatusOnDelivery: (value: string) => void,
 }
 export const useOrderStore = create<orders>((set) => ({
     orders_data: [],
@@ -36,11 +39,31 @@ export const useOrderStore = create<orders>((set) => ({
             return item
         })
         useLoading.getState().setLoading(false)
+        useOrderStore.getState().GenerateQR(value)
         set({
             orders_data: final_order_data,
-            QRCodeData: acceptOrderCall_result.QRCodeData
         })
 
     },
     QRCodeData: '',
+    GenerateQR: async (value: number) => {
+        const QRCodeData = await QRCode.toDataURL(`http://192.168.100.60:3000/ReadyToShip?order_id=${value}`)
+        set({
+            QRCodeData: QRCodeData
+        })
+    },
+    updateStatusOnDelivery: (value: string) => {
+        const orders_data = useOrderStore.getState().orders_data
+        const final_order_data = orders_data.map(item => {
+            if (item.order_id === Number(value)) {
+                return {
+                    ...item, order_status: 'On Delivery' as const
+                }
+            }
+            return item
+        })
+        set({
+            orders_data: final_order_data
+        })
+    }
 }))
