@@ -6,17 +6,19 @@ import { Label } from '@/components/ui/label';
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
 import { recentOrderStatus } from '@/utils/AlertNotificationClass'
-import {DropdownMenu,DropdownMenuContent,DropdownMenuGroup,DropdownMenuItem,DropdownMenuLabel,DropdownMenuTrigger} from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Button } from '@/components/ui/button'
 import { SlOptions } from "react-icons/sl";
 import { useOrderStore } from '@/stores/ordersStore';
 import { GroupedOrder } from '@/types/GroupDataType';
 import Accept_Order from '../actions/Accept-Order/Accept-Order';
+import { socket } from '@/lib/socket-io'
 const Order_list = () => {
     const orders_data = useOrderStore((state) => state.orders_data)
     const setOrders_data = useOrderStore((state) => state.setOrders_data)
     const [expandedGroups, setExpandedGroups] = useState<Record<number, boolean>>({})
     const [loading, setLoading] = useState(true)
+    const updateStatusOnDelivery = useOrderStore((state) => state.updateStatusOnDelivery)
 
     useEffect(() => {
         const fetchRecentOrders = async () => {
@@ -86,12 +88,25 @@ const Order_list = () => {
 
         fetchRecentOrders()
     }, [])
+
+
+
     const toggleExpand = (index: number) => {
         setExpandedGroups(prev => ({
             ...prev,
             [index]: !prev[index]
         }));
     };
+    useEffect(() => {
+
+        socket.on("update-data", (data) => {
+            console.log("QR code scanned! Received data from server:", data);
+            updateStatusOnDelivery(data)
+        });
+        return () => {
+            socket.off("update-data");
+        };
+    }, []);
     return (
         <div className='flex flex-col h-full w-full bg-white pb-5 rounded-[15px] shadow-sm border border-black/15 text-black/70'>
             <div className='w-full p-3 px-5 border-b flex justify-between items-center'>
