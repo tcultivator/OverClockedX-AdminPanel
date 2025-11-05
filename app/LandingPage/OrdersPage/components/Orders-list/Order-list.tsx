@@ -66,7 +66,7 @@ const Order_list = () => {
     return (
         <div className='flex flex-col h-full w-full bg-white pb-5 rounded-[15px] shadow-sm border border-black/15 text-black/70'>
             <OrderListHeader />
-            <div className='w-full border-b flex items-center px-3 bg-black/10 py-2 text-black/60 '>
+            <div className='w-full border-b flex items-center px-3 bg-black/10 py-2 text-black/60 border-x-[4px]'>
                 <div className='w-[6%] flex items-center justify-start '>
                     <Label className='text-black/70 text-[12px]'>Order id</Label>
                 </div>
@@ -115,10 +115,12 @@ const Order_list = () => {
                                     >
                                         <div
                                             style={{
-                                                maxHeight: isExpanded ? 'none' : '60px',
+                                                maxHeight: isExpanded ? '120px' : '60px',
                                                 overflow: 'hidden',
-                                                transition: 'max-height 0.6s ease',
-                                                background: isExpanded ? '#fac1d37c' : ''
+                                                transition: 'max-height 0.3s ease-out',
+                                                borderLeft: isExpanded ? '4px solid #fac1d3' : '4px solid #ffffff',
+                                                borderRight: isExpanded ? '4px solid #fac1d3' : '4px solid #ffffff', // highlight the group
+                                                paddingLeft: '8px'
                                             }}
                                             className='px-3'
                                         >

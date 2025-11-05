@@ -8,8 +8,8 @@ export const alertClasses: Record<"success" | "error" | "base" | "warning", stri
 
 export const recentOrderStatus: Record<"success" | "pending" | "cancel" | "preparing" | "On Delivery", string> = {
     success: "text-green-400 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
-    cancel: "text-red-500 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
-    pending: " text-[#fa6093]/70 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
-    preparing: " text-[#fa6093]/70 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
-    "On Delivery": " text-[#fa6093]/70 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]"
+    cancel: "text-red-400 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
+    pending: " text-rose-500 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
+    preparing: " text-blue-300 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]",
+    "On Delivery": " text-cyan-300 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]"
 };
