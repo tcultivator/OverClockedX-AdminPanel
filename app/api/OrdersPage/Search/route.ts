@@ -1,6 +1,5 @@
 import db from "@/lib/db";
-import { NextResponse, NextRequest } from "next/server";
-
+import { NextRequest, NextResponse } from "next/server";
 type Recent_Orders = {
     order_id: number;
     email: string;
@@ -25,9 +24,11 @@ type Recent_Orders = {
     province: string;
     trademark: string;
 }
-export async function GET() {
+export async function POST(req: NextRequest) {
     try {
-        const query = `SELECT orders.id AS order_id, 
+        const body = await req.json()
+        const searchQuery = `
+        SELECT orders.id AS order_id, 
         orders.email, 
         orders.total_amount, 
         orders.reference_id, 
@@ -52,13 +53,12 @@ export async function GET() {
         FROM orders JOIN order_items ON order_items.order_id = orders.id 
         JOIN products ON order_items.product_id = products.product_id 
         JOIN accounts ON orders.email = accounts.email 
-        JOIN customer_address ON orders.id = customer_address.order_id;
-;
-;
-`
-        const [rows] = await db.query(query)
-        const recent_orders = rows as Recent_Orders[]
-        return NextResponse.json(recent_orders)
+        JOIN customer_address ON orders.id = customer_address.order_id
+        WHERE orders.reference_id = ? OR orders.email = ?
+        `
+        const [rows] = await db.query(searchQuery, [body.searchInput, body.searchInput])
+        const search_results = rows as Recent_Orders[]
+        return NextResponse.json(search_results)
     } catch (err) {
         return NextResponse.json({ status: 500 })
     }

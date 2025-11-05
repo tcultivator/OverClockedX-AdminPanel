@@ -10,13 +10,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { Button } from '@/components/ui/button'
 import { SlOptions } from "react-icons/sl";
 import { useOrderStore } from '@/stores/ordersStore';
-import { GroupedOrder } from '@/types/GroupDataType';
 import Accept_Order from '../actions/Accept-Order/Accept-Order';
 import View_Order_Details from '../actions/View-Order-Details/View-Order-Details';
 import { BsArrowDownSquareFill } from "react-icons/bs";
 import { BsArrowUpSquareFill } from "react-icons/bs";
 import OrderListHeader from './components/header/OrderListHeader';
 import { socket } from '@/lib/socket-io'
+import { GroupOrdersData } from '@/utils/GroupOrderData';
 const Order_list = () => {
     const orders_data = useOrderStore((state) => state.orders_data)
     const setOrders_data = useOrderStore((state) => state.setOrders_data)
@@ -34,55 +34,7 @@ const Order_list = () => {
                     console.error("Server error while fetching orders")
                     return
                 }
-
-                const tempGroup: GroupedOrder[] = []
-
-                for (const product of result) {
-                    const index = tempGroup.findIndex(
-                        (g) => g.order_id === product.order_id
-                    )
-
-                    if (index === -1) {
-                        tempGroup.push({
-                            order_id: product.order_id,
-                            email: product.email,
-                            profile_Image: product.profile_Image,
-                            reference_id: product.reference_id,
-                            total_amount: product.total_amount,
-                            payment_method: product.payment_method,
-                            payment_status: product.payment_status,
-                            order_status: product.order_status,
-                            created_at: product.created_at,
-                            rname: product.rname,
-                            phone_number: product.phone_number,
-                            country: product.country,
-                            city_municipality: product.city_municipality,
-                            barangay: product.barangay,
-                            province: product.province,
-                            trademark: product.trademark,
-                            items: [
-                                {
-                                    product_id: product.product_id,
-                                    product_name: product.product_name,
-                                    product_image: product.product_image,
-                                    quantity: product.quantity,
-                                    price: product.price,
-                                    sub_total: product.sub_total,
-                                },
-                            ],
-                        })
-                    } else {
-                        tempGroup[index].items.push({
-                            product_id: product.product_id,
-                            product_name: product.product_name,
-                            product_image: product.product_image,
-                            quantity: product.quantity,
-                            price: product.price,
-                            sub_total: product.sub_total,
-                        })
-                    }
-                }
-                setOrders_data(tempGroup)
+                setOrders_data(GroupOrdersData(result)) // this is the reusable function that turn raw data to group data
             } catch (error) {
                 console.error("Error fetching orders:", error)
             } finally {

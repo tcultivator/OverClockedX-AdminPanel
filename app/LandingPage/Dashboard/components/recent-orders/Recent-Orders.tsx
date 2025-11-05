@@ -8,25 +8,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { Skeleton } from "@/components/ui/skeleton"
 import { recentOrderStatus } from '@/utils/AlertNotificationClass'
-
-type GroupedOrder = {
-    order_id: number;
-    email: string;
-    reference_id: string;
-    total_amount: number;
-    payment_method: string;
-    payment_status: 'success' | 'pending' | 'cancel';
-    order_status: 'success' | 'pending' | 'cancel';
-    created_at: string;
-    items: {
-        product_id: string;
-        product_name: string;
-        product_image: string;
-        quantity: number;
-        price: number;
-        sub_total: number;
-    }[];
-};
+import { GroupOrdersData } from '@/utils/GroupOrderData';
+import { GroupedOrder } from '@/types/GroupDataType';
 const Recent_Orders = () => {
     const [groupedData, setGroupedData] = useState<GroupedOrder[]>([])
     const [expandedGroups, setExpandedGroups] = useState<Record<number, boolean>>({})
@@ -41,47 +24,7 @@ const Recent_Orders = () => {
                     console.error("Server error while fetching orders")
                     return
                 }
-
-                const tempGroup: GroupedOrder[] = []
-
-                for (const product of result) {
-                    const index = tempGroup.findIndex(
-                        (g) => g.order_id === product.order_id
-                    )
-
-                    if (index === -1) {
-                        tempGroup.push({
-                            order_id: product.order_id,
-                            email: product.email,
-                            reference_id: product.reference_id,
-                            total_amount: product.total_amount,
-                            payment_method: product.payment_method,
-                            payment_status: product.payment_status,
-                            order_status: product.order_status,
-                            created_at: product.created_at,
-                            items: [
-                                {
-                                    product_id: product.product_id,
-                                    product_name: product.product_name,
-                                    product_image: product.product_image,
-                                    quantity: product.quantity,
-                                    price: product.price,
-                                    sub_total: product.sub_total,
-                                },
-                            ],
-                        })
-                    } else {
-                        tempGroup[index].items.push({
-                            product_id: product.product_id,
-                            product_name: product.product_name,
-                            product_image: product.product_image,
-                            quantity: product.quantity,
-                            price: product.price,
-                            sub_total: product.sub_total,
-                        })
-                    }
-                }
-                setGroupedData(tempGroup)
+                setGroupedData(GroupOrdersData(result))
             } catch (error) {
                 console.error("Error fetching orders:", error)
             } finally {
