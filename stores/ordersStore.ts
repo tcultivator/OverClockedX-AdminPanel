@@ -19,7 +19,7 @@ export const useOrderStore = create<orders>((set) => ({
     },
     acceptOrder: async (value: number) => {
         const current_order_data = useOrderStore.getState().orders_data
-        useLoading.getState().setLoading(true)
+        useLoading.getState().setButtonLoading(true)
         const acceptOrderCall = await fetch('/api/OrdersPage/Accept-Order', {
             method: 'PUT',
             headers: {
@@ -38,7 +38,7 @@ export const useOrderStore = create<orders>((set) => ({
             }
             return item
         })
-        useLoading.getState().setLoading(false)
+        useLoading.getState().setButtonLoading(false)
         useOrderStore.getState().GenerateQR(value)
         set({
             orders_data: final_order_data,

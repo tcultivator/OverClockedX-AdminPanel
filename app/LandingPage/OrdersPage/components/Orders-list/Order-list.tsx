@@ -13,6 +13,9 @@ import { useOrderStore } from '@/stores/ordersStore';
 import { GroupedOrder } from '@/types/GroupDataType';
 import Accept_Order from '../actions/Accept-Order/Accept-Order';
 import View_Order_Details from '../actions/View-Order-Details/View-Order-Details';
+import { BsArrowDownSquareFill } from "react-icons/bs";
+import { BsArrowUpSquareFill } from "react-icons/bs";
+import OrderListHeader from './components/header/OrderListHeader';
 import { socket } from '@/lib/socket-io'
 const Order_list = () => {
     const orders_data = useOrderStore((state) => state.orders_data)
@@ -110,10 +113,8 @@ const Order_list = () => {
     }, []);
     return (
         <div className='flex flex-col h-full w-full bg-white pb-5 rounded-[15px] shadow-sm border border-black/15 text-black/70'>
-            <div className='w-full p-3 px-5 border-b flex justify-between items-center'>
-                <Label className="text-[15px] font-semibold">Orders</Label>
-            </div>
-            <div className='w-full border-b flex items-center px-3 bg-black/10 py-2 text-black/60'>
+            <OrderListHeader />
+            <div className='w-full border-b flex items-center px-3 bg-black/10 py-2 text-black/60 '>
                 <div className='w-[6%] flex items-center justify-start '>
                     <Label className='text-black/70 text-[12px]'>Order id</Label>
                 </div>
@@ -246,9 +247,9 @@ const Order_list = () => {
                                             {group.items.length > 1 && (
                                                 <button
                                                     onClick={() => toggleExpand(groupIndex)}
-                                                    className='text-blue-400 text-[12px] cursor-pointer'
+                                                    className='text-blue-400 text-[21px] cursor-pointer'
                                                 >
-                                                    {isExpanded ? 'show less' : 'show more'}
+                                                    {isExpanded ? <BsArrowUpSquareFill /> : <BsArrowDownSquareFill />}
                                                 </button>
                                             )}
 
