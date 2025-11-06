@@ -5,9 +5,9 @@ import QRCode from "qrcode";
 type orders = {
     orders_data: GroupedOrder[],
     setOrders_data: (value: GroupedOrder[]) => void,
-    acceptOrder: (value: number) => void,
+    acceptOrder: (value: number, pid: string) => void,
     QRCodeData: string,
-    GenerateQR: (value: number) => void,
+    GenerateQR: (value: number, pid: string) => void,
     updateStatusOnDelivery: (value: string) => void,
 }
 export const useOrderStore = create<orders>((set) => ({
@@ -17,7 +17,7 @@ export const useOrderStore = create<orders>((set) => ({
             orders_data: value
         })
     },
-    acceptOrder: async (value: number) => {
+    acceptOrder: async (value: number, pid: string) => {
         const current_order_data = useOrderStore.getState().orders_data
         useLoading.getState().setButtonLoading(true)
         const acceptOrderCall = await fetch('/api/OrdersPage/Accept-Order', {
@@ -39,15 +39,15 @@ export const useOrderStore = create<orders>((set) => ({
             return item
         })
         useLoading.getState().setButtonLoading(false)
-        useOrderStore.getState().GenerateQR(value)
+        useOrderStore.getState().GenerateQR(value, pid)
         set({
             orders_data: final_order_data,
         })
 
     },
     QRCodeData: '',
-    GenerateQR: async (value: number) => {
-        const QRCodeData = await QRCode.toDataURL(`http://192.168.100.60:3000/ReadyToShip?order_id=${value}`)
+    GenerateQR: async (value: number, pid: string) => {
+        const QRCodeData = await QRCode.toDataURL(`http://192.168.100.60:3000/product/${pid}?order_id=${value}`)
         set({
             QRCodeData: QRCodeData
         })

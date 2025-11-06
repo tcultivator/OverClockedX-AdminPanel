@@ -41,17 +41,18 @@ const OrderListHeader = () => {
         setOrders_data(tempOrdersData)
         setTempOrdersData([])
     }
+   
     return (
         <div className='w-full p-3 px-5 border-b flex justify-between items-center'>
             <Label className="text-[15px] font-semibold">Orders</Label>
             <div className='flex items-center gap-2'>
-
+                
                 {
                     loading ? <Label className='text-black/50 flex items-center'><ClipLoader size={15} color='black/50' />Searching...</Label> :
 
                         tempOrdersData.length > 0 && < Button onClick={clearSearch} className='text-black/50 focus:bg-transparent cursor-pointer' variant={'outline'}><IoCloseCircleSharp className='text-red-400' />clear search</Button>}
                 <Input value={searchInput || ''} type='text' placeholder='Reference_id/Email' onChange={(e) => setSearchInput(e.target.value)} className='w-[350px] p-5' />
-                <Button disabled={loading} onClick={Submit_Search} variant={'default'} className='cursor-pointer h-[40px] w-[40px] p-0'>{loading ? <ClipLoader  size={15} color='white' /> : <CiSearch />}</Button>
+                <Button disabled={loading} onClick={Submit_Search} variant={'default'} className='cursor-pointer h-[40px] w-[40px] p-0'>{loading ? <ClipLoader size={15} color='white' /> : <CiSearch />}</Button>
             </div>
         </div >
     )
