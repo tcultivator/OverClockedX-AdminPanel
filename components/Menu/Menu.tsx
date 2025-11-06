@@ -35,6 +35,7 @@ const Menu = () => {
     { name: "Inventory", icon: <GoPackage className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/ProductPage" },
     { name: "Orders", icon: <BsMinecart className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/OrdersPage" },
     { name: "Settings", icon: <RiSettings3Line className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/Settings" },
+    { name: "QRCode Scanner", icon: <RiSettings3Line className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/QRCodeScanner" },
   ];
   return (
     <div className={`${parentOpen ? 'w-[300px]' : 'w-[80px] '} duration-200 bg-white shadow-sm rounded-[15px] border border-black/15 text-black/80 py-2`}>
