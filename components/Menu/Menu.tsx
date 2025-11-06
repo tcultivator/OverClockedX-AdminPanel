@@ -4,14 +4,13 @@ import { Label } from '../ui/label'
 //icons
 import { FiSidebar } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
-import { BiStoreAlt } from "react-icons/bi";
-import { BsHandbag } from "react-icons/bs";
+
 import { RxDashboard } from "react-icons/rx";
 import { RiSettings3Line } from "react-icons/ri";
 import { GoPackage } from "react-icons/go";
-import { CiShoppingCart } from "react-icons/ci";
-import { FiShoppingCart } from "react-icons/fi";
+
 import { BsMinecart } from "react-icons/bs";
+import { MdOutlineQrCodeScanner } from "react-icons/md";
 
 
 import { useState } from 'react';
@@ -35,7 +34,7 @@ const Menu = () => {
     { name: "Inventory", icon: <GoPackage className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/ProductPage" },
     { name: "Orders", icon: <BsMinecart className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/OrdersPage" },
     { name: "Settings", icon: <RiSettings3Line className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/Settings" },
-    { name: "QRCode Scanner", icon: <RiSettings3Line className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/QRCodeScanner" },
+    { name: "QRCode Scanner", icon: <MdOutlineQrCodeScanner className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/QRCodeScanner" },
   ];
   return (
     <div className={`${parentOpen ? 'w-[300px]' : 'w-[80px] '} duration-200 bg-white shadow-sm rounded-[15px] border border-black/15 text-black/80 py-2`}>

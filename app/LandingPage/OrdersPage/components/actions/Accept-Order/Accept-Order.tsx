@@ -34,7 +34,7 @@ const Accept_Order = ({ orderData }: props) => {
     const QRCodeData = useOrderStore((state) => state.QRCodeData)
     const GenerateQR = useOrderStore((state) => state.GenerateQR)
     useEffect(() => {
-        GenerateQR(orderData.order_id)
+        GenerateQR(orderData.order_id, orderData.items[0].product_id)
     })
     return (
         <AlertDialog>
@@ -235,7 +235,7 @@ const Accept_Order = ({ orderData }: props) => {
 
                 <AlertDialogFooter>
                     <AlertDialogCancel>Close</AlertDialogCancel>
-                    <Button disabled={buttonLoading || orderData.order_status != 'pending'} className='cursor-pointer' onClick={() => acceptOrder(orderData.order_id)}>{buttonLoading ? (
+                    <Button disabled={buttonLoading || orderData.order_status != 'pending'} className='cursor-pointer' onClick={() => acceptOrder(orderData.order_id,orderData.items[0].product_id)}>{buttonLoading ? (
                         <>
                             <ClipLoader size={16} color="#fff" /> Please wait...
                         </>
