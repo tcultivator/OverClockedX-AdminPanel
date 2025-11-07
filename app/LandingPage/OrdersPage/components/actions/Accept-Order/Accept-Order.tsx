@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -22,8 +22,8 @@ import { PiAddressBookTabs } from "react-icons/pi";
 import { useOrderStore } from '@/stores/ordersStore'
 import { ClipLoader } from 'react-spinners'
 import { useLoading } from '@/stores/loadingStore'
-
-
+import { useReactToPrint } from "react-to-print";
+import RecieptUI from './RecieptUI/RecieptUI'
 type props = {
     orderData: GroupedOrder
 }
@@ -33,8 +33,14 @@ const Accept_Order = ({ orderData }: props) => {
     const buttonLoading = useLoading((state) => state.buttonLoading)
     const QRCodeData = useOrderStore((state) => state.QRCodeData)
     const GenerateQR = useOrderStore((state) => state.GenerateQR)
+    const RecieptComponentRef = useRef<HTMLDivElement>(null)
     useEffect(() => {
         GenerateQR(orderData.order_id, orderData.items[0].product_id)
+    })
+
+    const PrintReciept = useReactToPrint({
+        contentRef: RecieptComponentRef,
+        documentTitle: "Receipt_1234",
     })
     return (
         <AlertDialog>
@@ -43,10 +49,12 @@ const Accept_Order = ({ orderData }: props) => {
             </AlertDialogTrigger>
             <AlertDialogContent className='w-[90vh]'>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                    <AlertDialogDescription>
+                    {orderData.order_status == 'pending' ? <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle> : <AlertDialogTitle>Please review order reciept before printing</AlertDialogTitle>}
+                    {orderData.order_status == 'pending' ? <AlertDialogDescription>
                         Once accepted, the order status will be updated and the customer will be notified.
-                    </AlertDialogDescription>
+                    </AlertDialogDescription> : <AlertDialogDescription>
+                        Once Review, you can print the reciept for preparing the order.
+                    </AlertDialogDescription>}
                 </AlertDialogHeader>
                 <>
                     {
@@ -182,69 +190,38 @@ const Accept_Order = ({ orderData }: props) => {
 
                                 </div>
                             </>
-                            :
-                            <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-gray-50 rounded-xl shadow-inner text-center">
-                                <h2 className="text-lg font-semibold text-gray-800 mb-3">
-                                    Scan this QR code once the order is ready to ship
-                                </h2>
-
-                                <p className="text-sm text-gray-500 max-w-md mb-8">
-                                    This QR code will update the order status to <strong>“On Delivery”</strong>.
-                                    Please ensure all items are prepared and packed before scanning.
-                                </p>
-
-                                <div className="bg-white p-5 rounded-xl shadow-md border border-gray-200 flex flex-col items-center justify-center">
-                                    {orderData.order_status == 'preparing' ? (
-                                        <Image
-                                            src={QRCodeData}
-                                            alt={`QR Code for Order ${orderData.order_id}`}
-                                            width={280}
-                                            height={280}
-                                            className="rounded-lg"
-                                        />
-                                    ) : (
-                                        <>
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-8 w-8 mb-2 text-green-500"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    d="M5 13l4 4L19 7"
-                                                />
-                                            </svg>
-                                            <p className="text-sm font-semibold text-green-600">
-                                                QR code scanned! Status: On Delivery
-                                            </p>
-                                        </>
-                                    )}
-                                </div>
-
-                                <p className="mt-6 text-xs text-gray-400">
-                                    Order ID: <span className="font-medium text-gray-600">{orderData.order_id}</span>
-                                </p>
+                            : <div ref={RecieptComponentRef}>
+                                <RecieptUI orderData={orderData} QRCodeData={QRCodeData} />
                             </div>
+
+
 
                     }
                 </>
-
+                {/* the accept order button should be change to print button if admin accept order and start generating the order reciept */}
                 <AlertDialogFooter>
                     <AlertDialogCancel>Close</AlertDialogCancel>
-                    <Button disabled={buttonLoading || orderData.order_status != 'pending'} className='cursor-pointer' onClick={() => acceptOrder(orderData.order_id,orderData.items[0].product_id)}>{buttonLoading ? (
-                        <>
-                            <ClipLoader size={16} color="#fff" /> Please wait...
-                        </>
-                    ) : (
-                        'Accept Order'
-                    )}</Button>
+                    {
+                        orderData.order_status == 'pending' ?
+                            <Button disabled={buttonLoading} className='cursor-pointer' onClick={() => acceptOrder(orderData.order_id, orderData.items[0].product_id)}>{buttonLoading ? (
+                                <>
+                                    <ClipLoader size={16} color="#fff" /> Please wait...
+                                </>
+                            ) : (
+                                'Accept Order'
+                            )}</Button> :
+                            <Button disabled={buttonLoading} className='cursor-pointer' onClick={() => PrintReciept()}>{buttonLoading ? (
+                                <>
+                                    <ClipLoader size={16} color="#fff" /> Please wait...
+                                </>
+                            ) : (
+                                'Print Reciept'
+                            )}</Button>
+                    }
+
                 </AlertDialogFooter>
             </AlertDialogContent>
-        </AlertDialog>
+        </AlertDialog >
     )
 }
 

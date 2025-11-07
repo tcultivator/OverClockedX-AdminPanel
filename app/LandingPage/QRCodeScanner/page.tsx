@@ -21,6 +21,7 @@ const QRCodeScanner = () => {
 
             const onScanSuccess = (decodedText: string) => {
                 const splitData = decodedText.split('=')
+                //authenticate the order id first, if has order id then do put request, then if no order id and authetication failed, display an error message
                 updateStatusToOnDelivery(splitData[1])
                 setScannedCode(decodedText)
                 setIsScanning(false); // hide scanner
