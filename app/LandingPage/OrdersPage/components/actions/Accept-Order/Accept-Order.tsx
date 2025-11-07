@@ -1,15 +1,6 @@
 "use client"
 import React, { useEffect, useRef } from 'react'
-import {
-    AlertDialog,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+import {AlertDialog,AlertDialogCancel,AlertDialogContent,AlertDialogDescription,AlertDialogFooter,AlertDialogHeader,AlertDialogTitle,AlertDialogTrigger} from "@/components/ui/alert-dialog"
 import { Button } from '@/components/ui/button'
 import { GroupedOrder } from '@/types/GroupDataType'
 import Image from 'next/image'
@@ -34,9 +25,10 @@ const Accept_Order = ({ orderData }: props) => {
     const QRCodeData = useOrderStore((state) => state.QRCodeData)
     const GenerateQR = useOrderStore((state) => state.GenerateQR)
     const RecieptComponentRef = useRef<HTMLDivElement>(null)
+
     useEffect(() => {
         GenerateQR(orderData.order_id, orderData.items[0].product_id)
-    })
+    },[])
 
     const PrintReciept = useReactToPrint({
         contentRef: RecieptComponentRef,

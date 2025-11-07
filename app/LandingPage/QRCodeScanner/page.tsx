@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import { Button } from "@/components/ui/button";
 import { socket } from '@/lib/socket-io'
-import { DotLoader } from 'react-spinners'
+import { PulseLoader } from 'react-spinners'
+import { QRCodeScannerErrorHandler } from '@/utils/ErrorHandling/QRCodeScannerErrorHandler'
 const QRCodeScanner = () => {
     const [scannedCode, setScannedCode] = useState<string | null>(null);
     const [scanner, setScanner] = useState<Html5QrcodeScanner | null>(null);
     const [isScanning, setIsScanning] = useState(false);
-    const [success, setSuccess] = useState(false)
-    const [error, setError] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [errorHandlingMessage, setErrorHandlingMessage] = useState<"success" | "error" | "notUpdated" | "invalidQR" | "default">("default")
     useEffect(() => {
         if (isScanning) {
             const newScanner = new Html5QrcodeScanner(
@@ -20,9 +20,15 @@ const QRCodeScanner = () => {
             );
 
             const onScanSuccess = (decodedText: string) => {
-                const splitData = decodedText.split('=')
-                //authenticate the order id first, if has order id then do put request, then if no order id and authetication failed, display an error message
-                updateStatusToOnDelivery(splitData[1])
+                console.log(decodedText)
+                const checkQR = decodedText.split('order_id')
+                console.log(checkQR)
+                if (checkQR.length > 1) {
+                    const splitData = decodedText.split('=')
+                    updateStatusToOnDelivery(splitData[1])
+                } else {
+                    setErrorHandlingMessage('invalidQR')
+                }
                 setScannedCode(decodedText)
                 setIsScanning(false); // hide scanner
                 newScanner.clear();   // stop the camera
@@ -55,50 +61,35 @@ const QRCodeScanner = () => {
             body: JSON.stringify({ order_id: order_id })
         })
         const update_status_on_delivery_result = await update_status_on_delivery.json()
-        if (update_status_on_delivery_result.status == 500) return
-        socket.emit('QrCodeScan', order_id)
-        setSuccess(true)
-        setError(false)
+        console.log(update_status_on_delivery_result.message)
+        setErrorHandlingMessage(update_status_on_delivery_result.message)
+        if (update_status_on_delivery_result.message == 'success') {
+            socket.emit('QrCodeScan', order_id)
+            setLoading(false)
+        }
         setLoading(false)
 
+
     }
+    const QRCodeScannerErrorHandlerComponents = QRCodeScannerErrorHandler[errorHandlingMessage] ?? QRCodeScannerErrorHandler.default
+
+
 
     return (
         <div className="flex flex-col items-center justify-center p-4 items-center w-full gal-2">
             {!isScanning && (
-                <>
-                    {loading && (
-                        <div className="flex flex-col items-center animate-fadeIn">
-                            <DotLoader speedMultiplier={2} color="#1E3A8A" />
+                <div className="bg-white p-2 rounded-[15px] flex flex-col gap-2 shadow-md w-[400px]">
+                    {loading ? (
+                        <div className="flex flex-col items-center animate-fadeIn p-4   ">
+                            <PulseLoader speedMultiplier={2} color="#fa8eb2" />
                             <p className="mt-6 text-gray-600 text-base font-medium">
                                 Updating order status...
                             </p>
                         </div>
-                    )}
-                    {!loading && success && (
-                        <div className="p-8 text-center max-w-sm w-full animate-fadeIn">
-                            <div className="flex justify-center mb-4">
-                                <div className="bg-green-100 p-4 rounded-full">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-10 w-10 text-green-600"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <h1 className="text-2xl font-semibold text-green-700 mb-2">
-                                Order Updated!
-                            </h1>
-                            <p className="text-gray-600 mb-6">
-                                The order status has been successfully changed to <strong>On Delivery</strong>.
-                            </p>
+                    ) :
+                        <QRCodeScannerErrorHandlerComponents />
+                    }
 
-                        </div>
-                    )}
 
                     <Button
                         onClick={StartScan}
@@ -106,7 +97,7 @@ const QRCodeScanner = () => {
                     >
                         {scannedCode ? "Scan Again" : "Start Scanning"}
                     </Button>
-                </>
+                </div>
             )}
 
             {/* Only show scanner when active */}
