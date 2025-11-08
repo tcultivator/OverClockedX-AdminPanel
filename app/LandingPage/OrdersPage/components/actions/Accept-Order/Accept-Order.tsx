@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useRef } from 'react'
-import {AlertDialog,AlertDialogCancel,AlertDialogContent,AlertDialogDescription,AlertDialogFooter,AlertDialogHeader,AlertDialogTitle,AlertDialogTrigger} from "@/components/ui/alert-dialog"
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Button } from '@/components/ui/button'
 import { GroupedOrder } from '@/types/GroupDataType'
 import Image from 'next/image'
@@ -15,6 +15,10 @@ import { ClipLoader } from 'react-spinners'
 import { useLoading } from '@/stores/loadingStore'
 import { useReactToPrint } from "react-to-print";
 import RecieptUI from './RecieptUI/RecieptUI'
+
+import {
+    DropdownMenuItem,
+} from "@/components/ui/dropdown-menu"
 type props = {
     orderData: GroupedOrder
 }
@@ -28,7 +32,7 @@ const Accept_Order = ({ orderData }: props) => {
 
     useEffect(() => {
         GenerateQR(orderData.order_id, orderData.items[0].product_id)
-    },[])
+    }, [])
 
     const PrintReciept = useReactToPrint({
         contentRef: RecieptComponentRef,
@@ -191,8 +195,12 @@ const Accept_Order = ({ orderData }: props) => {
                     }
                 </>
                 {/* the accept order button should be change to print button if admin accept order and start generating the order reciept */}
-                <AlertDialogFooter>
-                    <AlertDialogCancel>Close</AlertDialogCancel>
+                <AlertDialogFooter className='flex items-center'>
+
+                    <DropdownMenuItem>
+                        <AlertDialogCancel>Close</AlertDialogCancel>
+                    </DropdownMenuItem>
+
                     {
                         orderData.order_status == 'pending' ?
                             <Button disabled={buttonLoading} className='cursor-pointer' onClick={() => acceptOrder(orderData.order_id, orderData.items[0].product_id)}>{buttonLoading ? (

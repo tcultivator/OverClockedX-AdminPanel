@@ -17,6 +17,7 @@ import { BsArrowUpSquareFill } from "react-icons/bs";
 import OrderListHeader from './components/header/OrderListHeader';
 import { socket } from '@/lib/socket-io'
 import { GroupOrdersData } from '@/utils/GroupOrderData';
+import Decline_Order from '../actions/Decline-Order/Decline-Order';
 const Order_list = () => {
     const orders_data = useOrderStore((state) => state.orders_data)
     const setOrders_data = useOrderStore((state) => state.setOrders_data)
@@ -172,7 +173,7 @@ const Order_list = () => {
                                                         <Label className={`${recentOrderStatus[group.order_status]}font-thin`}>{group.order_status}</Label>
                                                     </div>
                                                     <div className='w-[7%] flex items-center justify-start'>
-                                                        <DropdownMenu>
+                                                        <DropdownMenu >
                                                             <DropdownMenuTrigger asChild>
                                                                 <Button variant="ghost" className="h-8 w-[4%] p-0 cursor-pointer">
                                                                     <span className="sr-only">Open menu</span>
@@ -180,19 +181,15 @@ const Order_list = () => {
                                                                 </Button>
                                                             </DropdownMenuTrigger>
                                                             <DropdownMenuContent className="sm:max-w-[425px]" align="end">
-                                                                <DropdownMenuLabel>Order Action</DropdownMenuLabel>
+                                                                <DropdownMenuLabel className='border-b text-[12px]'>Order Action</DropdownMenuLabel>
                                                                 <DropdownMenuGroup>
                                                                     <View_Order_Details orderData={group} />
                                                                     <Accept_Order orderData={group} />
-                                                                    <DropdownMenuItem>
-                                                                        Decline Order
-                                                                    </DropdownMenuItem>
+                                                                    <Decline_Order order_id={group.order_id} />
                                                                 </DropdownMenuGroup>
                                                             </DropdownMenuContent>
                                                         </DropdownMenu>
                                                     </div>
-
-
                                                 </div>
                                             ))}
                                         </div>
