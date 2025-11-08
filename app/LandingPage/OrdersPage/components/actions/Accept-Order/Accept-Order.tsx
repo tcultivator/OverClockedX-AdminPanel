@@ -54,7 +54,7 @@ const Accept_Order = ({ orderData }: props) => {
                 </AlertDialogHeader>
                 <>
                     {
-                        orderData.order_status == 'pending' ?
+                        orderData.order_status == 'pending' || orderData.order_status == 'cancel' ?
                             <>
                                 <div className='flex flex-col'>
                                     <Label className='text-md'>Order Id:{orderData.order_id}</Label>
@@ -202,8 +202,8 @@ const Accept_Order = ({ orderData }: props) => {
                     </DropdownMenuItem>
 
                     {
-                        orderData.order_status == 'pending' ?
-                            <Button disabled={buttonLoading} className='cursor-pointer' onClick={() => acceptOrder(orderData.order_id, orderData.items[0].product_id)}>{buttonLoading ? (
+                        orderData.order_status == 'pending' || orderData.order_status == 'cancel' ?
+                            <Button disabled={buttonLoading || orderData.order_status == 'cancel'} className='cursor-pointer' onClick={() => acceptOrder(orderData.order_id, orderData.items[0].product_id)}>{buttonLoading ? (
                                 <>
                                     <ClipLoader size={16} color="#fff" /> Please wait...
                                 </>
