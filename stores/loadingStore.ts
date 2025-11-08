@@ -14,6 +14,8 @@ type loading = {
     setActionLoadingState: ({ display, loadingMessage }: loadingTypes) => void,
     buttonLoading: boolean,
     setButtonLoading: (value: boolean) => void,
+    searchLoading: boolean,
+    setSearchLoading: (value: boolean) => void,
 }
 export const useLoading = create<loading>((set) => ({
     loading: false,
@@ -33,6 +35,12 @@ export const useLoading = create<loading>((set) => ({
     setButtonLoading: (value: boolean) => {
         set({
             buttonLoading: value
+        })
+    },
+    searchLoading: false,
+    setSearchLoading: (value: boolean) => {
+        set({
+            searchLoading: value
         })
     }
 }))

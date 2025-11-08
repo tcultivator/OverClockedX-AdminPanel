@@ -15,41 +15,34 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { IoFilterOutline } from "react-icons/io5";
 import { FaTimesCircle } from "react-icons/fa";
+import { useLoading } from '@/stores/loadingStore';
 
 const OrderListHeader = () => {
     const [searchInput, setSearchInput] = useState('')
-    const setOrders_data = useOrderStore((state) => state.setOrders_data)
-    const [tempOrdersData, setTempOrdersData] = useState<GroupedOrder[]>([])
-    const orders_data = useOrderStore((state) => state.orders_data)
-    const [loading, setLoading] = useState(false)
+    const searchLoading = useLoading((state) => state.searchLoading)
     const searchParams = useSearchParams();
-    const Submit_Search = async () => {
-        console.log(searchInput)
+    const Submit_Search = () => {
         if (searchInput == '') return
-        setLoading(true)
+        const params = new URLSearchParams(window.location.search);
 
-        const searchRequest = await fetch('/api/OrdersPage/Search', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({ searchInput: searchInput })
-        })
-        const searchRequest_result = await searchRequest.json()
-        if (searchRequest_result.status == 500) return
-        if (tempOrdersData.length == 0) {
-            setTempOrdersData(orders_data)
-        }
-        setOrders_data(GroupOrdersData(searchRequest_result))// this is the reusable function that turn raw data to group data
-        setLoading(false)
-        ClearAllFilter()
+        // Clear filters
+        params.delete('paymentMethod');
+        params.delete('paymentStatus');
+        params.delete('orderStatus');
+        setPaymentMethodFilter('')
+        setPaymentStatusFilter('')
+        setOrderStatusFilter('')
+        params.set('searchOrder', searchInput.toString());
+        window.history.pushState({}, '', `?${params.toString()}`);
 
     }
 
+
     const clearSearch = () => {
         setSearchInput('')
-        setOrders_data(tempOrdersData)
-        setTempOrdersData([])
+        const params = new URLSearchParams(window.location.search);
+        params.delete('searchOrder');
+        window.history.pushState({}, '', `?${params.toString()}`);
     }
 
 
@@ -58,13 +51,13 @@ const OrderListHeader = () => {
     const AddPaymentMethodFilter = (value: string) => {
         clearSearch()
         setPaymentMethodFilter(value)
-        const params = new URLSearchParams(searchParams.toString());
+        const params = new URLSearchParams(window.location.search);
         params.set('paymentMethod', value.toString());
         window.history.pushState({}, '', `?${params.toString()}`);
 
     }
     const ClearAddPaymentMethodFilter = () => {
-        const params = new URLSearchParams(searchParams.toString());
+        const params = new URLSearchParams(window.location.search);
         params.delete('paymentMethod');
         setPaymentMethodFilter('')
         window.history.pushState({}, '', `?${params.toString()}`);
@@ -77,13 +70,13 @@ const OrderListHeader = () => {
     const AddPaymentStatusFilter = (value: string) => {
         clearSearch()
         setPaymentStatusFilter(value)
-        const params = new URLSearchParams(searchParams.toString());
+        const params = new URLSearchParams(window.location.search);
         params.set('paymentStatus', value.toString());
         window.history.pushState({}, '', `?${params.toString()}`);
 
     }
     const ClearAddPaymentStatusFilter = () => {
-        const params = new URLSearchParams(searchParams.toString());
+        const params = new URLSearchParams(window.location.search);
         params.delete('paymentStatus');
         setPaymentStatusFilter('')
         window.history.pushState({}, '', `?${params.toString()}`);
@@ -98,27 +91,14 @@ const OrderListHeader = () => {
     const AddOrderStatusFilter = (value: string) => {
         clearSearch()
         setOrderStatusFilter(value)
-        const params = new URLSearchParams(searchParams.toString());
+        const params = new URLSearchParams(window.location.search);
         params.set('orderStatus', value.toString());
         window.history.pushState({}, '', `?${params.toString()}`);
 
     }
     const ClearAddOrderStatusFilter = () => {
-        const params = new URLSearchParams(searchParams.toString());
+        const params = new URLSearchParams(window.location.search);
         params.delete('orderStatus');
-        setOrderStatusFilter('')
-        window.history.pushState({}, '', `?${params.toString()}`);
-    }
-
-
-    //clear all filter
-    const ClearAllFilter = () => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete('paymentMethod');
-        params.delete('paymentStatus');
-        params.delete('orderStatus');
-        setPaymentMethodFilter('')
-        setPaymentStatusFilter('')
         setOrderStatusFilter('')
         window.history.pushState({}, '', `?${params.toString()}`);
     }
@@ -199,10 +179,10 @@ const OrderListHeader = () => {
             </div>
             <div className='flex items-center gap-2'>
                 {
-                    loading ? <Label className='text-black/50 flex items-center'><ClipLoader size={15} color='black/50' />Searching...</Label> :
-                        tempOrdersData.length > 0 && < Button onClick={clearSearch} className='text-black/50 focus:bg-transparent cursor-pointer' variant={'outline'}><IoCloseCircleSharp className='text-red-400' />clear search</Button>}
+                    searchLoading ? <Label className='text-black/50 flex items-center'><ClipLoader size={15} color='black/50' />Searching...</Label> :
+                        searchParams.get('searchOrder') && < Button onClick={clearSearch} className='text-black/50 focus:bg-transparent cursor-pointer' variant={'outline'}><IoCloseCircleSharp className='text-red-400' />clear search</Button>}
                 <Input value={searchInput || ''} type='text' placeholder='Reference_id/Email' onChange={(e) => setSearchInput(e.target.value)} className='w-[350px] p-5' />
-                <Button disabled={loading} onClick={Submit_Search} variant={'default'} className='cursor-pointer h-[40px] w-[40px] p-0'>{loading ? <ClipLoader size={15} color='white' /> : <CiSearch />}</Button>
+                <Button disabled={searchLoading} onClick={Submit_Search} variant={'default'} className='cursor-pointer h-[40px] w-[40px] p-0'>{searchLoading ? <ClipLoader size={15} color='white' /> : <CiSearch />}</Button>
             </div>
         </div >
     )

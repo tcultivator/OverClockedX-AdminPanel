@@ -30,9 +30,11 @@ export async function GET(req: NextRequest) {
         const paymentMethod = req.nextUrl.searchParams.get("paymentMethod")
         const paymentStatus = req.nextUrl.searchParams.get("paymentStatus")
         const orderStatus = req.nextUrl.searchParams.get("orderStatus")
+        const searchOrder = req.nextUrl.searchParams.get("searchOrder")
         const finalPaymentMethod = paymentMethod != null ? ` AND orders.payment_method = '${paymentMethod}'` : ' '
         const finalPaymentStatus = paymentStatus != null ? ` AND orders.payment_status = '${paymentStatus}'` : ' '
         const finalOrderStatus = orderStatus != null ? ` AND orders.order_status = '${orderStatus}'` : ' '
+        const finalsearchOrder = searchOrder != null ? ` AND orders.reference_id = '${searchOrder}' OR orders.email = '${searchOrder}'` : ' '
         const query = `SELECT orders.id AS order_id, 
         orders.email, 
         orders.total_amount, 
@@ -58,7 +60,7 @@ export async function GET(req: NextRequest) {
         FROM orders JOIN order_items ON order_items.order_id = orders.id 
         JOIN products ON order_items.product_id = products.product_id 
         JOIN accounts ON orders.email = accounts.email 
-        JOIN customer_address ON orders.id = customer_address.order_id WHERE orders.id != 0 ${finalPaymentMethod} ${finalPaymentStatus} ${finalOrderStatus}
+        JOIN customer_address ON orders.id = customer_address.order_id WHERE orders.id != 0 ${finalPaymentMethod} ${finalPaymentStatus} ${finalOrderStatus} ${finalsearchOrder}
 `
         const [rows] = await db.query(query)
         const recent_orders = rows as Recent_Orders[]
