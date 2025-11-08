@@ -18,17 +18,27 @@ import OrderListHeader from './components/header/OrderListHeader';
 import { socket } from '@/lib/socket-io'
 import { GroupOrdersData } from '@/utils/GroupOrderData';
 import Decline_Order from '../actions/Decline-Order/Decline-Order';
+import { useSearchParams } from 'next/navigation';
 const Order_list = () => {
     const orders_data = useOrderStore((state) => state.orders_data)
     const setOrders_data = useOrderStore((state) => state.setOrders_data)
     const [expandedGroups, setExpandedGroups] = useState<Record<number, boolean>>({})
     const [loading, setLoading] = useState(true)
     const updateStatusOnDelivery = useOrderStore((state) => state.updateStatusOnDelivery)
+    const searchParams = useSearchParams();
 
     useEffect(() => {
         const fetchRecentOrders = async () => {
+            const query = new URLSearchParams();
+            const paymentMethod = searchParams.get('paymentMethod')
+            const paymentStatus = searchParams.get('paymentStatus')
+            const orderStatus = searchParams.get('orderStatus')
+            if (paymentMethod) query.append('paymentMethod', paymentMethod);
+            if (paymentStatus) query.append('paymentStatus', paymentStatus);
+            if (orderStatus) query.append('orderStatus', orderStatus);
+            setLoading(true)
             try {
-                const res = await fetch("/api/OrdersPage/Orders-list")
+                const res = await fetch(`/api/OrdersPage/Orders-list?${query.toString()}`)
                 const result = await res.json()
 
                 if (result.status === 500) {
@@ -44,7 +54,7 @@ const Order_list = () => {
         }
 
         fetchRecentOrders()
-    }, [])
+    }, [searchParams])
 
 
 
