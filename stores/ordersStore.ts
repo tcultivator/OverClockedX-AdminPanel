@@ -103,5 +103,6 @@ export const useOrderStore = create<orders>((set) => ({
             type: declineOrderCall_result.type,
             message: declineOrderCall_result.message
         }
-    }
+    },
+    
 }))
