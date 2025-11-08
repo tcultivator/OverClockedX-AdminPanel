@@ -2,6 +2,10 @@ import { create } from 'zustand'
 import { GroupedOrder } from '@/types/GroupDataType';
 import { useLoading } from './loadingStore';
 import QRCode from "qrcode";
+type DeclineOrderReturnValue = {
+    type: "success" | "error" | "default" | "warning";
+    message: string
+}
 type orders = {
     orders_data: GroupedOrder[],
     setOrders_data: (value: GroupedOrder[]) => void,
@@ -9,6 +13,8 @@ type orders = {
     QRCodeData: string,
     GenerateQR: (value: number, pid: string) => void,
     updateStatusOnDelivery: (value: string) => void,
+    declineOrder: (value: number) => Promise<DeclineOrderReturnValue>,
+
 }
 export const useOrderStore = create<orders>((set) => ({
     orders_data: [],
@@ -65,5 +71,37 @@ export const useOrderStore = create<orders>((set) => ({
         set({
             orders_data: final_order_data
         })
+    },
+    declineOrder: async (value: number) => {
+        const current_order_data = useOrderStore.getState().orders_data
+        useLoading.getState().setButtonLoading(true)
+        const declineOrderCall = await fetch('/api/OrdersPage/Decline-Order', {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ order_id: value })
+        })
+        const declineOrderCall_result = await declineOrderCall.json()
+        if (declineOrderCall_result.type == 'success') {
+            const final_order_data = current_order_data.map(item => {
+                if (item.order_id === value) {
+                    return {
+                        ...item, order_status: 'cancel' as const
+                    }
+                }
+                return item
+            })
+
+            set({
+                orders_data: final_order_data,
+            })
+        }
+        useLoading.getState().setButtonLoading(false)
+
+        return {
+            type: declineOrderCall_result.type,
+            message: declineOrderCall_result.message
+        }
     }
 }))

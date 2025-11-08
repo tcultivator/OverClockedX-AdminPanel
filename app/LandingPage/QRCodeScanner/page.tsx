@@ -20,9 +20,7 @@ const QRCodeScanner = () => {
             );
 
             const onScanSuccess = (decodedText: string) => {
-                console.log(decodedText)
                 const checkQR = decodedText.split('order_id')
-                console.log(checkQR)
                 if (checkQR.length > 1) {
                     const splitData = decodedText.split('=')
                     updateStatusToOnDelivery(splitData[1])
@@ -34,9 +32,8 @@ const QRCodeScanner = () => {
                 newScanner.clear();   // stop the camera
             };
 
-            const onScanFailure = () => { }; // silence errors
+            const onScanFailure = () => { }; 
             newScanner.render(onScanSuccess, onScanFailure);
-
             setScanner(newScanner);
 
             // cleanup

@@ -19,7 +19,9 @@ import { MdOutlineLocalPhone } from "react-icons/md";
 import { FaRegFlag } from "react-icons/fa";
 import { PiAddressBookTabs } from "react-icons/pi";
 import { useOrderStore } from '@/stores/ordersStore'
-
+import {
+    DropdownMenuItem,
+} from "@/components/ui/dropdown-menu"
 
 
 type props = {
@@ -29,8 +31,8 @@ type props = {
 const View_Order_Details = ({ orderData }: props) => {
     const GenerateQR = useOrderStore((state) => state.GenerateQR)
     useEffect(() => {
-        GenerateQR(orderData.order_id)
-    })
+        GenerateQR(orderData.order_id, orderData.items[0].product_id)
+    }, [])
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -173,9 +175,10 @@ const View_Order_Details = ({ orderData }: props) => {
 
                     </div>
                 </>
-
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Close</AlertDialogCancel>
+                    <DropdownMenuItem>
+                        <AlertDialogCancel>Close</AlertDialogCancel>
+                    </DropdownMenuItem>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
