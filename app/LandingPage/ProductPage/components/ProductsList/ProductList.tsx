@@ -35,6 +35,8 @@ const ProductList = async () => {
 
     //get all notification data
 
+
+    //i should add socket io to this so its realtime
     const notif = await db.query('SELECT * FROM notification ORDER by id DESC')
     const notificationData = notif[0] as NotificationType[]
     return (

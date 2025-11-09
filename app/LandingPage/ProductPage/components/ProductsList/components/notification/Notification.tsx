@@ -7,16 +7,7 @@ import { NotificationType } from '@/types/NotificationType';
 import { useState, useEffect, useRef } from 'react';
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Image from 'next/image';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { SlOptions } from "react-icons/sl";
-
+import { MdCircle } from "react-icons/md";
 import { useNotificationStore } from '@/stores/notificationStore';
 import { ActionInNotification } from '@/utils/ActionInNotificationClass';
 type Props = {
@@ -28,6 +19,8 @@ const Notification = ({ notificationData }: Props) => {
     const setNotificationData = useNotificationStore((state) => state.setNotificationData)
     const markAsRead = useNotificationStore((state) => state.markAsRead)
     const delete_notification = useNotificationStore((state) => state.delete_notification)
+    const delete_all_notification = useNotificationStore((state) => state.delete_all_notification)
+    const mark_all_read = useNotificationStore((state) => state.mark_all_read)
     useEffect(() => {
         setNotificationData(notificationData)
     }, [])
@@ -61,46 +54,42 @@ const Notification = ({ notificationData }: Props) => {
                 <Label className='absolute top-[-5px] right-[-5px] bg-primary text-white rounded px-1 aspect-square w-max text-[10px]'>{notificationDataStore.length}</Label>
             </div>
 
-            <div ref={dropdownRef} className={`bg-white border border-black/15 shadow-2xl rounded w-[500px] h-[50vh] absolute z-40 right-42 mt-1 ${display ? 'block' : 'hidden'}`}>
-                <ScrollArea className='h-[50vh]'>
-                    <div className='sticky flex items-center text-black/75 p-1 border-b border-black/15'>
-                        <Label className='w-[50%]'>Products</Label>
-                        <Label className='w-[25%]'>Action</Label>
-                        <Label className='w-[15%]'>Date</Label>
-                        <Label className='w-[10%]'>Menu</Label>
+            <div ref={dropdownRef} className={`bg-white  border border-black/15 shadow-2xl rounded-[15px] w-[500px] max-h-[50vh] absolute z-40 right-42 mt-1 ${display ? 'block' : 'hidden'}`}>
+                <div className='w-full flex items-center justify-between p-2 border-b border-black/15 px-4'>
+                    <Label>Notifications</Label>
+                    <div className='flex items-center gap-1'>
+                        <Button onClick={mark_all_read} className='text-[12px] w-[100px] p-0' variant={'outline'}>Read All</Button>
+                        <Button onClick={delete_all_notification} className='text-[12px] w-[100px] p-0' variant={'outline'}>Delete All</Button>
                     </div>
-                    <div className='p-1 flex flex-col gap-1'>
+                </div>
+                <ScrollArea className='max-h-[44vh]'>
+                    <div className='flex flex-col '>
                         {notificationDataStore.length > 0 ?
                             notificationDataStore.map((data, index) => (
-                                <div key={index} className={`flex items-center border border-black/15 rounded shadow-xl p-2 ${data.isRead ? 'bg-white' : 'bg-primary/20'}`}>
-                                    <div className='flex gap-1 w-[50%]'>
-                                        <Image src={data.product_image} alt='' width={200} height={200} className='w-[40px]' />
-                                        <Label className='text-[12px]'>{data.product_name}</Label>
-                                    </div>
-                                    <div className='w-[25%]'>
-                                        <Label className={ActionInNotification[data.action]}>{data.action}</Label>
-                                    </div>
+                                <div key={index} className={`flex items-center  rounded border-b border-black/15 p-5 bg-white`}>
+                                    <div className='flex flex-col gap-1 w-full'>
+                                        <div className='flex items-center justify-between w-full'>
+                                            <div className='flex items-center gap-1'>
+                                                <Label className={ActionInNotification[data.action]}>{data.action}</Label>
+                                                <Label className='text-[12px] text-black/50'>{new Date(data.created_at).toLocaleDateString('en-GB')}</Label>
+                                            </div>
+                                            {!data.isRead ? <MdCircle className='text-green-400 text-[12px]' /> : <Label className='text-[12px] text-black/50'>Read</Label>}
+                                        </div>
 
-                                    <Label className='font-thin w-[15%] text-[12px]'>{new Date(data.created_at).toLocaleDateString('en-GB')}</Label>
-                                    <div className='w-[10%] flex items-center gap-1 '>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" className="h-8 w-8 p-0">
-                                                    <span className="sr-only">Open menu</span>
-                                                    <SlOptions className='font-thin text-black/70' />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end">
-                                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                <DropdownMenuSeparator />
-                                                <DropdownMenuItem onClick={() => markAsRead(data.notif_id)}>Mark as read</DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => delete_notification(data.notif_id)}>delete</DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+                                        <div className='flex gap-2 justify-start items-start'>
+                                            <Image src={data.product_image} alt='' width={200} height={200} className='w-[80px] p-1 rounded shadow-md' />
+                                            <div className='flex flex-col gap-2'>
+                                                <Label className='text-[14px]'>{data.product_name}</Label>
+                                                <div className='flex items-center gap-2 w-full'>
+                                                    <Button variant={'outline'} className='text-[12px] w-[120px] p-0' onClick={() => markAsRead(data.notif_id)}>Mark as read</Button>
+                                                    <Button variant={'outline'} className='text-[12px] w-[120px] p-0' onClick={() => delete_notification(data.notif_id)}>Delete</Button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             )) :
-                            <div className='flex justify-center items-center p-1 text-black/50'>
+                            <div className='flex justify-center items-center p-1 text-black/50 p-3'>
                                 <Label>No Notifications</Label>
                             </div>
 

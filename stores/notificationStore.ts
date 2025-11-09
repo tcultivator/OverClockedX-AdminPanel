@@ -8,6 +8,8 @@ type NotificationStoreType = {
     addNotification: ({ product_id, product_name, product_image, action, isRead, created_at }: NotificationType) => void,
     markAsRead: (value: string) => void,
     delete_notification: (value: string) => void,
+    delete_all_notification: () => void,
+    mark_all_read: () => void,
 }
 export const useNotificationStore = create<NotificationStoreType>((set) => ({
     notificationDataStore: [],
@@ -116,6 +118,53 @@ export const useNotificationStore = create<NotificationStoreType>((set) => ({
 
         } catch (err) {
             console.log('error deleting notification')
+        }
+    },
+    delete_all_notification: async () => {
+        try {
+            const delete_all_notification_request = await fetch('/api/Notification/delete-all-notification', {
+                method: 'DELETE',
+            })
+            const delete_all_notification_request_result = await delete_all_notification_request.json()
+            if (delete_all_notification_request_result.status == 500) return
+            set({
+                notificationDataStore: []
+            })
+        } catch (err) {
+            console.log('error deleting all notification')
+        }
+
+    },
+    mark_all_read: async () => {
+        try {
+            const currentNotificationData = useNotificationStore.getState().notificationDataStore
+            const updated_notification = []
+
+            const read_all_notification = await fetch('/api/Notification/read-all-notification', {
+                method: 'PUT',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+            })
+            const read_all_notification_result = await read_all_notification.json()
+            if (read_all_notification_result.status == 500) return
+            for (const item of currentNotificationData) {
+                updated_notification.push({
+                    notif_id: item.notif_id,
+                    product_id: item.product_id,
+                    product_name: item.product_name,
+                    product_image: item.product_image,
+                    action: item.action,
+                    isRead: true,
+                    created_at: item.created_at
+                })
+            }
+            set({
+                notificationDataStore: updated_notification
+            })
+
+        } catch (err) {
+            console.log('error mark all read notification')
         }
     }
 }))
