@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
 import { recentOrderStatus } from '@/utils/AlertNotificationClass'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Button } from '@/components/ui/button'
 import { SlOptions } from "react-icons/sl";
 import { useOrderStore } from '@/stores/ordersStore';
@@ -230,7 +230,7 @@ const Order_list = () => {
                             })}
                         </ScrollArea > :
                         <div className="flex items-center justify-center h-full text-gray-400">
-                            No Recent Orders Found
+                            No Orders Found
                         </div>
                 )
 

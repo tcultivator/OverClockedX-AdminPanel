@@ -5,9 +5,6 @@ import { Input } from '@/components/ui/input'
 import { CiSearch } from "react-icons/ci";
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import { useOrderStore } from '@/stores/ordersStore';
-import { GroupOrdersData } from '@/utils/GroupOrderData';
-import { GroupedOrder } from '@/types/GroupDataType';
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { ClipLoader } from 'react-spinners';
 import { useSearchParams } from 'next/navigation';
