@@ -20,6 +20,7 @@ const QRCodeScanner = () => {
             );
 
             const onScanSuccess = (decodedText: string) => {
+                console.log(decodedText)
                 const checkQR = decodedText.split('order_id')
                 if (checkQR.length > 1) {
                     const splitData = decodedText.split('=')
