@@ -187,10 +187,10 @@ const Order_list = () => {
                                                         <Label className='font-thin'>{item.quantity}</Label>
                                                     </div>
                                                     <div className='w-[9%] flex items-center justify-start'>
-                                                        <Label className={`${recentOrderStatus[group.payment_status]}font-thin`}>{group.payment_status}</Label>
+                                                        <Label className={`${recentOrderStatus[group.payment_status]}`}>{group.payment_status}</Label>
                                                     </div>
                                                     <div className='w-[9%] flex items-center justify-start '>
-                                                        <Label className={`${recentOrderStatus[group.order_status]}font-thin`}>{group.order_status}</Label>
+                                                        <Label className={`${recentOrderStatus[group.order_status]}`}>{group.order_status}</Label>
                                                     </div>
                                                     <div className='w-[7%] flex items-center justify-start'>
                                                         <DropdownMenu >
