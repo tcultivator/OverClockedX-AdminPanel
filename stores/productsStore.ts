@@ -7,7 +7,7 @@ type productStore = {
     productsData: ProductsType[],
     storeProductsData: (value: ProductsType[]) => void,
     removeProduct: (value: string) => void,
-    editStocks: (pId: string, newStocks: number) => void,
+    editStocks: (pId: string, newStocks: number, oldStocks: number) => void,
     updateProductsDetails: (value: ProductsType) => void,
     addProductsToDatabase: (value: ProductsTypes) => void,
 
@@ -91,7 +91,7 @@ export const useProductsStore = create<productStore>((set) => ({
         }
 
     },
-    editStocks: async (pId: string, newStocks: number) => {
+    editStocks: async (pId: string, newStocks: number, oldStocks: number) => {
         const currentProducts = useProductsStore.getState().productsData
         const finalProducts = []
         //getting the system date, need this for setting notification, it needs current datetime
@@ -107,7 +107,7 @@ export const useProductsStore = create<productStore>((set) => ({
                 headers: {
                     'Content-type': 'application/json'
                 },
-                body: JSON.stringify({ product_id: pId, stocks: newStocks })
+                body: JSON.stringify({ product_id: pId, stocks: newStocks, addedStocks: newStocks - oldStocks })
             })
             const response = await updateStocks.json()
             if (response.status != 500) {
@@ -131,7 +131,7 @@ export const useProductsStore = create<productStore>((set) => ({
                         //this add notification on notification store
                         const notif_id = RandomString();
                         useNotificationStore.getState().addNotification({
-                            notif_id:notif_id,
+                            notif_id: notif_id,
                             product_id: item.product_id,
                             product_name: item.product_name,
                             product_image: item.product_image,
@@ -202,7 +202,7 @@ export const useProductsStore = create<productStore>((set) => ({
                         //adding notification
                         const notif_id = RandomString();
                         useNotificationStore.getState().addNotification({
-                            notif_id:notif_id,
+                            notif_id: notif_id,
                             product_id: item.product_id,
                             product_name: item.product_name,
                             product_image: item.product_image,
@@ -263,7 +263,7 @@ export const useProductsStore = create<productStore>((set) => ({
             //adding notification
             const notif_id = RandomString();
             useNotificationStore.getState().addNotification({
-                notif_id:notif_id,
+                notif_id: notif_id,
                 product_id: finalProductsToInsert.product_id,
                 product_name: finalProductsToInsert.product_name,
                 product_image: finalProductsToInsert.product_image,

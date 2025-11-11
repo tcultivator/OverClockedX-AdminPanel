@@ -90,21 +90,21 @@ const ProductCardLayout = ({ data }: Props) => {
 
             </div>
             <div className='w-[12%] flex items-center gap-1'>
-                <RiStackLine className='text-[12px]'/>
+                <RiStackLine className='text-[12px]' />
                 <Label className='font-thin'>{data.stocks}</Label>
             </div>
             <div className='w-[10%]'>
                 <Label className='font-thin'>{data.sales_count} sold</Label>
             </div>
             <div className='w-[8%] flex items-center gap-1'>
-                <CiCalendarDate className='text[12px]'/>
+                <CiCalendarDate className='text[12px]' />
                 <Label className='font-thin'>{new Date(data.created_at).toLocaleDateString('en-GB')}</Label>
             </div>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-[4%] p-0 cursor-pointer">
                         <span className="sr-only">Open menu</span>
-                        <SlOptions className='font-thin text-black/70'/>
+                        <SlOptions className='font-thin text-black/70' />
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -164,7 +164,7 @@ const ProductCardLayout = ({ data }: Props) => {
                                     </DialogClose>
                                     <DropdownMenuItem className='p-0'>
                                         <Button type="button" onClick={() => {
-                                            editStocks(data.product_id, currentStocks)
+                                            editStocks(data.product_id, currentStocks, data.stocks)
                                         }}>Save changes</Button>
                                     </DropdownMenuItem>
 
