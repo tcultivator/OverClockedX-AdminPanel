@@ -27,8 +27,6 @@ const ProductList = async () => {
     const limit = 11
     const totalPages = Math.ceil(Number(totalCount[0].total) / limit);
 
-    const [rows] = await db.query(`SELECT * FROM products LIMIT ${limit} OFFSET 0`)
-    const products = rows as ProductsType[];
     //get total count of deleted products
     const totalCountOfDeletedProducts = await db.query('SELECT COUNT(*) AS total FROM deleted_products')
     const totalCountDeleted = totalCountOfDeletedProducts[0] as Count[]
@@ -77,7 +75,7 @@ const ProductList = async () => {
                     </div>
                 </div>
             </div>
-            <ProductsCard products={products}
+            <ProductsCard
                 totalPages={totalPages}
             />
 

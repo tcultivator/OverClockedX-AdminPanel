@@ -11,7 +11,6 @@ import { Skeleton } from '@/components/ui/skeleton'
 import ProductCardLayout from './productCardComponents/ProductCardLayout'
 import { SortButton } from './sortByButtonComponents/SortButton'
 type Props = {
-    products: ProductsType[]
     totalPages: number
 }
 
@@ -34,7 +33,7 @@ type SortField = 'price' | 'stocks' | 'sales_count' | 'created_at'
 type SortDirection = 'ASC' | 'DESC'
 import { useSearchParams } from 'next/navigation'
 import { usePaginationStore } from '@/stores/paginationPageStore'
-const ProductsCard = ({ products, totalPages }: Props) => {
+const ProductsCard = ({ totalPages }: Props) => {
     const productsData = useProductsStore((state) => state.productsData)
     const storeProductsData = useProductsStore((state) => state.storeProductsData)
     const searchParams = useSearchParams();
@@ -47,7 +46,6 @@ const ProductsCard = ({ products, totalPages }: Props) => {
     const currentPage = usePaginationStore((state) => state.currentPage)
     const setCurrentPage = usePaginationStore((state) => state.setCurrentPage)
     useEffect(() => {
-        storeProductsData(products)
         setTotalPage({ totalPage: totalPages, currentPage: currentPage })
     }, [])
 
@@ -117,32 +115,29 @@ const ProductsCard = ({ products, totalPages }: Props) => {
 
     //select category filter
     useEffect(() => {
-        if (category !== '') {
-            console.log(type)
-            console.log(category)
-            const getCategoryFilter = async () => {
-                setLoading(true)
-                const getProductsByPage = await fetch(`/api/productListPagination?page=${currentPage}${orderBy}&category=${category}&type=${type}`, {
-                    method: 'GET'
-                })
-                const response = await getProductsByPage.json()
+        console.log(type)
+        console.log(category)
+        const getCategoryFilter = async () => {
+            setLoading(true)
+            const getProductsByPage = await fetch(`/api/productListPagination?page=${currentPage}${orderBy}&category=${category}&type=${type}`, {
+                method: 'GET'
+            })
+            const response = await getProductsByPage.json()
 
-                storeProductsData(response.result)
-                setCurrentPage(response.currentPages || 1)
-                setSelectedCategory(`&category=${category}&type=${type}`)
-                setTotalPage({ totalPage: response.totalPages, currentPage: response.currentPages || 1 })
+            storeProductsData(response.result)
+            setCurrentPage(response.currentPages || 1)
+            setSelectedCategory(`&category=${category}&type=${type}`)
+            setTotalPage({ totalPage: response.totalPages, currentPage: response.currentPages || 1 })
 
-                if (response.totalPages == 0) {
-                    setNoProductMessage(true)
-                } else {
-                    setNoProductMessage(false)
-                }
-                setLoading(false)
-
-
+            if (response.totalPages == 0) {
+                setNoProductMessage(true)
+            } else {
+                setNoProductMessage(false)
             }
-            getCategoryFilter()
+            setLoading(false)
         }
+        getCategoryFilter()
+
 
     }, [searchParams])
 
