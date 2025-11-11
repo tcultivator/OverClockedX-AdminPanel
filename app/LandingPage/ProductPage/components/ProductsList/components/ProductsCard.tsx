@@ -183,7 +183,7 @@ const ProductsCard = ({ totalPages }: Props) => {
                     </div>
                     <div className='w-[8%] flex justify-start '>
                         <SortButton
-                            label='Created at'
+                            label='Creation Date'
                             active={sortField === 'created_at'}
                             direction={sortDirection}
                             onClick={() => placeOrderBy('created_at')} />
