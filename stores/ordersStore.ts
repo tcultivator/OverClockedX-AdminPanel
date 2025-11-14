@@ -9,7 +9,7 @@ type DeclineOrderReturnValue = {
 type orders = {
     orders_data: GroupedOrder[],
     setOrders_data: (value: GroupedOrder[]) => void,
-    acceptOrder: (value: number, pid: string) => void,
+    acceptOrder: (value: number, pid: string, email: string) => void,
     QRCodeData: string,
     GenerateQR: (value: number, pid: string) => void,
     updateStatusOnDelivery: (value: string) => void,
@@ -23,15 +23,17 @@ export const useOrderStore = create<orders>((set) => ({
             orders_data: value
         })
     },
-    acceptOrder: async (value: number, pid: string) => {
+    //make this return something so it can use error handling in frontend
+    acceptOrder: async (value: number, pid: string, email: string) => {
         const current_order_data = useOrderStore.getState().orders_data
+        console.log(email)
         useLoading.getState().setButtonLoading(true)
         const acceptOrderCall = await fetch('/api/OrdersPage/Accept-Order', {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json'
             },
-            body: JSON.stringify({ id: value })
+            body: JSON.stringify({ id: value, email: email })
         })
         const acceptOrderCall_result = await acceptOrderCall.json()
         if (acceptOrderCall_result.status == 500) return
@@ -104,5 +106,5 @@ export const useOrderStore = create<orders>((set) => ({
             message: declineOrderCall_result.message
         }
     },
-    
+
 }))

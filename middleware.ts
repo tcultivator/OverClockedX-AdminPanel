@@ -31,9 +31,7 @@ export async function middleware(request: NextRequest) {
     req: request,
     secret: process.env.AUTH_SECRET,
   });
-  console.log("Token result:", token);
-  console.log("Cookies sent:", request.cookies.getAll());
-
+ 
   if (!token) {
     console.log("No token – redirecting to login");
     return NextResponse.redirect(new URL("/", request.url));
