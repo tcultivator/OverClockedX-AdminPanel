@@ -203,7 +203,7 @@ const Accept_Order = ({ orderData }: props) => {
 
                     {
                         orderData.order_status == 'pending' || orderData.order_status == 'cancel' ?
-                            <Button disabled={buttonLoading || orderData.order_status == 'cancel'} className='cursor-pointer' onClick={() => acceptOrder(orderData.order_id, orderData.items[0].product_id)}>{buttonLoading ? (
+                            <Button disabled={buttonLoading || orderData.order_status == 'cancel'} className='cursor-pointer' onClick={() => acceptOrder(orderData.order_id, orderData.items[0].product_id, orderData.email)}>{buttonLoading ? (
                                 <>
                                     <ClipLoader size={16} color="#fff" /> Please wait...
                                 </>
