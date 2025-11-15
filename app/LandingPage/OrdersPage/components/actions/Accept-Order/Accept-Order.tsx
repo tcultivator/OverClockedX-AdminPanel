@@ -97,7 +97,7 @@ const Accept_Order = ({ orderData }: props) => {
                                                 <Label>Order Summary</Label>
                                                 <Label className='font-thin flex items-center justify-center p-1 rounded bg-green-400/30 text-green-400 w-max'>Payment {orderData.payment_status}</Label>
                                             </div>
-                                            <Label className="text-sm text-gray-500">A summary of the customer's order details.</Label>
+                                            <Label className="text-sm text-gray-500">A summary of the customers order details.</Label>
                                             <div className='flex flex-col gap-2'>
                                                 <div className='flex items-center justify-between text-black/70'>
                                                     <Label className='font-thin'>Payment</Label>
@@ -203,13 +203,19 @@ const Accept_Order = ({ orderData }: props) => {
 
                     {
                         orderData.order_status == 'pending' || orderData.order_status == 'cancel' ?
-                            <Button disabled={buttonLoading || orderData.order_status == 'cancel'} className='cursor-pointer' onClick={() => acceptOrder(orderData.order_id, orderData.items[0].product_id, orderData.email)}>{buttonLoading ? (
-                                <>
-                                    <ClipLoader size={16} color="#fff" /> Please wait...
-                                </>
-                            ) : (
-                                'Accept Order'
-                            )}</Button> :
+                            <Button disabled={buttonLoading || orderData.order_status == 'cancel'} className='cursor-pointer'
+                                onClick={() => acceptOrder(orderData.order_id,
+                                    orderData.items[0].product_id,
+                                    orderData.email,
+                                    orderData.reference_id,
+                                    orderData.created_at,
+                                    orderData.total_amount)}>{buttonLoading ? (
+                                        <>
+                                            <ClipLoader size={16} color="#fff" /> Please wait...
+                                        </>
+                                    ) : (
+                                        'Accept Order'
+                                    )}</Button> :
                             <Button disabled={buttonLoading} className='cursor-pointer' onClick={() => PrintReciept()}>{buttonLoading ? (
                                 <>
                                     <ClipLoader size={16} color="#fff" /> Please wait...

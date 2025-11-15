@@ -205,7 +205,14 @@ const Order_list = () => {
                                                                 <DropdownMenuGroup>
                                                                     <View_Order_Details orderData={group} />
                                                                     <Accept_Order orderData={group} />
-                                                                    <Decline_Order order_id={group.order_id} />
+                                                                    <Decline_Order 
+                                                                    order_id={group.order_id} 
+                                                                    email={group.email} 
+                                                                    reference_id={group.reference_id}
+                                                                    total_amount={group.total_amount}
+                                                                    created_at={new Date(group.created_at).toLocaleString("en-US", { month: "long", day: 'numeric', year: "numeric" })}
+                                                                    
+                                                                    />
                                                                 </DropdownMenuGroup>
                                                             </DropdownMenuContent>
                                                         </DropdownMenu>

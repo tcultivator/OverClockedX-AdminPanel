@@ -9,11 +9,11 @@ type DeclineOrderReturnValue = {
 type orders = {
     orders_data: GroupedOrder[],
     setOrders_data: (value: GroupedOrder[]) => void,
-    acceptOrder: (value: number, pid: string, email: string) => void,
+    acceptOrder: (value: number, pid: string, email: string, reference_id: string, created_at: string, total_amount: number) => void,
     QRCodeData: string,
     GenerateQR: (value: number, pid: string) => void,
     updateStatusOnDelivery: (value: string) => void,
-    declineOrder: (value: number) => Promise<DeclineOrderReturnValue>,
+    declineOrder: (value: number, email: string, reference_id: string, created_at: string, total_amount: number) => Promise<DeclineOrderReturnValue>,
 
 }
 export const useOrderStore = create<orders>((set) => ({
@@ -24,7 +24,7 @@ export const useOrderStore = create<orders>((set) => ({
         })
     },
     //make this return something so it can use error handling in frontend
-    acceptOrder: async (value: number, pid: string, email: string) => {
+    acceptOrder: async (value: number, pid: string, email: string, reference_id: string, created_at: string, total_amount: number) => {
         const current_order_data = useOrderStore.getState().orders_data
         console.log(email)
         useLoading.getState().setButtonLoading(true)
@@ -33,7 +33,7 @@ export const useOrderStore = create<orders>((set) => ({
             headers: {
                 'Content-type': 'application/json'
             },
-            body: JSON.stringify({ id: value, email: email })
+            body: JSON.stringify({ id: value, email: email, reference_id: reference_id, created_at: created_at, total_amount: total_amount })
         })
         const acceptOrderCall_result = await acceptOrderCall.json()
         if (acceptOrderCall_result.status == 500) return
@@ -74,7 +74,7 @@ export const useOrderStore = create<orders>((set) => ({
             orders_data: final_order_data
         })
     },
-    declineOrder: async (value: number) => {
+    declineOrder: async (value: number, email: string, reference_id: string, created_at: string, total_amount: number) => {
         const current_order_data = useOrderStore.getState().orders_data
         useLoading.getState().setButtonLoading(true)
         const declineOrderCall = await fetch('/api/OrdersPage/Decline-Order', {
@@ -82,7 +82,7 @@ export const useOrderStore = create<orders>((set) => ({
             headers: {
                 'Content-type': 'application/json'
             },
-            body: JSON.stringify({ order_id: value })
+            body: JSON.stringify({ order_id: value, email: email, reference_id: reference_id, created_at: created_at, total_amount: total_amount })
         })
         const declineOrderCall_result = await declineOrderCall.json()
         if (declineOrderCall_result.type == 'success') {
