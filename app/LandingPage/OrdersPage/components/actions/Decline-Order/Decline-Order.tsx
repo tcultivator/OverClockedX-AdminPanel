@@ -12,12 +12,16 @@ import { OrderActionsErrorHandling } from '@/utils/ErrorHandling/OrderActionsErr
 import { useState } from 'react'
 type props = {
     order_id: number;
+    email: string;
+    reference_id: string;
+    created_at: string;
+    total_amount: number;
 }
 type ErrorHandlerValue = {
     type: "success" | "error" | "default" | "warning";
     message: string;
 };
-const Decline_Order = ({ order_id }: props) => {
+const Decline_Order = ({ order_id, email, reference_id, created_at, total_amount }: props) => {
     const [open, setOpen] = useState(false);
     const buttonLoading = useLoading((state) => state.buttonLoading)
     const declineOrder = useOrderStore((state) => state.declineOrder)
@@ -27,7 +31,7 @@ const Decline_Order = ({ order_id }: props) => {
     })
     const DeclineOrderFunc = async (order_id: number) => {
         setOpen(true)
-        const declineOrderResult = await declineOrder(order_id)
+        const declineOrderResult = await declineOrder(order_id, email, reference_id, created_at, total_amount)
         console.log('this is the result in declining the order', declineOrderResult)
         setDeclineOrderErrorHandling(declineOrderResult)
         setTimeout(() => {
@@ -44,7 +48,7 @@ const Decline_Order = ({ order_id }: props) => {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        Once you confirm, the order will be marked as declined. You won't be able to undo this action.
+                        Once you confirm, the order will be marked as declined. You wont be able to undo this action.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <OrderActionsErrorHandlingResult message={DeclineOrderErrorHandling.message} />
