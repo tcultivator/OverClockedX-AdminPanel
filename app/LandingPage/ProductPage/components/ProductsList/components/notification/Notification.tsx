@@ -54,7 +54,7 @@ const Notification = ({ notificationData }: Props) => {
                 <Label className='absolute top-[-5px] right-[-5px] bg-primary text-white rounded px-1 aspect-square w-max text-[10px]'>{notificationDataStore.length}</Label>
             </div>
 
-            <div ref={dropdownRef} className={`bg-white  border border-black/15 shadow-2xl rounded-[15px] w-[500px] max-h-[50vh] absolute z-40 right-42 mt-1 ${display ? 'block' : 'hidden'}`}>
+            <div ref={dropdownRef} className={`bg-white pb-3 border border-black/15 shadow-2xl rounded-[15px] w-[500px]  absolute z-40 right-42 mt-1 ${display ? 'block' : 'hidden'}`}>
                 <div className='w-full flex items-center justify-between p-2 border-b border-black/15 px-4'>
                     <Label>Notifications</Label>
                     <div className='flex items-center gap-1'>
@@ -62,7 +62,7 @@ const Notification = ({ notificationData }: Props) => {
                         <Button onClick={delete_all_notification} className='text-[12px] w-[100px] p-0' variant={'outline'}>Delete All</Button>
                     </div>
                 </div>
-                <ScrollArea className='max-h-[44vh]'>
+                <ScrollArea className='h-[44vh]'>
                     <div className='flex flex-col '>
                         {notificationDataStore.length > 0 ?
                             notificationDataStore.map((data, index) => (

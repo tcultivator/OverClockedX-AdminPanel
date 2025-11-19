@@ -46,7 +46,7 @@ const Popular_Product = () => {
 
 
     return (
-        <div className="rounded-[15px] shadow-sm bg-white h-[31%] border border-black/15">
+        <div className="rounded-[15px] shadow-sm bg-white min-h-[30vh] max-h-[30vh] border border-black/15">
 
             <div className="w-full p-3 px-5 border-b flex justify-between items-center">
                 <div>
@@ -112,7 +112,7 @@ const Popular_Product = () => {
                     </div>
                 ) : (
                     // Fallback if no data
-                    <div className="flex items-center justify-center h-full text-gray-400">
+                    <div className="flex items-center justify-center  text-gray-400">
                         No popular products found
                     </div>
                 )}
