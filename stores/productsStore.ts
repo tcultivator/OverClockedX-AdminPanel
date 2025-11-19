@@ -43,7 +43,7 @@ type parentType = | "Desktop"
 export const useProductsStore = create<productStore>((set) => ({
     productsData: [],
     storeProductsData: (value: ProductsType[]) => {
-        console.log('eto ung value sa store: ', value)
+        
         set({
             productsData: value
         })
@@ -86,7 +86,7 @@ export const useProductsStore = create<productStore>((set) => ({
             }
             useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
         } catch (err) {
-            console.log('error deleting product')
+            
             useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
         }
 

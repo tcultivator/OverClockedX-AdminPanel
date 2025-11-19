@@ -11,9 +11,9 @@ export async function doCredentialsSignin(formdata: FormData) {
         })
         return response
     }
-    catch (error) {
-        console.error("Signin error:", error)
-        throw new Error("Failed to sign in with credentials.")
+    catch (err) {
+        console.error("Signin error:", err)
+        
     }
 
 }

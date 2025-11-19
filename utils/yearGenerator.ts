@@ -4,7 +4,6 @@ export function year() {
     let startYear = yearNow - 20;
     for (startYear; startYear <= yearNow; startYear++) {
         dropDownYear.push(startYear)
-        console.log(startYear)
     }
     return dropDownYear
 }
