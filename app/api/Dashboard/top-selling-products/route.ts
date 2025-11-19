@@ -25,8 +25,8 @@ export async function GET(req: NextRequest) {
 FROM order_items
 JOIN products 
     ON products.product_id = order_items.product_id
-WHERE MONTH(order_items.created_at) = 11
-  AND YEAR(order_items.created_at) = 2025
+WHERE MONTH(order_items.created_at) = ?
+  AND YEAR(order_items.created_at) = ?
 GROUP BY 
     order_items.product_id,
     products.product_name,
