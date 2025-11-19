@@ -24,7 +24,7 @@ const Popular_Product = () => {
     const currentYear = now.getFullYear().toString()
     const currentMonth = String(now.getMonth() + 1).padStart(2, "0")
     const [selectedDate, setSelectedDate] = useState<[string, string]>([currentYear, currentMonth])
-
+    const [animatedProgress, setAnimatedProgress] = useState(0);
     useEffect(() => {
         const fetch_popular_product_func = async () => {
             try {
@@ -36,6 +36,28 @@ const Popular_Product = () => {
                 if (popular_product_result.status != 500) {
                     setLoading(false)
                     setPopular_product(popular_product_result)// set the result data from api to state that display the product
+
+
+                    // animated progress in popular products
+                    let start = 0;
+                    const end = (popular_product_result[0].sales_count / popular_product_result[0].base_stocks) * 100;
+
+                    const duration = 200; // animation duration in ms
+                    const stepTime = 10;  // interval speed
+                    const increment = end / (duration / stepTime);
+
+                    const timer = setInterval(() => {
+                        start += increment;
+                        if (start >= end) {
+                            start = end;
+                            clearInterval(timer);
+                        }
+                        setAnimatedProgress(start);
+                    }, stepTime);
+
+                    return () => clearInterval(timer);
+
+                    
                 }
             } catch (err) {
                 console.log(err)
@@ -74,7 +96,7 @@ const Popular_Product = () => {
                             <Skeleton className="h-4 w-full" />
                         </div>
                         <div className="flex items-center gap-2 mt-2 w-[30%] flex-col">
-                            
+
                             <Skeleton className="h-40 w-40 rounded-full" />
                             <Skeleton className="h-3 w-1/2" />
                         </div>
@@ -106,7 +128,7 @@ const Popular_Product = () => {
 
                         </div>
                         <div className='flex items-center flex-col justify-center gap-2 w-[30%]'>
-                            <ProgressCircle size={140} strokeWidth={25} progress={(popular_product[0].sales_count / popular_product[0].base_stocks * 100)} className='text-black/50 ' />
+                            <ProgressCircle size={140} strokeWidth={25} progress={animatedProgress} className='text-black/50 ' />
                             <Label className='font-thin text-[12px] text-black/70'>{popular_product[0].sales_count} sold, out of {popular_product[0].base_stocks}</Label>
                         </div>
                     </div>
