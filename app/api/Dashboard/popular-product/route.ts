@@ -39,11 +39,13 @@ GROUP BY
     products.sales_count
 ORDER BY total_orders DESC
 LIMIT 1;
+
 `
         const [rows] = await db.query(query, [month, year])
         const popular_product_result = rows as popularProducts[]
         return NextResponse.json(popular_product_result)
     } catch (err) {
+        console.error('eto ung error',err)
         return NextResponse.json({ status: 500 })
     }
 }
