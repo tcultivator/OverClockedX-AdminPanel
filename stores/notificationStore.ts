@@ -61,7 +61,7 @@ export const useNotificationStore = create<NotificationStoreType>((set) => ({
     },
 
     markAsRead: async (value: string) => {
-        console.log(value)
+        
         const currentNotificationData = useNotificationStore.getState().notificationDataStore
         const updated_notification = []
         try {

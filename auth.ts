@@ -12,11 +12,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             },
             authorize: async (credentials) => {
                 try {
-                    console.log(credentials)
-                    const [rows] = await db.query('SELECT * FROM accounts WHERE email = ?', [credentials.email]);
+                    
+                    const [rows] = await db.query(`SELECT * FROM accounts WHERE email = ? AND role = 'admin'`, [credentials.email]);
                     const accounts = rows as Account[];
                     const password = credentials?.password as string
-                    console.log(credentials)
+                    
                     const isPasswordCorrect = await bcrypt.compare(password, accounts[0].password)
                     if (isPasswordCorrect) {
                         return {
@@ -24,8 +24,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                             name: accounts[0].username,
                             image: accounts[0].profile_Image,
                         }
-
-
                     }
                     return null
 

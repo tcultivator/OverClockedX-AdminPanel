@@ -26,7 +26,7 @@ export const useOrderStore = create<orders>((set) => ({
     //make this return something so it can use error handling in frontend
     acceptOrder: async (value: number, pid: string, email: string, reference_id: string, created_at: string, total_amount: number) => {
         const current_order_data = useOrderStore.getState().orders_data
-        console.log(email)
+      
         useLoading.getState().setButtonLoading(true)
         const acceptOrderCall = await fetch('/api/OrdersPage/Accept-Order', {
             method: 'PUT',

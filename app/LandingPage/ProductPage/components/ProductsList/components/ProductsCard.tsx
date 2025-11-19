@@ -115,8 +115,6 @@ const ProductsCard = ({ totalPages }: Props) => {
 
     //select category filter
     useEffect(() => {
-        console.log(type)
-        console.log(category)
         const getCategoryFilter = async () => {
             setLoading(true)
             const getProductsByPage = await fetch(`/api/productListPagination?page=${currentPage}${orderBy}&category=${category}&type=${type}`, {

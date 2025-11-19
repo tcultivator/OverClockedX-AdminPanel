@@ -25,18 +25,17 @@ export default function Home() {
 
     try {
       const result = await doCredentialsSignin(formdata)
-      if (result.error) {
-        setAlertNotif({ display: true, message: 'Something went wrong, please try again!', alertType: 'error' })
-      }
+      console.log('eto lumalabas kapag nag signin, ', result)
       setAlertNotif({ display: true, message: 'Success signin, redirecting...', alertType: 'success' })
       setTimeout(() => {
 
         redirect('/LandingPage')
       }, 1000);
     } catch (err) {
-      setAlertNotif({ display: true, message: 'Something went wrong, please try again!', alertType: 'error' })
+      setAlertNotif({ display: true, message: 'Something went wrong, please try again! You need administrator access', alertType: 'error' })
+      setLoading(false)
     }
-   
+
   }
   return (
     <div className="flex justify-center items-center w-full h-screen flex justify-center items-center gap-10">
