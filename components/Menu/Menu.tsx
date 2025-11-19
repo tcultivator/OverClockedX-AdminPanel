@@ -37,7 +37,7 @@ const Menu = () => {
     { name: "QRCode Scanner", icon: <MdOutlineQrCodeScanner className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/QRCodeScanner" },
   ];
   return (
-    <div className={`${parentOpen ? 'w-[300px]' : 'w-[80px] '} duration-200 bg-white shadow-sm rounded-[15px] border border-black/15 text-black/80 py-2`}>
+    <div className={`${parentOpen ? 'w-[300px]' : 'w-[80px] '} h-full duration-200 bg-white shadow-sm rounded-[15px] border border-black/15 text-black/80 py-2`}>
       <div className={`flex ${open ? 'justify-between  p-5' : 'justify-center  p-2 text-[25px] text-center'} items-center border-b border-white/15`}>
         {open && <Label>OverClockedX</Label>}
         <button className='cursor-pointer' onClick={menuBarToggle}><FiSidebar /></button>
