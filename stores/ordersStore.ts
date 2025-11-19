@@ -55,7 +55,7 @@ export const useOrderStore = create<orders>((set) => ({
     },
     QRCodeData: '',
     GenerateQR: async (value: number, pid: string) => {
-        const QRCodeData = await QRCode.toDataURL(`http://192.168.100.60:3000/product/${pid}?order_id=${value}`)
+        const QRCodeData = await QRCode.toDataURL(`https://overclockedx-adminpanel.onrender.com/product/${pid}?order_id=${value}`)
         set({
             QRCodeData: QRCodeData
         })
