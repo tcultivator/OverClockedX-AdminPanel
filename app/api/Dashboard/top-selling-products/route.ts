@@ -31,6 +31,7 @@ export async function GET(req: NextRequest) {
         const topSellingProducts = rows as topSellingProducts[]
         return NextResponse.json(topSellingProducts)
     } catch (err) {
+        console.error('eto ung error',err)
         return NextResponse.json({ status: 500 })
     }
 }
