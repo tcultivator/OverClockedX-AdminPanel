@@ -8,15 +8,8 @@ import { ProgressCircle } from '@/components/upload/progress-circle'
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Input } from '@/components/ui/input'
-type topSellingProducts = {
-  product_name: string;
-  product_image: string;
-  price: number;
-  base_stocks: number;
-  stocks: number;
-  sales_count: number;
-  created_at: Date
-}
+import { topSellingProducts } from '@/types/topSellingProductsType'
+
 const Top_selling_products = () => {
   const [topSellingProducts, setTopSellingProducts] = useState<topSellingProducts[]>([])
   const [loading, setLoading] = useState(true)
@@ -65,33 +58,59 @@ const Top_selling_products = () => {
               <Skeleton className="w-full h-full p-1 rounded" />
             </div> : (
               topSellingProducts?.length > 0 ?
-                < ScrollArea className='flex flex-col max-h-[23.5vh] text-black/70'>
+                <ScrollArea className="flex flex-col max-h-[23.5vh] overflow-y-auto">
                   {topSellingProducts.map((data, index) => (
-                    <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
-                      <div className='flex justify-between w-full items-center'>
-                        <div className='flex items-center gap-1'>
-                          <Image src={data.product_image} alt='' width={200} height={200} className='w-[60px] rounded aspect-square' />
-                          <div className='flex flex-col gap-1'>
-                            <Label className='font-thin'>{data.product_name}</Label>
-                            <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
-                              style: 'currency',
-                              currency: 'PHP',
-                            }).format(data.price)}</Label>
-                          </div>
-                        </div>
-
-                        <div className='flex gap-5'>
-                          <div className='flex flex-col gap-1'>
-                            <Label className='font-thin text-[12px]'>{data.sales_count} sold</Label>
-                            <Label className='font-thin text-[12px] text-black/70'>{data.stocks} left of {data.base_stocks}</Label>
-                          </div>
-                          <ProgressCircle size={40} progress={(data.stocks / data.base_stocks * 100)} className='text-black/50' />
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-3 mb-2 bg-white  shadow-sm hover:shadow-md transition-shadow"
+                    >
+                      
+                      <div className="flex items-center gap-3">
+                        <Image
+                          src={data.product_image}
+                          alt={data.product_name}
+                          width={200}
+                          height={200}
+                          className="w-16 h-16 rounded-lg object-cover"
+                        />
+                        <div className="flex flex-col gap-1">
+                          <Label className="font-semibold text-sm truncate max-w-[150px]">
+                            {data.product_name}
+                          </Label>
+                          <Label className="font-thin text-xs text-gray-500">
+                            {new Intl.NumberFormat("en-PH", {
+                              style: "currency",
+                              currency: "PHP",
+                            }).format(data.price)}
+                          </Label>
                         </div>
                       </div>
 
+                      
+                      <div className="flex items-center gap-4">
+                        <div className="flex flex-col items-end gap-0.5">
+                          <Label className="font-medium text-xs text-pink-500">
+                            {data.total_orders} sold in{" "}
+                            {new Date(0, Number(selectedDate[1]) - 1).toLocaleString("en-GB", {
+                              month: "long",
+                            })}
+                          </Label>
+                          <Label className="font-thin text-[11px] text-gray-400">
+                            {data.sales_count} / {data.base_stocks} Total sold
+                          </Label>
+                        </div>
+                        <ProgressCircle
+                          size={50}
+                          strokeWidth={5}
+                          progress={Math.round(data.stocks / data.base_stocks * 100)}
+                          className="text-black/50"
+                        />
+                      </div>
                     </div>
                   ))}
                 </ScrollArea>
+
+
                 :
                 <div className="flex items-center justify-center h-full text-gray-400">
                   No Top Selling Products Found

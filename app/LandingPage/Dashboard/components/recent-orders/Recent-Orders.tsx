@@ -163,7 +163,7 @@ const Recent_Orders = () => {
                                 );
                             })}
                         </ScrollArea > :
-                        <div className="flex items-center justify-center h-full text-gray-400">
+                        <div className="flex items-center justify-center h-[23.5vh] text-gray-400">
                             No Recent Orders Found
                         </div>
                 )

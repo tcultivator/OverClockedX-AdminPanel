@@ -1,14 +1,6 @@
 import db from "@/lib/db";
 import { NextResponse, NextRequest } from "next/server";
-type topSellingProducts = {
-    product_name: string;
-    product_image: string;
-    price: number;
-    base_stocks: number;
-    stocks: number;
-    sales_count: number;
-    created_at: Date
-}
+import { topSellingProducts } from '@/types/topSellingProductsType'
 export async function GET(req: NextRequest) {
     try {
         const year = Number(req.nextUrl.searchParams.get("year"))

@@ -29,6 +29,7 @@ const Popular_Product = () => {
         const fetch_popular_product_func = async () => {
             try {
                 setLoading(true)
+                setAnimatedProgress(0)
                 const fetch_popular_product = await fetch(`/api/Dashboard/popular-product?year=${selectedDate[0]}&month=${selectedDate[1]}`, {
                     method: 'GET'
                 })
@@ -40,7 +41,7 @@ const Popular_Product = () => {
 
                     // animated progress in popular products
                     let start = 0;
-                    const end = (popular_product_result[0].sales_count / popular_product_result[0].base_stocks) * 100;
+                    const end = (popular_product_result[0].stocks / popular_product_result[0].base_stocks) * 100;
 
                     const duration = 200; // animation duration in ms
                     const stepTime = 10;  // interval speed
@@ -52,12 +53,13 @@ const Popular_Product = () => {
                             start = end;
                             clearInterval(timer);
                         }
-                        setAnimatedProgress(start);
+                        
+                        setAnimatedProgress(parseFloat(start.toFixed(2)));
                     }, stepTime);
 
                     return () => clearInterval(timer);
 
-                    
+
                 }
             } catch (err) {
                 console.log(err)
@@ -72,7 +74,7 @@ const Popular_Product = () => {
 
             <div className="w-full p-3 px-5 border-b flex justify-between items-center">
                 <div>
-                    <Label className="text-[15px] font-semibold">Popular Products</Label>
+                    <Label className="text-[15px] font-semibold">Popular Product</Label>
                 </div>
                 <div>
                     <Input type='month' defaultValue={`${selectedDate[0]}-${selectedDate[1]}`} onChange={(e) => {
@@ -128,13 +130,13 @@ const Popular_Product = () => {
 
                         </div>
                         <div className='flex items-center flex-col justify-center gap-2 w-[30%]'>
-                            <ProgressCircle size={140} strokeWidth={25} progress={animatedProgress} className='text-black/50 ' />
-                            <Label className='font-thin text-[12px] text-black/70'>{popular_product[0].sales_count} sold, out of {popular_product[0].base_stocks}</Label>
+                            <ProgressCircle size={140} strokeWidth={25} progress={parseFloat(animatedProgress.toFixed(2))} className='text-black/50 ' />
+                            <Label className='font-thin text-[12px] text-black/70'>{popular_product[0].total_orders} Sold in {new Date(0, Number(selectedDate[1]) - 1).toLocaleString('en-GB', { month: 'long' })}</Label>
                         </div>
                     </div>
                 ) : (
                     // Fallback if no data
-                    <div className="flex items-center justify-center  text-gray-400">
+                    <div className="flex items-center justify-center h-full text-gray-400">
                         No popular products found
                     </div>
                 )}
