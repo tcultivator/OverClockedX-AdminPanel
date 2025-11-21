@@ -91,7 +91,7 @@ const Recent_Orders = () => {
                                     >
                                         <div
                                             style={{
-                                                maxHeight: isExpanded ? 'none' : '60px',
+                                                maxHeight: isExpanded ? '120px' : '60px',
                                                 overflow: 'hidden',
                                                 transition: 'max-height 0.6s ease',
                                             }}
@@ -148,17 +148,18 @@ const Recent_Orders = () => {
                                             ))}
                                         </div>
 
-                                        <div className=' flex justify-center items-center absolute bottom-2 right-4'>
-                                            {group.items.length > 1 && (
+                                        {group.items.length > 1 && (
+                                            <div className="flex justify-center items-center p-1">
                                                 <button
                                                     onClick={() => toggleExpand(groupIndex)}
-                                                    className='text-blue-400 text-[17px] cursor-pointer'
+                                                    className="text-blue-500 text-sm font-medium hover:text-blue-600 transition-colors flex items-center gap-1 cursor-pointer"
                                                 >
+                                                    {isExpanded ? "Show less" : "Show more"}
                                                     {isExpanded ? <IoIosArrowUp /> : <IoIosArrowDown />}
                                                 </button>
-                                            )}
+                                            </div>
+                                        )}
 
-                                        </div>
                                     </div>
                                 );
                             })}
