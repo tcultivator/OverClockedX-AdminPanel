@@ -52,6 +52,8 @@ import { formatDateYYYYMMDD } from '@/utils/getCurrentDateFunction'
 import { RiStackLine } from "react-icons/ri";
 import { CiCalendarDate } from "react-icons/ci";
 
+import AddPromotions from './AddPromotions/AddPromotions'
+
 const ProductCardLayout = ({ data }: Props) => {
     const [currentStocks, setCurrentStocks] = useState(data.stocks)
     const editStocks = useProductsStore((state) => state.editStocks)
@@ -83,7 +85,7 @@ const ProductCardLayout = ({ data }: Props) => {
                 }).format(data.price)}</Label>
             </div>
             <div className='w-[13%]'>
-                <div className={`${data.stocks > 0 ? (data.stocks <= 10 ? 'Low bg-[#FFFBD3] text-[#F6BB3A] ' : 'bg-[#C5FFC8] text-green-800 ') : 'bg-[#FFD5D8] text-red-500 '} w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]`}>
+                <div className={`${data.stocks > 0 ? (data.stocks <= 10 ? ' bg-[#FFFBD3] text-[#F6BB3A] ' : 'bg-[#C5FFC8] text-green-800 ') : 'bg-[#FFD5D8] text-red-500 '} w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]`}>
                     {data.stocks > 0 ? (data.stocks <= 10 ? <IoIosWarning className='text-[12px]' /> : <IoMdCheckmark className='text-[12px]' />) : <RxCross1 className='text-[12px]' />}
                     <Label className='text-[11px] flex items-center justify-center'>{data.stocks > 0 ? (data.stocks <= 10 ? 'Low Stocks' : 'Available') : 'Out of stock'}</Label>
                 </div>
@@ -115,7 +117,7 @@ const ProductCardLayout = ({ data }: Props) => {
                     <EditProduct data={data} />
 
                     <RemoveProduct product_id={data.product_id} product_name={data.product_name} product_image={data.product_image} />
-
+                    <AddPromotions product_id={data.product_id} />
                     <Dialog>
                         <form>
                             <DialogTrigger className='w-full'>

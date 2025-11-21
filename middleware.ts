@@ -21,6 +21,12 @@ export async function middleware(request: NextRequest) {
   }
 
 
+  // this is temporary, i need to delete it before deploying in production, i need this so my middle ware wont block thunder client
+    if (pathname.startsWith("/api")) {
+    return NextResponse.next();
+  }
+
+
   const publicPaths = ["/", "/login", "/register","/ReadyToShip"];
   if (publicPaths.includes(pathname)) {
     return NextResponse.next();

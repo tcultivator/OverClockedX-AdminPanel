@@ -43,7 +43,7 @@ type parentType = | "Desktop"
 export const useProductsStore = create<productStore>((set) => ({
     productsData: [],
     storeProductsData: (value: ProductsType[]) => {
-        
+
         set({
             productsData: value
         })
@@ -58,7 +58,7 @@ export const useProductsStore = create<productStore>((set) => ({
         //logic for getting data for notification
         const selectedProductsForNotification = currentProducts.filter(items => items.product_id == value)
         try {
-            useLoading.getState().setActionLoadingState({ display: true, loadingMessage: 'Deleting Products! Please wait...' })
+            useLoading.getState().setActionLoadingState({ display: true, status: 'loading', loadingMessage: 'Deleting Products! Please wait...' })
             const remove = await fetch('/api/removeProducts', {
                 method: 'POST',
                 headers: {
@@ -84,10 +84,11 @@ export const useProductsStore = create<productStore>((set) => ({
                     created_at: parsedDate
                 })
             }
-            useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
+            useLoading.getState().setActionLoadingState({ display: true, status: 'success', loadingMessage: 'Sucess Deleting Products!' })
         } catch (err) {
-            
-            useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
+
+
+            useLoading.getState().setActionLoadingState({ display: true, status: 'error', loadingMessage: 'Error Deleting Products!' })
         }
 
     },
@@ -100,8 +101,7 @@ export const useProductsStore = create<productStore>((set) => ({
         const parsedDate = parseDateDDMMYYYY(final);
         try {
 
-
-            useLoading.getState().setActionLoadingState({ display: true, loadingMessage: 'Updating Stocks! Please wait...' })
+            useLoading.getState().setActionLoadingState({ display: true, status: 'loading', loadingMessage: 'Updating Stocks! Please wait...' })
             const updateStocks = await fetch('/api/EditProductStocks', {
                 method: 'PUT',
                 headers: {
@@ -150,13 +150,15 @@ export const useProductsStore = create<productStore>((set) => ({
 
             } else {
                 console.log('error updating stocks')
+                useLoading.getState().setActionLoadingState({ display: true, status: 'error', loadingMessage: 'Error updating Stocks' })
             }
             // query to database first then if success then run this logic that change the stocks in productsData
             //also add badge to the products that been updated
-            useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
+
+            useLoading.getState().setActionLoadingState({ display: true, status: 'success', loadingMessage: 'Success Updating Stocks' })
         } catch (err) {
             console.log('Something went wrong!')
-            useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
+            useLoading.getState().setActionLoadingState({ display: true, status: 'error', loadingMessage: 'Error updating Stocks' })
         }
 
     },
@@ -170,7 +172,8 @@ export const useProductsStore = create<productStore>((set) => ({
         const final = formatDateYYYYMMDD(date)
         const parsedDate = parseDateDDMMYYYY(final);
         try {
-            useLoading.getState().setActionLoadingState({ display: true, loadingMessage: 'Updating Products Details! Please wait...' })
+
+            useLoading.getState().setActionLoadingState({ display: true, status: 'loading', loadingMessage: 'Updating Products Details! Please wait...' })
             const updateProducts = await fetch('/api/updateProductsDetails', {
                 method: 'PUT',
                 headers: {
@@ -218,15 +221,17 @@ export const useProductsStore = create<productStore>((set) => ({
                     productsData: finalProducts,
 
                 })
+                useLoading.getState().setActionLoadingState({ display: true, status: 'success', loadingMessage: 'Success Updating Products Details' })
             }
-            useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
+
         } catch (err) {
-            useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
+            useLoading.getState().setActionLoadingState({ display: true, status: 'error', loadingMessage: 'Error Updating Products Details!' })
         }
     },
 
     addProductsToDatabase: async (value: ProductsTypes) => {
-        useLoading.getState().setActionLoadingState({ display: true, loadingMessage: 'Adding Products! Please wait...' })
+
+        useLoading.getState().setActionLoadingState({ display: true, status: 'loading', loadingMessage: 'Adding Products! Please wait...' })
         const currentProducts = useProductsStore.getState().productsData
         const pId = RandomString() //generate unique product id - string
         const parentValue = parentClasses[value.category as keyof typeof parentClasses];
@@ -271,8 +276,11 @@ export const useProductsStore = create<productStore>((set) => ({
                 isRead: false,
                 created_at: parsedDate
             })
+            useLoading.getState().setActionLoadingState({ display: true, status: 'success', loadingMessage: 'Success Adding Products!' })
+        } else {
+            useLoading.getState().setActionLoadingState({ display: true, status: 'error', loadingMessage: 'Error Adding Products!' })
         }
-        useLoading.getState().setActionLoadingState({ display: false, loadingMessage: '' })
+
     }
 
 }))
