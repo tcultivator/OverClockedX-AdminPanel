@@ -18,6 +18,7 @@ export function GroupOrdersData(data: any) {
                 payment_status: product.payment_status,
                 order_status: product.order_status,
                 created_at: product.created_at,
+                updated_at: product.updated_at,
                 rname: product.rname,
                 phone_number: product.phone_number,
                 country: product.country,

@@ -54,7 +54,7 @@ const Order_list = () => {
                     console.error("Server error while fetching orders")
                     return
                 }
-                setOrders_data(GroupOrdersData(result)) // this is the reusable function that turn raw data to group data
+                setOrders_data(GroupOrdersData(result)) // this is the reusable function that turn raw data to group data and pass the group data to orders store
             } catch (error) {
                 console.error("Error fetching orders:", error)
             } finally {
@@ -77,7 +77,6 @@ const Order_list = () => {
     useEffect(() => {
 
         socket.on("update-data", (data) => {
-            console.log("QR code scanned! Received data from server:", data);
             updateStatusOnDelivery(data)
         });
         return () => {
@@ -131,7 +130,7 @@ const Order_list = () => {
                                 const isExpanded = expandedGroups[groupIndex] || false;
                                 return (
                                     <div
-                                        className='flex flex-col border-b relative'
+                                        className={`flex flex-col border-b relative ${group.updated_at == group.created_at && 'bg-[#E0FFFF]'} `}
                                         key={groupIndex}
                                     >
                                         <div
@@ -158,7 +157,7 @@ const Order_list = () => {
                                                         <Image
                                                             src={item.product_image}
                                                             alt=""
-                                                            className='w-15 border border-white/50'
+                                                            className='w-15'
                                                             width={100}
                                                             height={100}
                                                         />
@@ -175,6 +174,7 @@ const Order_list = () => {
                                                             {new Intl.NumberFormat('en-PH', {
                                                                 style: 'currency',
                                                                 currency: 'PHP',
+                                                                maximumFractionDigits: 0
                                                             }).format(item.price)}
                                                         </Label>
                                                     </div>
@@ -205,13 +205,13 @@ const Order_list = () => {
                                                                 <DropdownMenuGroup>
                                                                     <View_Order_Details orderData={group} />
                                                                     <Accept_Order orderData={group} />
-                                                                    <Decline_Order 
-                                                                    order_id={group.order_id} 
-                                                                    email={group.email} 
-                                                                    reference_id={group.reference_id}
-                                                                    total_amount={group.total_amount}
-                                                                    created_at={new Date(group.created_at).toLocaleString("en-US", { month: "long", day: 'numeric', year: "numeric" })}
-                                                                    
+                                                                    <Decline_Order
+                                                                        order_id={group.order_id}
+                                                                        email={group.email}
+                                                                        reference_id={group.reference_id}
+                                                                        total_amount={group.total_amount}
+                                                                        created_at={new Date(group.created_at).toLocaleString("en-US", { month: "long", day: 'numeric', year: "numeric" })}
+
                                                                     />
                                                                 </DropdownMenuGroup>
                                                             </DropdownMenuContent>

@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { GroupedOrder } from '@/types/GroupDataType';
 import { useLoading } from './loadingStore';
 import QRCode from "qrcode";
+import { YearMothDayTimeGenerator } from '@/utils/YearMothDayTimeGenerator'
 type DeclineOrderReturnValue = {
     type: "success" | "error" | "default" | "warning";
     message: string
@@ -14,6 +15,7 @@ type orders = {
     GenerateQR: (value: number, pid: string) => void,
     updateStatusOnDelivery: (value: string) => void,
     declineOrder: (value: number, email: string, reference_id: string, created_at: string, total_amount: number) => Promise<DeclineOrderReturnValue>,
+    markAsPrintReciept: (order_id: number) => void,
 
 }
 export const useOrderStore = create<orders>((set) => ({
@@ -26,7 +28,7 @@ export const useOrderStore = create<orders>((set) => ({
     //make this return something so it can use error handling in frontend
     acceptOrder: async (value: number, pid: string, email: string, reference_id: string, created_at: string, total_amount: number) => {
         const current_order_data = useOrderStore.getState().orders_data
-      
+
         useLoading.getState().setButtonLoading(true)
         const acceptOrderCall = await fetch('/api/OrdersPage/Accept-Order', {
             method: 'PUT',
@@ -106,5 +108,32 @@ export const useOrderStore = create<orders>((set) => ({
             message: declineOrderCall_result.message
         }
     },
+    markAsPrintReciept: async (order_id: number) => {
+        const currentDateTimePH = YearMothDayTimeGenerator()
+        const current_order_data = useOrderStore.getState().orders_data
+        const markAsPrintRecieptFetch = await fetch('/api/OrdersPage/Accept-Order/markAsPrintReciept', {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ order_id: order_id, updated_at: currentDateTimePH })
+        })
+        const markAsPrintRecieptResult = await markAsPrintRecieptFetch.json()
+        if (markAsPrintRecieptResult.status == 500) {
+            return
+        }
+        const final_order_data = current_order_data.map(item => {
+            if (item.order_id === order_id) {
+                return {
+                    ...item, updated_at: currentDateTimePH
+                }
+            }
+            return item
+        })
+
+        set({
+            orders_data: final_order_data,
+        })
+    }
 
 }))

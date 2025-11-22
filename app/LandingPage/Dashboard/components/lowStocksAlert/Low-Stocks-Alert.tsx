@@ -88,7 +88,7 @@ const Low_Stocks_Alert = () => {
                                             </div>
                                         ))}
                                     </ScrollArea> :
-                                    <div className="flex items-center justify-center h-full text-gray-400">
+                                    <div className="flex items-center h-[22.4vh] justify-center text-gray-400">
                                         No Low Stocks Products Found
                                     </div>
                             )
