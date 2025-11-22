@@ -15,10 +15,7 @@ import { ClipLoader } from 'react-spinners'
 import { useLoading } from '@/stores/loadingStore'
 import { useReactToPrint } from "react-to-print";
 import RecieptUI from './RecieptUI/RecieptUI'
-
-import {
-    DropdownMenuItem,
-} from "@/components/ui/dropdown-menu"
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 type props = {
     orderData: GroupedOrder
 }
@@ -29,11 +26,18 @@ const Accept_Order = ({ orderData }: props) => {
     const QRCodeData = useOrderStore((state) => state.QRCodeData)
     const GenerateQR = useOrderStore((state) => state.GenerateQR)
     const RecieptComponentRef = useRef<HTMLDivElement>(null)
+    const markAsPrintReciept = useOrderStore((state) => state.markAsPrintReciept)
 
     useEffect(() => {
         GenerateQR(orderData.order_id, orderData.items[0].product_id)
     }, [])
 
+
+    // print reciept, this will also change the order highligh to read - it will update the updated_at column at database, 
+    const PrintRecieptFunction = async () => {
+        PrintReciept()
+        markAsPrintReciept(orderData.order_id)
+    }
     const PrintReciept = useReactToPrint({
         contentRef: RecieptComponentRef,
         documentTitle: "Receipt_1234",
@@ -41,7 +45,7 @@ const Accept_Order = ({ orderData }: props) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button className='w-full text-start flex justify-start items-center p-2 font-regular cursor-pointer' variant='ghost'>Accept Order</Button>
+                <Button className='w-full text-start flex justify-start items-center p-2 font-regular cursor-pointer' variant='ghost'>{orderData.order_status == 'pending' ? 'Accept Order' : 'Print Reciept'}</Button>
             </AlertDialogTrigger>
             <AlertDialogContent className='w-[90vh]'>
                 <AlertDialogHeader>
@@ -216,7 +220,7 @@ const Accept_Order = ({ orderData }: props) => {
                                     ) : (
                                         'Accept Order'
                                     )}</Button> :
-                            <Button disabled={buttonLoading} className='cursor-pointer' onClick={() => PrintReciept()}>{buttonLoading ? (
+                            <Button disabled={buttonLoading} className='cursor-pointer' onClick={() => PrintRecieptFunction()}>{buttonLoading ? (
                                 <>
                                     <ClipLoader size={16} color="#fff" /> Please wait...
                                 </>

@@ -15,6 +15,7 @@ export type GroupedOrder = {
     barangay: string;
     province: string;
     trademark: string;
+    updated_at: string;
     items: {
         product_id: string;
         product_name: string;

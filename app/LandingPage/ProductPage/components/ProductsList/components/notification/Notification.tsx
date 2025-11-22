@@ -37,7 +37,6 @@ const Notification = ({ notificationData }: Props) => {
                 return;
             }
 
-
             setDisplay(false);
         };
 
