@@ -7,9 +7,9 @@ export const alertClasses: Record<"success" | "error" | "base" | "warning", stri
 };
 
 export const recentOrderStatus: Record<"success" | "pending" | "cancel" | "preparing" | "On Delivery", string> = {
-    success: "text-[#30B467] text-[13px] py-[2px] px-3 bg-[#A9F0AC] rounded-[10px] text-center flex item-center justify-center",
-    cancel: "text-red-400 text-[13px] py-[2px] px-3 bg-red-200 rounded-[10px] text-center flex item-center justify-center",
-    pending: "text-rose-500 text-[13px] py-[2px] px-3 bg-rose-200 rounded-[10px] text-center flex item-center justify-center",
-    preparing: "text-blue-400 text-[13px] py-[2px] px-3 bg-blue-100 rounded-[10px] text-center flex item-center justify-center",
-    "On Delivery": "text-cyan-400 text-[13px] py-[2px] px-3 bg-cyan-100 rounded-[10px] text-center flex item-center justify-center"
+    success: "text-[#30B467] bg-[#A9F0AC] w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]",
+    cancel: "text-red-400 bg-red-200 w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]",
+    pending: "text-rose-500  bg-rose-200 w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]",
+    preparing: "text-blue-400  bg-blue-100 w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]",
+    "On Delivery": "text-cyan-400 bg-cyan-100 w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]"
 };
