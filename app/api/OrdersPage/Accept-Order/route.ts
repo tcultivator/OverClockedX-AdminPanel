@@ -1,7 +1,7 @@
 import db from "@/lib/db";
 import { connect } from "http2";
 import { NextResponse, NextRequest } from "next/server";
-import {sendMail} from '@/lib/sendGrid'
+import { sendMail } from '@/lib/sendGrid'
 type ordersProductsData = {
     product_id: string;
     quantity: number;
@@ -31,7 +31,7 @@ export async function PUT(req: NextRequest) {
 
         await connection.commit()
         await sendMail({
-            to: body.email,
+            to: [body.email],
             sub: "Order Request Accepted",
             message: `
                     <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f4f4f4; padding: 40px 20px;">

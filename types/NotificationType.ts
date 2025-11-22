@@ -1,4 +1,4 @@
-type actionType = "Delete Product" | "Add New Product" | "Edit Product" | "Edit Stock"
+type actionType = "Delete Product" | "Add New Product" | "Edit Product" | "Edit Stock" | "Add Promotion" | "Cancel Promotion"
 
 export type NotificationType = {
     notif_id: string;
