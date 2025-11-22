@@ -157,7 +157,7 @@ const Order_list = () => {
                                                         <Image
                                                             src={item.product_image}
                                                             alt=""
-                                                            className='w-15'
+                                                            className='w-15 aspect-square'
                                                             width={100}
                                                             height={100}
                                                         />
@@ -187,10 +187,16 @@ const Order_list = () => {
                                                         <Label className='font-thin'>{item.quantity}</Label>
                                                     </div>
                                                     <div className='w-[9%] flex items-center justify-start'>
-                                                        <Label className={`${recentOrderStatus[group.payment_status]}`}>{group.payment_status}</Label>
+                                                        <div className={`${recentOrderStatus[group.payment_status]}`}>
+                                                            <Label className='text-[11px] flex items-center justify-center'>{group.payment_status}</Label>
+                                                        </div>
+
                                                     </div>
                                                     <div className='w-[9%] flex items-center justify-start '>
-                                                        <Label className={`${recentOrderStatus[group.order_status]}`}>{group.order_status}</Label>
+                                                        <div className={`${recentOrderStatus[group.order_status]}`}>
+                                                            <Label className='text-[11px] flex items-center justify-center'>{group.order_status}</Label>
+                                                        </div>
+
                                                     </div>
                                                     <div className='w-[7%] flex items-center justify-start'>
                                                         <DropdownMenu >
