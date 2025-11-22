@@ -17,7 +17,7 @@ export async function PUT(req: NextRequest) {
         await db.query(query, [body.order_id])
 
         await sendMail({
-            to: body.email,
+            to: [body.email],
             sub: "Order Request Declined",
             message: `
                     <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f4f4f4; padding: 40px 20px;">

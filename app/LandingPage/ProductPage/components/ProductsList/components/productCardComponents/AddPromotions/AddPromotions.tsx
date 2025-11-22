@@ -6,36 +6,18 @@ import Image from 'next/image'
 import { Input } from '@/components/ui/input'
 import { ProductPromotions } from "@/types/ProductsThatHasPromotionsType";
 import { ProgressCircle } from '@/components/upload/progress-circle'
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-
-import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetDescription,
-    SheetFooter,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/components/ui/sheet"
-
-import {
-    DropdownMenuItem,
-} from "@/components/ui/dropdown-menu"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { useState, useEffect } from 'react'
-
 import { PuffLoader } from 'react-spinners'
 import { IoMdCheckmark } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import { useLoading } from '@/stores/loadingStore'
+import { formatDateYYYYMMDD } from '@/utils/getCurrentDateFunction'
+import { useNotificationStore } from '@/stores/notificationStore'
+import { RandomString } from '@/utils/RandomStringGenerator'
+import { parseDateDDMMYYYY } from '@/stores/productsStore'
 type props = {
     product_id: string;
 }
@@ -116,6 +98,22 @@ const AddPromotions = ({ product_id }: props) => {
 
         useLoading.getState().setActionLoadingState({ display: true, status: 'success', loadingMessage: 'Success Removing Promotion' })
 
+        // adding notification / logs
+        const notif_id = RandomString();
+        const date = new Date()
+        const final = formatDateYYYYMMDD(date)
+        const parsedDate = parseDateDDMMYYYY(final);
+        useNotificationStore.getState().addNotification({
+            notif_id: notif_id,
+            product_id: product_id,
+            product_name: products_data!.product_name,
+            product_image: products_data!.product_image,
+            action: 'Cancel Promotion',
+            isRead: false,
+            created_at: parsedDate
+        })
+
+
     }
 
 
@@ -146,6 +144,9 @@ const AddPromotions = ({ product_id }: props) => {
             },
             body: JSON.stringify({
                 product_id: product_id,
+                product_image: products_data?.product_image,
+                product_name: products_data?.product_name,
+                price: products_data?.price,
                 promotion_type: promotion_type,
                 promotionValue: promotionValue,
                 promotionEndDate: promotionEndDate.replace("T", ":") + ":00"
@@ -159,6 +160,21 @@ const AddPromotions = ({ product_id }: props) => {
             return
         }
         useLoading.getState().setActionLoadingState({ display: true, status: 'success', loadingMessage: 'Success Adding Promotion' })
+
+        // adding notification / logs
+        const notif_id = RandomString();
+        const date = new Date()
+        const final = formatDateYYYYMMDD(date)
+        const parsedDate = parseDateDDMMYYYY(final);
+        useNotificationStore.getState().addNotification({
+            notif_id: notif_id,
+            product_id: product_id,
+            product_name: products_data!.product_name,
+            product_image: products_data!.product_image,
+            action: 'Add Promotion',
+            isRead: false,
+            created_at: parsedDate
+        })
 
 
 
