@@ -152,9 +152,10 @@ const ProductsCard = ({ totalPages }: Props) => {
             <ScrollArea className="px-2 max-h-[78vh] overflow-auto sticky">
 
                 <div className='flex items-center bg-[#F1F0EE] rounded-t p-2 sticky top-0 z-30 border-b border-black/15 text-black/70 text-[14px]'>
-                    <div className='w-[10%] flex justify-start '>Id</div>
-                    <div className='w-[33%] flex justify-start '>Products</div>
-                    <div className='w-[10%] flex justify-start gap-2 '>
+                    <div className='w-[7%] flex justify-start '>Id</div>
+                    <div className='w-[27%] flex justify-start '>Products</div>
+                    <div className='w-[11%] flex justify-start '>Promo</div>
+                    <div className='w-[13%] flex justify-start gap-2 '>
                         <SortButton
                             label='Price'
                             active={sortField === 'price'}
@@ -163,7 +164,7 @@ const ProductsCard = ({ totalPages }: Props) => {
 
                     </div>
 
-                    <div className='w-[13%] flex justify-start '>Status</div>
+                    <div className='w-[10%] flex justify-start '>Status</div>
 
                     <div className='w-[12%] flex justify-start '>
                         <SortButton

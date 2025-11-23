@@ -3,14 +3,30 @@ import { ProductsType } from '@/types/ProductsType'
 import { useLoading } from './loadingStore'
 import { parentClasses } from '@/utils/ParentClasses'
 import { formatDateYYYYMMDD } from '@/utils/getCurrentDateFunction'
+type addingPromotion = {
+    product_id: string
+    product_image: string
+    product_name: string
+    price: number
+    promotion_type: string
+    promotionValue: number
+    promotionEndDate: string
+}
+
+type CancelPromotion = {
+    product_id: string
+    product_image: string
+    product_name: string
+}
 type productStore = {
     productsData: ProductsType[],
     storeProductsData: (value: ProductsType[]) => void,
     removeProduct: (value: string) => void,
     editStocks: (pId: string, newStocks: number, oldStocks: number) => void,
     updateProductsDetails: (value: ProductsType) => void,
-    addProductsToDatabase: (value: ProductsTypes) => void,
-
+    addProductsToDatabase: (value: ProductsType) => void,
+    AddingPromotion: ({ product_id, product_image, product_name, price, promotion_type, promotionValue, promotionEndDate }: addingPromotion) => void,
+    CancelPromotion: ({ product_id, product_image, product_name, }: CancelPromotion) => void,
 }
 import { RandomString } from '@/utils/RandomStringGenerator'
 import { useNotificationStore } from './notificationStore'
@@ -94,7 +110,7 @@ export const useProductsStore = create<productStore>((set) => ({
     },
     editStocks: async (pId: string, newStocks: number, oldStocks: number) => {
         const currentProducts = useProductsStore.getState().productsData
-        const finalProducts = []
+
         //getting the system date, need this for setting notification, it needs current datetime
         const date = new Date()
         const final = formatDateYYYYMMDD(date)
@@ -111,24 +127,8 @@ export const useProductsStore = create<productStore>((set) => ({
             })
             const response = await updateStocks.json()
             if (response.status != 500) {
-                for (const item of currentProducts) {
+                const finalProducts = currentProducts.map(item => {
                     if (item.product_id == pId) {
-                        finalProducts.push({
-                            id: item.id,
-                            product_id: item.product_id,
-                            category: item.category,
-                            parent: item.parent,
-                            product_name: item.product_name,
-                            product_image: item.product_image,
-                            price: item.price,
-                            stocks: newStocks,
-                            description: item.description,
-                            brand: item.brand,
-                            sales_count: item.sales_count,
-                            created_at: item.created_at,
-                            updated_at: item.updated_at
-                        })
-                        //this add notification on notification store
                         const notif_id = RandomString();
                         useNotificationStore.getState().addNotification({
                             notif_id: notif_id,
@@ -139,10 +139,12 @@ export const useProductsStore = create<productStore>((set) => ({
                             isRead: false,
                             created_at: parsedDate
                         })
-                    } else {
-                        finalProducts.push(item)
+                        return {
+                            ...item, stocks: newStocks
+                        }
                     }
-                }
+                    return item
+                })
                 set({
                     productsData: finalProducts,
 
@@ -165,7 +167,6 @@ export const useProductsStore = create<productStore>((set) => ({
 
     updateProductsDetails: async (value: ProductsType) => {
         const currentProducts = useProductsStore.getState().productsData
-        const finalProducts = []
 
         //getting the system date, need this for setting notification, it needs current datetime
         const date = new Date()
@@ -184,24 +185,8 @@ export const useProductsStore = create<productStore>((set) => ({
             const response = await updateProducts.json()
             if (response.status != 500) {
 
-                for (const item of currentProducts) {
+                const finalProducts = currentProducts.map(item => {
                     if (item.product_id == value.product_id) {
-                        finalProducts.push({
-                            id: item.id,
-                            product_id: item.product_id,
-                            category: item.category,
-                            parent: item.parent,
-                            product_name: value.product_name,
-                            product_image: value.product_image,
-                            price: value.price,
-                            stocks: item.stocks,
-                            description: value.description,
-                            brand: item.brand,
-                            sales_count: item.sales_count,
-                            created_at: item.created_at,
-                            updated_at: item.updated_at
-                        })
-
                         //adding notification
                         const notif_id = RandomString();
                         useNotificationStore.getState().addNotification({
@@ -213,10 +198,12 @@ export const useProductsStore = create<productStore>((set) => ({
                             isRead: false,
                             created_at: parsedDate
                         })
-                    } else {
-                        finalProducts.push(item)
+                        return {
+                            ...item, product_name: value.product_name, product_image: value.product_image, price: value.price, description: value.description
+                        }
                     }
-                }
+                    return item
+                })
                 set({
                     productsData: finalProducts,
 
@@ -229,7 +216,7 @@ export const useProductsStore = create<productStore>((set) => ({
         }
     },
 
-    addProductsToDatabase: async (value: ProductsTypes) => {
+    addProductsToDatabase: async (value: ProductsType) => {
 
         useLoading.getState().setActionLoadingState({ display: true, status: 'loading', loadingMessage: 'Adding Products! Please wait...' })
         const currentProducts = useProductsStore.getState().productsData
@@ -252,6 +239,8 @@ export const useProductsStore = create<productStore>((set) => ({
             sales_count: 0,
             created_at: parsedDate,
             updated_at: parsedDate,
+            promotion_type: value.promotion_type,
+            value: value.value
         }
         const addProduct = await fetch('/api/addProducts', {
             method: 'POST',
@@ -280,6 +269,130 @@ export const useProductsStore = create<productStore>((set) => ({
         } else {
             useLoading.getState().setActionLoadingState({ display: true, status: 'error', loadingMessage: 'Error Adding Products!' })
         }
+
+    },
+    AddingPromotion: async ({ product_id, product_image, product_name, price, promotion_type, promotionValue, promotionEndDate }: addingPromotion) => {
+        const currentProducts = useProductsStore.getState().productsData
+        const selected = new Date(promotionEndDate);
+        const now = new Date();
+        if (selected <= now) {
+            return alert("Date and time must be in the future!");
+        }
+        useLoading.getState().setActionLoadingState({ display: true, status: 'loading', loadingMessage: 'Adding Promotion...' })
+        const addingPromotion = await fetch('/api/Promotions/AddPromotions', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                product_id: product_id,
+                product_image: product_image,
+                product_name: product_name,
+                price: price,
+                promotion_type: promotion_type,
+                promotionValue: promotionValue,
+                promotionEndDate: promotionEndDate.replace("T", ":") + ":00"
+            })
+        })
+
+        const addingPromotionResult = await addingPromotion.json()
+        if (addingPromotionResult.status == 500) {
+            //handle error
+            useLoading.getState().setActionLoadingState({ display: true, status: 'error', loadingMessage: 'Error Adding Promotion' })
+            return
+        }
+
+        const finalProducts = currentProducts.map(item => {
+            if (item.product_id == product_id) {
+                //adding notification
+                const notif_id = RandomString();
+                const date = new Date()
+                const final = formatDateYYYYMMDD(date)
+                const parsedDate = parseDateDDMMYYYY(final);
+                useNotificationStore.getState().addNotification({
+                    notif_id: notif_id,
+                    product_id: item.product_id,
+                    product_name: item.product_name,
+                    product_image: item.product_image,
+                    action: 'Add Promotion',
+                    isRead: false,
+                    created_at: parsedDate
+                })
+                return {
+                    ...item, promotion_type: promotion_type, value: promotionValue
+                }
+            }
+            return item
+        })
+        set({
+            productsData: finalProducts,
+
+        })
+        useLoading.getState().setActionLoadingState({ display: true, status: 'success', loadingMessage: 'Success Adding Promotion' })
+    },
+
+
+    CancelPromotion: async ({ product_id, product_image, product_name, }: CancelPromotion) => {
+        const currentProducts = useProductsStore.getState().productsData
+        useLoading.getState().setActionLoadingState({ display: true, status: 'loading', loadingMessage: 'Removing Promotion...' })
+        const cancelPromotion = await fetch('/api/Promotions/CancelPromotions', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ product_id: product_id })
+        })
+        const cancelPromotionResult = await cancelPromotion.json()
+        if (cancelPromotionResult.status == 500) {
+            // handle error
+            useLoading.getState().setActionLoadingState({ display: true, status: 'error', loadingMessage: 'Error Removing Promotion' })
+            return
+        }
+
+        const finalProducts = currentProducts.map(item => {
+            if (item.product_id == product_id) {
+                //adding notification
+                const notif_id = RandomString();
+                const date = new Date()
+                const final = formatDateYYYYMMDD(date)
+                const parsedDate = parseDateDDMMYYYY(final);
+                useNotificationStore.getState().addNotification({
+                    notif_id: notif_id,
+                    product_id: product_id,
+                    product_name: product_name,
+                    product_image: product_image,
+                    action: 'Cancel Promotion',
+                    isRead: false,
+                    created_at: parsedDate
+                })
+                return {
+                    ...item, promotion_type: null, value: null
+                }
+            }
+            return item
+        })
+        set({
+            productsData: finalProducts,
+
+        })
+
+        useLoading.getState().setActionLoadingState({ display: true, status: 'success', loadingMessage: 'Success Removing Promotion' })
+
+        // adding notification / logs
+        const notif_id = RandomString();
+        const date = new Date()
+        const final = formatDateYYYYMMDD(date)
+        const parsedDate = parseDateDDMMYYYY(final);
+        useNotificationStore.getState().addNotification({
+            notif_id: notif_id,
+            product_id: product_id,
+            product_name: product_name,
+            product_image: product_image,
+            action: 'Cancel Promotion',
+            isRead: false,
+            created_at: parsedDate
+        })
+
 
     }
 

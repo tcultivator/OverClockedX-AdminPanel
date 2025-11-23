@@ -60,10 +60,10 @@ const ProductCardLayout = ({ data }: Props) => {
     const date = new Date()
     return (
         <div className='border-b border-black/15 flex items-center p-2 relative'>
-            <div className='w-[10%]'>
+            <div className='w-[7%]'>
                 <Label className='font-thin text-[12px]'>{data.product_id}</Label>
             </div>
-            <div className='flex gap-2 w-[33%] relative'>
+            <div className='flex gap-2 w-[27%] relative'>
                 <Image
                     src={data.product_image}
                     width={100}
@@ -78,18 +78,37 @@ const ProductCardLayout = ({ data }: Props) => {
                 {new Date(data.created_at).toLocaleDateString('en-GB') == formatDateYYYYMMDD(date) && <MdNewReleases className='absolute text-green-500 top-[-5px] left-[-10px]' />}
 
             </div>
-            <div className='w-[10%]'>
-                <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
-                    style: 'currency',
-                    currency: 'PHP',
-                }).format(data.price)}</Label>
+            <div className='w-[11%]'>
+                <div className='flex items-center justify-between pr-5'>
+                    {data.value == null ? <div className={`w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]`}>
+                        <Label className='text-[11px] flex items-center justify-center'>No Promotion</Label>
+                    </div> :
+                        <div className={`${data.promotion_type == 'FlashSale' ? 'bg-[#FFD477] text-white' : 'bg-[#FF7777] text-white'} w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]`}>
+                            <Label className='text-[11px] flex items-center justify-center'>{data.promotion_type}</Label>
+                        </div>}
+                </div>
+
             </div>
             <div className='w-[13%]'>
+                <div className='flex items-center'>
+                    <Label className='font-thin w-full'>{new Intl.NumberFormat('en-PH', {
+                        style: 'currency',
+                        currency: 'PHP',
+                    }).format(data.price)}</Label>
+                    <div className='w-full flex justify-start'>
+                        {data.value != null && <div className={`${data.promotion_type == 'FlashSale' ? 'bg-[#FFD477] text-white' : 'bg-[#FF7777] text-white'} w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]`}>
+                            <Label className='text-[11px] flex items-center justify-center'>₱{data.value} OFF</Label>
+                        </div>}
+                    </div>
+
+                </div>
+
+            </div>
+            <div className='w-[10%]'>
                 <div className={`${data.stocks > 0 ? (data.stocks <= 10 ? ' bg-[#FFFBD3] text-[#F6BB3A] ' : 'bg-[#C5FFC8] text-green-800 ') : 'bg-[#FFD5D8] text-red-500 '} w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]`}>
                     {data.stocks > 0 ? (data.stocks <= 10 ? <IoIosWarning className='text-[12px]' /> : <IoMdCheckmark className='text-[12px]' />) : <RxCross1 className='text-[12px]' />}
                     <Label className='text-[11px] flex items-center justify-center'>{data.stocks > 0 ? (data.stocks <= 10 ? 'Low Stocks' : 'Available') : 'Out of stock'}</Label>
                 </div>
-
             </div>
             <div className='w-[12%] flex items-center gap-1'>
                 <RiStackLine className='text-[12px]' />
