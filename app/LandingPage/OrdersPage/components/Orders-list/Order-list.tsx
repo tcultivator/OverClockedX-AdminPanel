@@ -130,7 +130,7 @@ const Order_list = () => {
                                 const isExpanded = expandedGroups[groupIndex] || false;
                                 return (
                                     <div
-                                        className={`flex flex-col border-b relative ${group.updated_at == group.created_at && 'bg-[#E0FFFF]'} `}
+                                        className={`flex flex-col border-b relative ${group.updated_at == group.created_at && ' bg-linear-65 from-[#fac1d3] to-[#ffd9e4]'} `}
                                         key={groupIndex}
                                     >
                                         <div

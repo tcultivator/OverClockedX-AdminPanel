@@ -86,7 +86,7 @@ const Recent_Orders = () => {
                                 const isExpanded = expandedGroups[groupIndex] || false;
                                 return (
                                     <div
-                                        className='flex flex-col border-b relative '
+                                        className={`flex flex-col border-b relative ${group.updated_at == group.created_at && 'bg-linear-65 from-[#fac1d3] to-[#ffd9e4]'} `}
                                         key={groupIndex}
                                     >
                                         <div
@@ -110,7 +110,7 @@ const Recent_Orders = () => {
                                                         <Image
                                                             src={item.product_image}
                                                             alt=""
-                                                            className='w-15 border border-white/50'
+                                                            className='w-15'
                                                             width={100}
                                                             height={100}
                                                         />

@@ -9,6 +9,7 @@ type Recent_Orders = {
     payment_status: string;
     order_status: string;
     created_at: string;
+    updated_at:string;
     quantity: number;
     price: number;
     sub_total: number;
@@ -27,6 +28,7 @@ export async function GET() {
     orders.payment_status,
     orders.order_status,
     orders.created_at,
+    orders.updated_at,
     order_items.quantity,
     order_items.price,
     order_items.sub_total,
