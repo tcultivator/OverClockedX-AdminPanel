@@ -61,7 +61,7 @@ export async function GET(req: NextRequest) {
         FROM orders JOIN order_items ON order_items.order_id = orders.id 
         JOIN products ON order_items.product_id = products.product_id 
         JOIN accounts ON orders.email = accounts.email 
-        JOIN customer_address ON orders.id = customer_address.order_id WHERE orders.id != 0 ${finalPaymentMethod} ${finalPaymentStatus} ${finalOrderStatus} ${finalsearchOrder} ORDER BY orders.created_at ASC
+        JOIN customer_address ON orders.id = customer_address.order_id WHERE orders.id != 0 ${finalPaymentMethod} ${finalPaymentStatus} ${finalOrderStatus} ${finalsearchOrder} ORDER BY orders.created_at DESC
 `
         const [rows] = await db.query(query)
         const recent_orders = rows as Recent_Orders[]
