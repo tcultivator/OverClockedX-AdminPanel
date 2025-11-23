@@ -12,4 +12,6 @@ export type ProductsType = {
     sales_count: number
     created_at: Date
     updated_at: Date
+    value: number | null
+    promotion_type: string | null;
 }

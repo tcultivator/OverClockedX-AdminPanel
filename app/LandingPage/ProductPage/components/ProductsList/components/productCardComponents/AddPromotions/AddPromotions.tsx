@@ -18,13 +18,15 @@ import { formatDateYYYYMMDD } from '@/utils/getCurrentDateFunction'
 import { useNotificationStore } from '@/stores/notificationStore'
 import { RandomString } from '@/utils/RandomStringGenerator'
 import { parseDateDDMMYYYY } from '@/stores/productsStore'
+import { useProductsStore } from '@/stores/productsStore'
 type props = {
     product_id: string;
 }
 const AddPromotions = ({ product_id }: props) => {
     const [loading, setLoading] = useState(true)
     const [products_data, setProducts_data] = useState<ProductPromotions | null>(null)
-
+    const AddingPromotion = useProductsStore((state) => state.AddingPromotion)
+    const CancelPromotion = useProductsStore((state) => state.CancelPromotion)
     // fetching products + Join data of promotion if have
     useEffect(() => {
         const fetchProductsForAddingPromotionsFunc = async () => {
@@ -78,46 +80,12 @@ const AddPromotions = ({ product_id }: props) => {
     }, [products_data]);
 
 
-    // cancel the promotion
-
-    const CancelPromotion = async () => {
-        useLoading.getState().setActionLoadingState({ display: true, status: 'loading', loadingMessage: 'Removing Promotion...' })
-        const cancelPromotion = await fetch('/api/Promotions/CancelPromotions', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({ product_id: product_id })
-        })
-        const cancelPromotionResult = await cancelPromotion.json()
-        if (cancelPromotionResult.status == 500) {
-            // handle error
-            useLoading.getState().setActionLoadingState({ display: true, status: 'error', loadingMessage: 'Error Removing Promotion' })
-            return
-        }
-
-        useLoading.getState().setActionLoadingState({ display: true, status: 'success', loadingMessage: 'Success Removing Promotion' })
-
-        // adding notification / logs
-        const notif_id = RandomString();
-        const date = new Date()
-        const final = formatDateYYYYMMDD(date)
-        const parsedDate = parseDateDDMMYYYY(final);
-        useNotificationStore.getState().addNotification({
-            notif_id: notif_id,
-            product_id: product_id,
-            product_name: products_data!.product_name,
-            product_image: products_data!.product_image,
-            action: 'Cancel Promotion',
-            isRead: false,
-            created_at: parsedDate
-        })
 
 
-    }
 
 
-    //adding promotion
+
+
     const [promotion_type, setPromotionType] = useState('')
     const [promotionValue, setPromotionValue] = useState<number>(0)
     const [promotionEndDate, setPromotionendDate] = useState('')
@@ -130,55 +98,7 @@ const AddPromotions = ({ product_id }: props) => {
     )}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
 
-    const AddingPromotion = async () => {
-        const selected = new Date(promotionEndDate);
-        const now = new Date();
-        if (selected <= now) {
-            return alert("Date and time must be in the future!");
-        }
-        useLoading.getState().setActionLoadingState({ display: true, status: 'loading', loadingMessage: 'Adding Promotion...' })
-        const addingPromotion = await fetch('/api/Promotions/AddPromotions', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                product_id: product_id,
-                product_image: products_data?.product_image,
-                product_name: products_data?.product_name,
-                price: products_data?.price,
-                promotion_type: promotion_type,
-                promotionValue: promotionValue,
-                promotionEndDate: promotionEndDate.replace("T", ":") + ":00"
-            })
-        })
 
-        const addingPromotionResult = await addingPromotion.json()
-        if (addingPromotionResult.status == 500) {
-            //handle error
-            useLoading.getState().setActionLoadingState({ display: true, status: 'error', loadingMessage: 'Error Adding Promotion' })
-            return
-        }
-        useLoading.getState().setActionLoadingState({ display: true, status: 'success', loadingMessage: 'Success Adding Promotion' })
-
-        // adding notification / logs
-        const notif_id = RandomString();
-        const date = new Date()
-        const final = formatDateYYYYMMDD(date)
-        const parsedDate = parseDateDDMMYYYY(final);
-        useNotificationStore.getState().addNotification({
-            notif_id: notif_id,
-            product_id: product_id,
-            product_name: products_data!.product_name,
-            product_image: products_data!.product_image,
-            action: 'Add Promotion',
-            isRead: false,
-            created_at: parsedDate
-        })
-
-
-
-    }
 
     return (
         <Sheet>
@@ -371,10 +291,22 @@ const AddPromotions = ({ product_id }: props) => {
                     <DropdownMenuItem className='w-full focus:bg-transparent'>
                         {
                             products_data && products_data.isActive ?
-                                <Button onClick={CancelPromotion} className='w-full' type="button" >Cancel Promotion</Button> :
+                                <Button onClick={() => CancelPromotion({
+                                    product_image: products_data!.product_image,
+                                    product_name: products_data!.product_name,
+                                    product_id: product_id
+                                })} className='w-full' type="button" >Cancel Promotion</Button> :
                                 <Button disabled={
                                     promotion_type == '' || promotionValue == 0 || promotionEndDate == ''
-                                } onClick={AddingPromotion} className='w-full' type="button" >Add Promotion</Button>
+                                } onClick={() => AddingPromotion({
+                                    product_image: products_data!.product_image,
+                                    product_name: products_data!.product_name,
+                                    price: products_data!.price,
+                                    product_id: product_id,
+                                    promotion_type: promotion_type,
+                                    promotionValue: promotionValue,
+                                    promotionEndDate: promotionEndDate
+                                })} className='w-full' type="button" >Add Promotion</Button>
                         }
 
                     </DropdownMenuItem>
