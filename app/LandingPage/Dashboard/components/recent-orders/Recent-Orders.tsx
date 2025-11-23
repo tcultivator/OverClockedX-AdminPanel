@@ -91,7 +91,7 @@ const Recent_Orders = () => {
                                     >
                                         <div
                                             style={{
-                                                maxHeight: isExpanded ? '120px' : '60px',
+                                                maxHeight: isExpanded ? `${group.items.length * 60}px` : '60px',
                                                 overflow: 'hidden',
                                                 transition: 'max-height 0.6s ease',
                                             }}
