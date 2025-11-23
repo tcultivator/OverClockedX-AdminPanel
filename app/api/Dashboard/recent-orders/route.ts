@@ -36,7 +36,7 @@ export async function GET() {
 FROM orders
 JOIN order_items ON order_items.order_id = orders.id
 JOIN products ON order_items.product_id = products.product_id
-WHERE MONTH(orders.created_at) = MONTH(NOW());
+WHERE MONTH(orders.created_at) = MONTH(NOW()) ORDER BY orders.created_at DESC;
 
 `
         const [rows] = await db.query(query)
