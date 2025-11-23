@@ -135,7 +135,7 @@ const Order_list = () => {
                                     >
                                         <div
                                             style={{
-                                                maxHeight: isExpanded ? '120px' : '60px',
+                                                maxHeight: isExpanded ? `${group.items.length * 60}px` : '60px',
                                                 overflow: 'hidden',
                                                 transition: 'max-height 0.3s ease-out',
                                                 borderLeft: isExpanded ? '4px solid #fac1d3' : '4px solid #ffffff',
