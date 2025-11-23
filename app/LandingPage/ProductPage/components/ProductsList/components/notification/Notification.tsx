@@ -50,7 +50,7 @@ const Notification = ({ notificationData }: Props) => {
         <div>
             <div className='relative'>
                 <Button id='open-btn' onClick={() => setDisplay(prev => !prev)} variant={'secondary'} className='border border-black/50 cursor-pointer'><IoIosNotificationsOutline /></Button>
-                <Label className='absolute top-[-5px] right-[-5px] bg-primary text-white rounded px-1 aspect-square w-max text-[10px]'>{notificationDataStore.length}</Label>
+                <Label className='absolute top-[-5px] right-[-5px] bg-primary text-white rounded px-1 aspect-square w-max text-[10px]'>{notificationDataStore.filter((item) => item.isRead == false).length}</Label>
             </div>
 
             <div ref={dropdownRef} className={`bg-white pb-3 border border-black/15 shadow-2xl rounded-[15px] w-[500px]  absolute z-40 right-42 mt-1 ${display ? 'block' : 'hidden'}`}>
