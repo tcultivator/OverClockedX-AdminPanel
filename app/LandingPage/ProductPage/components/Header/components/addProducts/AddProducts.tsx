@@ -10,9 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-
-import { ClipLoader } from 'react-spinners'
-
 import {
   Select,
   SelectContent,
@@ -37,22 +34,15 @@ import { useProductsStore } from '@/stores/productsStore'
 
 import { GoPlus } from "react-icons/go";
 
-type ProductsType = {
-  category: string;
-  product_name: string;
-  product_image: string;
-  price: number;
-  stocks: number;
-  description: string;
-  brand: string;
-}
+import { ProductsType } from '@/types/ProductsType'
+
 
 const AddProducts = () => {
   const { edgestore } = useEdgeStore();
   const [progress, setProgress] = useState<number>(0)
   const [loading, setLoading] = useState(false)
 
-  const [addedProducts, setAddedProducts] = useState<ProductsType>({
+  const [addedProducts, setAddedProducts] = useState({
     product_name: '',
     product_image: 'https://files.edgestore.dev/ntg08iryivwbq4r2/publicFiles/_public/799c96fb-ea95-45d5-b927-f045fc56ec4f.png',
     price: 0,

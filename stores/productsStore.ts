@@ -18,13 +18,23 @@ type CancelPromotion = {
     product_image: string
     product_name: string
 }
+
+type addNewProduct = {
+    product_name: string;
+    product_image: string;
+    price: number;
+    category: string;
+    brand: string;
+    stocks: number;
+    description: string;
+}
 type productStore = {
     productsData: ProductsType[],
     storeProductsData: (value: ProductsType[]) => void,
     removeProduct: (value: string) => void,
     editStocks: (pId: string, newStocks: number, oldStocks: number) => void,
     updateProductsDetails: (value: ProductsType) => void,
-    addProductsToDatabase: (value: ProductsType) => void,
+    addProductsToDatabase: (value: addNewProduct) => void,
     AddingPromotion: ({ product_id, product_image, product_name, price, promotion_type, promotionValue, promotionEndDate }: addingPromotion) => void,
     CancelPromotion: ({ product_id, product_image, product_name, }: CancelPromotion) => void,
 }
@@ -216,7 +226,7 @@ export const useProductsStore = create<productStore>((set) => ({
         }
     },
 
-    addProductsToDatabase: async (value: ProductsType) => {
+    addProductsToDatabase: async (value: addNewProduct) => {
 
         useLoading.getState().setActionLoadingState({ display: true, status: 'loading', loadingMessage: 'Adding Products! Please wait...' })
         const currentProducts = useProductsStore.getState().productsData
@@ -239,8 +249,8 @@ export const useProductsStore = create<productStore>((set) => ({
             sales_count: 0,
             created_at: parsedDate,
             updated_at: parsedDate,
-            promotion_type: value.promotion_type,
-            value: value.value
+            promotion_type: null,
+            value: null
         }
         const addProduct = await fetch('/api/addProducts', {
             method: 'POST',
