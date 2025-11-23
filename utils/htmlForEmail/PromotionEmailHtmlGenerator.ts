@@ -46,7 +46,7 @@ export function generatePromotionEmail({
       <!-- Footer -->
       <tr>
         <td style="padding: 20px 40px; background-color: #f4f4f4; text-align: center; font-size: 12px; color: #888888;">
-          You are receiving this email because you subscribed to our promotions. <br />
+          You are receiving this email because you subscribed to our NewsLetter. <br />
           If you wish to unsubscribe, click <a href="#" style="color:#ff5555;">here</a>.
         </td>
       </tr>

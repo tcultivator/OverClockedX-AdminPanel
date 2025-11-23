@@ -1,7 +1,7 @@
 import db from "@/lib/db";
 import { NextResponse, NextRequest } from "next/server";
 import { sendMail } from "@/lib/sendGrid";
-import { generatePromotionEmail } from "@/utils/PromotionEmailHtmlGenerator";
+import { generatePromotionEmail } from "@/utils/htmlForEmail/PromotionEmailHtmlGenerator";
 type subscriber_email = {
     email: string;
 }
