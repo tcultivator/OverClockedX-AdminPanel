@@ -18,6 +18,7 @@ type orders = {
     markAsPrintReciept: (order_id: number) => void,
 
 }
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 export const useOrderStore = create<orders>((set) => ({
     orders_data: [],
     setOrders_data: (value: GroupedOrder[]) => {
@@ -57,7 +58,7 @@ export const useOrderStore = create<orders>((set) => ({
     },
     QRCodeData: '',
     GenerateQR: async (value: number, pid: string) => {
-        const QRCodeData = await QRCode.toDataURL(`https://overclockedx-adminpanel.onrender.com/product/${pid}?order_id=${value}`)
+        const QRCodeData = await QRCode.toDataURL(`${baseURL}/product/${pid}?order_id=${value}`)
         set({
             QRCodeData: QRCodeData
         })

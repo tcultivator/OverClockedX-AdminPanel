@@ -1,15 +1,17 @@
 export function generateNewArrivalEmail({
-    product_id,
-    productImage,
-    productName,
-    price,
+  product_id,
+  productImage,
+  productName,
+  price,
+  baseURL,
 }: {
-    product_id: string;
-    productImage: string;
-    productName: string;
-    price: string;
+  product_id: string;
+  productImage: string;
+  productName: string;
+  price: string;
+  baseURL: string;
 }) {
-    return `
+  return `
   <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f4f4f4; padding: 40px 20px;">
     <table cellpadding="0" cellspacing="0" border="0" width="100%"
       style="max-width: 600px; margin: 0 auto; background-color: #ffffff;
@@ -39,7 +41,7 @@ export function generateNewArrivalEmail({
           </p>
 
 
-          <a href="https://overclockedx.onrender.com/product/${product_id}"
+          <a href="${baseURL}/product/${product_id}"
             style="display: inline-block; padding: 12px 25px; background-color: #ff5555;
             color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: bold;">
             View Product
