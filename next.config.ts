@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     ],
   },
   allowedDevOrigins: [
-    'https://myapp123.loca.lt', // ✅ no trailing slash
+    'https://overclockedx-admin.vercel.app', // ✅ no trailing slash
   ],
 };
 
