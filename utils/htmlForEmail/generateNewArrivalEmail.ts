@@ -24,7 +24,6 @@ export function generateNewArrivalEmail({
           </p>
         </td>
       </tr>
-
       <!-- Product Info -->
       <tr>
         <td style="padding: 40px; text-align: center;">
