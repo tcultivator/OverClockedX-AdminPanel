@@ -6,39 +6,42 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-
+  // Skip static files and favicon
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/static") ||
-    pathname.startsWith("/favicon.ico")
+    pathname.startsWith("/favicon.ico") ||
+    pathname.startsWith("/api/edgestore")
   ) {
     return NextResponse.next();
   }
 
-
-  if (pathname.startsWith("/api/edgestore")) {
+  // Temporary bypass for API requests (Thunder Client, etc.)
+  if (pathname.startsWith("/api")) {
     return NextResponse.next();
   }
 
-
-  // this is temporary, i need to delete it before deploying in production, i need this so my middle ware wont block thunder client
-    if (pathname.startsWith("/api")) {
-    return NextResponse.next();
-  }
-
-
-  const publicPaths = ["/", "/login", "/register","/ReadyToShip"];
+  // Public pages
+  const publicPaths = ["/", "/login", "/register", "/ReadyToShip"];
   if (publicPaths.includes(pathname)) {
     return NextResponse.next();
   }
 
+ 
+  const cookieName =
+    process.env.NODE_ENV === "production"
+      ? "__Secure-authjs.session-token"
+      : "authjs.session-token";
 
+  // Get JWT token from cookie
   const token = await getToken({
     req: request,
-    secret: process.env.AUTH_SECRET,
+    secret: process.env.AUTH_SECRET, 
+    cookieName,
   });
-  console.log("Token:", token);
- 
+
+  console.log("token", token);
+
   if (!token) {
     console.log("No token – redirecting to login");
     return NextResponse.redirect(new URL("/", request.url));
@@ -47,7 +50,7 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-
 export const config = {
   matcher: ["/((?!_next|static|favicon.ico).*)"],
+  runtime: "nodejs", //read secure cookies on Vercel
 };
