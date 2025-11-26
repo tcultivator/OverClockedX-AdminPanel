@@ -5,7 +5,6 @@ import { generateNewArrivalEmail } from "@/utils/htmlForEmail/generateNewArrival
 type subscriber_email = {
     email: string;
 }
-const baseURL = process.env.NEXTAUTH_URL;
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json()
@@ -21,7 +20,6 @@ export async function POST(req: NextRequest) {
             productImage: body.data.product_image,
             productName: body.data.product_name,
             price: new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP", }).format(body.data.price),
-            baseURL: baseURL!
         })
 
         await sendMail({
