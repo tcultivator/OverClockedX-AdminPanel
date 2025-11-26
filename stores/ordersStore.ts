@@ -16,7 +16,6 @@ type orders = {
     updateStatusOnDelivery: (value: string) => void,
     declineOrder: (value: number, email: string, reference_id: string, created_at: string, total_amount: number) => Promise<DeclineOrderReturnValue>,
     markAsPrintReciept: (order_id: number) => void,
-
 }
 export const useOrderStore = create<orders>((set) => ({
     orders_data: [],
