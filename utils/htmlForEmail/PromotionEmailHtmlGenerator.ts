@@ -5,7 +5,6 @@ export function generatePromotionEmail({
   promotionType,
   promotionValue,
   promotionEndDate,
-  baseURL,
 }: {
   productImage: string;
   productName: string;
@@ -13,7 +12,6 @@ export function generatePromotionEmail({
   promotionType: "Flash Sale" | "Discounted Products";
   promotionValue: string;
   promotionEndDate: string;
-  baseURL: string;
 }) {
   return `
   <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f4f4f4; padding: 40px 20px;">
@@ -28,7 +26,6 @@ export function generatePromotionEmail({
           </p>
         </td>
       </tr>
-
       <!-- Product Info -->
       <tr>
         <td style="padding: 40px; text-align: center;">
@@ -41,7 +38,7 @@ export function generatePromotionEmail({
           <p style="margin: 0 0 30px; font-size: 14px; color: #555555;">
             Hurry! Offer ends on ${promotionEndDate}.
           </p>
-          <a href="${baseURL}" style="display: inline-block; padding: 12px 25px; background-color: #ff5555; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: bold;">Shop Now</a>
+          <a href="https://overclockedx-admin.vercel.app" style="display: inline-block; padding: 12px 25px; background-color: #ff5555; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: bold;">Shop Now</a>
         </td>
       </tr>
 

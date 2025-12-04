@@ -5,7 +5,6 @@ import { generatePromotionEmail } from "@/utils/htmlForEmail/PromotionEmailHtmlG
 type subscriber_email = {
     email: string;
 }
-const baseURL = process.env.NEXTAUTH_URL;
 export async function POST(req: NextRequest) {
     const body = await req.json()
     try {
@@ -36,7 +35,6 @@ export async function POST(req: NextRequest) {
                 second: "numeric",
                 hour12: true,
             }),
-            baseURL: baseURL!,
         });
         //then send email to all subscriber
         await sendMail({

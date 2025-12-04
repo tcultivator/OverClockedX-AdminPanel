@@ -3,13 +3,11 @@ export function generateNewArrivalEmail({
   productImage,
   productName,
   price,
-  baseURL,
 }: {
   product_id: string;
   productImage: string;
   productName: string;
   price: string;
-  baseURL: string;
 }) {
   return `
   <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f4f4f4; padding: 40px 20px;">
@@ -26,7 +24,6 @@ export function generateNewArrivalEmail({
           </p>
         </td>
       </tr>
-
       <!-- Product Info -->
       <tr>
         <td style="padding: 40px; text-align: center;">
@@ -41,7 +38,7 @@ export function generateNewArrivalEmail({
           </p>
 
 
-          <a href="${baseURL}/product/${product_id}"
+          <a href="https://overclockedx-admin.vercel.app/product/${product_id}"
             style="display: inline-block; padding: 12px 25px; background-color: #ff5555;
             color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: bold;">
             View Product
