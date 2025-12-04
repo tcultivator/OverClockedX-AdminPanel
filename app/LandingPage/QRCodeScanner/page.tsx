@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
+
 import { Button } from "@/components/ui/button";
 import { socket } from '@/lib/socket-io'
 import { PulseLoader } from 'react-spinners'
@@ -59,7 +60,6 @@ const QRCodeScanner = () => {
             body: JSON.stringify({ order_id: order_id })
         })
         const update_status_on_delivery_result = await update_status_on_delivery.json()
-        console.log(update_status_on_delivery_result.message)
         setErrorHandlingMessage(update_status_on_delivery_result.message)
         if (update_status_on_delivery_result.message == 'success') {
             socket.emit('QrCodeScan', order_id)

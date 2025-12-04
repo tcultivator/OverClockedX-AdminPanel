@@ -37,6 +37,8 @@ export async function middleware(request: NextRequest) {
     req: request,
     secret: process.env.AUTH_SECRET,
   });
+
+  console.log('token',token)
  
   if (!token) {
     console.log("No token – redirecting to login");

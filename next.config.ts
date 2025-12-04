@@ -6,7 +6,8 @@ const nextConfig: NextConfig = {
       { hostname: "lh3.googleusercontent.com" },
       { hostname: "files.edgestore.dev" },
       { hostname: "res.cloudinary.com" },
-      { hostname: "b.tile.openstreetmap.org" }, // ✅ no https://
+      { hostname: "b.tile.openstreetmap.org" },
+      { hostname: "images.barcodelookup.com" }, // ✅ no https://
     ],
   },
   allowedDevOrigins: [

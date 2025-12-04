@@ -19,6 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     
                     const isPasswordCorrect = await bcrypt.compare(password, accounts[0].password)
                     if (isPasswordCorrect) {
+                        console.log('correct password')
                         return {
                             email: accounts[0].email,
                             name: accounts[0].username,

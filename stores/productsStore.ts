@@ -20,6 +20,7 @@ type CancelPromotion = {
 }
 
 type addNewProduct = {
+    product_id: string;
     product_name: string;
     product_image: string;
     price: number;
@@ -227,58 +228,67 @@ export const useProductsStore = create<productStore>((set) => ({
     },
 
     addProductsToDatabase: async (value: addNewProduct) => {
-
-        useLoading.getState().setActionLoadingState({ display: true, status: 'loading', loadingMessage: 'Adding Products! Please wait...' })
         const currentProducts = useProductsStore.getState().productsData
-        const pId = RandomString() //generate unique product id - string
-        const parentValue = parentClasses[value.category as keyof typeof parentClasses];
-        const date = new Date()
-        const final = formatDateYYYYMMDD(date)
-        const parsedDate = parseDateDDMMYYYY(final);
-        const finalProductsToInsert = {
-            id: 0,
-            product_id: pId,
-            category: value.category,
-            parent: parentValue,
-            product_name: value.product_name,
-            product_image: value.product_image,
-            price: value.price,
-            stocks: value.stocks,
-            description: value.description,
-            brand: value.brand,
-            sales_count: 0,
-            created_at: parsedDate,
-            updated_at: parsedDate,
-            promotion_type: null,
-            value: null
-        }
-        const addProduct = await fetch('/api/addProducts', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({ data: finalProductsToInsert })
-        })
-        const result = await addProduct.json()
-        if (result.status != 500) {
-            set({
-                productsData: [finalProductsToInsert, ...currentProducts]
-            })
-            //adding notification
-            const notif_id = RandomString();
-            useNotificationStore.getState().addNotification({
-                notif_id: notif_id,
-                product_id: finalProductsToInsert.product_id,
-                product_name: finalProductsToInsert.product_name,
-                product_image: finalProductsToInsert.product_image,
-                action: 'Add New Product',
-                isRead: false,
-                created_at: parsedDate
-            })
-            useLoading.getState().setActionLoadingState({ display: true, status: 'success', loadingMessage: 'Success Adding Products!' })
+
+        //check if there are already existing product before adding product
+        const isThisAlreadyExistingProduct = currentProducts.filter(item => item.product_id == value.product_id)
+        if (isThisAlreadyExistingProduct.length > 0) {
+            const newStocks = isThisAlreadyExistingProduct[0].stocks + value.stocks
+            useProductsStore.getState().editStocks(value.product_id, newStocks, isThisAlreadyExistingProduct[0].stocks)
         } else {
-            useLoading.getState().setActionLoadingState({ display: true, status: 'error', loadingMessage: 'Error Adding Products!' })
+            useLoading.getState().setActionLoadingState({ display: true, status: 'loading', loadingMessage: 'Adding Products! Please wait...' })
+            const parentValue = parentClasses[value.category as keyof typeof parentClasses];
+            const date = new Date()
+            const final = formatDateYYYYMMDD(date)
+            const parsedDate = parseDateDDMMYYYY(final);
+            const finalProductsToInsert = {
+                id: 0,
+                product_id: value.product_id,
+                category: value.category,
+                parent: parentValue,
+                product_name: value.product_name,
+                product_image: value.product_image,
+                price: value.price,
+                stocks: value.stocks,
+                description: value.description,
+                brand: value.brand,
+                sales_count: 0,
+                created_at: parsedDate,
+                updated_at: parsedDate,
+                promotion_type: null,
+                value: null
+            }
+            const addProduct = await fetch('/api/addProducts', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({ data: finalProductsToInsert })
+            })
+            const result = await addProduct.json()
+            if (result.status != 500) {
+                set({
+                    productsData: [finalProductsToInsert, ...currentProducts]
+                })
+                //adding notification
+                const notif_id = RandomString();
+                useNotificationStore.getState().addNotification({
+                    notif_id: notif_id,
+                    product_id: finalProductsToInsert.product_id,
+                    product_name: finalProductsToInsert.product_name,
+                    product_image: finalProductsToInsert.product_image,
+                    action: 'Add New Product',
+                    isRead: false,
+                    created_at: parsedDate
+                })
+                useLoading.getState().setActionLoadingState({ display: true, status: 'success', loadingMessage: 'Success Adding Products!' })
+            } else {
+                useLoading.getState().setActionLoadingState({ display: true, status: 'error', loadingMessage: 'Error Adding Products!' })
+            }
         }
+
+
+
 
     },
     AddingPromotion: async ({ product_id, product_image, product_name, price, promotion_type, promotionValue, promotionEndDate }: addingPromotion) => {
