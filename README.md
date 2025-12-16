@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+OverClockedX Admin
 
-First, run the development server:
+OverClockedX Admin is the official administrative dashboard for the OverClockedX e-commerce platform. It allows administrators to efficiently manage the client-facing store by handling inventory, orders, promotions, analytics, and more through a modern, responsive interface.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Dashboard
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* Display total revenue of the selected year with monthly breakdowns in an area chart
+* Display popular products for the selected month
+* Highlight top-selling products of the current month
+* Low stock alerts for products running out
+* Recent orders overview
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Inventory Management
 
-## Learn More
+* View all products with pagination
+* Add products manually or by scanning barcode/QR code
+* Search products by product ID or name
+* Edit product information, price, and stock
+* Add additional stock to existing products
+* Apply promotions and discounts to products
+* Remove outdated or discontinued products
 
-To learn more about Next.js, take a look at the following resources:
+Order Management
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Display all orders in a table format with full details
+* View order status, payment status, customer information, shipping details, and product list
+* Accept pending orders (for cash-on-delivery)
+* Automatically process online payments (Gcash, Maya)
+* Print receipts with QR codes for tracking order packing and delivery status
+* Scan QR codes to update order status from “Preparing” to “Out for Delivery”
+* Decline orders with invalid shipping information
+* Order statistics: total orders, pending, preparing, delivered, and cancelled
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+QR Code Scanner
 
-## Deploy on Vercel
+* Scan product QR codes to update delivery status efficiently
+* Ensure smooth tracking of packed and shipped items
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+UX & Design
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* Fully responsive dashboard for desktop and tablet usage
+* Clean and modern UI for fast and intuitive administration
+* Prioritizes usability for managing inventory, orders, and promotions
+
+Tech Stack
+
+* Framework: Next.js (built on React)
+* Language: TypeScript
+* State Management: Zustand
+* Authentication: next-auth (Google and Credentials providers)
+* Email Service: SendGrid
+* Database: MySQL2
+* Barcode/QR Code: qrcode and html5-qrcode
+* UI Components: Shadcn/ui and Radix UI
+* Styling: Tailwind CSS & tailwind-merge
+* Charts & Analytics: Recharts
+* Icons: React Icons & Lucide
+* File Uploads: Edge Store
+* Real-time updates: socket.io-client
+
+
