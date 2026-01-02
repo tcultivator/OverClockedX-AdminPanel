@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
         const [rows] = await db.query('SELECT email FROM subscribe_users')
         const emails = rows as subscriber_email[]
         const emailList = emails.map(item => item.email);
-
+        console.log('this is the list of emails: ', emailList)
 
         // generate html email
         const promotionEndDate = new Date(body.promotionEndDate);
