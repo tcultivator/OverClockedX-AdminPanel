@@ -7,6 +7,7 @@ type subscriber_email = {
 }
 export async function POST(req: NextRequest) {
     const body = await req.json()
+    console.log('this is the body: ', body)
     try {
         //this will insert promotion to database
         const query = 'INSERT INTO product_promotion_list (product_id,promotion_type,value,end_date,isActive) VALUES (?,?,?,?,?)'
