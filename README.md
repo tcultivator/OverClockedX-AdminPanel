@@ -3,9 +3,9 @@ OverClockedX Admin
 
 OverClockedX Admin is the official administrative dashboard for the OverClockedX e-commerce platform. It allows administrators to efficiently manage the client-facing store by handling inventory, orders, promotions, analytics, and more through a modern, responsive interface.
 
-Features
+## ✨Features
 
-Dashboard
+## 📈 Dashboard
 
 * Display total revenue of the selected year with monthly breakdowns in an area chart
 * Display popular products for the selected month
@@ -13,7 +13,9 @@ Dashboard
 * Low stock alerts for products running out
 * Recent orders overview
 
-Inventory Management
+---
+
+## 📝 Inventory Management
 
 * View all products with pagination
 * Add products manually or by scanning barcode/QR code
@@ -23,7 +25,9 @@ Inventory Management
 * Apply promotions and discounts to products
 * Remove outdated or discontinued products
 
-Order Management
+---
+
+## 📝 Order Management
 
 * Display all orders in a table format with full details
 * View order status, payment status, customer information, shipping details, and product list
@@ -34,18 +38,24 @@ Order Management
 * Decline orders with invalid shipping information
 * Order statistics: total orders, pending, preparing, delivered, and cancelled
 
-QR Code Scanner
+---
+
+## ⛶ QR Code Scanner
 
 * Scan product QR codes to update delivery status efficiently
 * Ensure smooth tracking of packed and shipped items
 
-UX & Design
+---
+
+## 🎨 UX & Design
 
 * Fully responsive dashboard for desktop and tablet usage
 * Clean and modern UI for fast and intuitive administration
 * Prioritizes usability for managing inventory, orders, and promotions
 
-Tech Stack
+---
+
+## 🛠 Tech Stack
 
 * Framework: Next.js (built on React)
 * Language: TypeScript
@@ -60,4 +70,38 @@ Tech Stack
 * Icons: React Icons & Lucide
 * File Uploads: Edge Store
 * Real-time updates: socket.io-client
+
+---
+
+## 📸 Screenshots
+
+![Desktop View](/public/overclockedx-admin/dashboard.png)  
+*OverClockedX-AdminPanel Dashboard*
+
+---
+
+![Desktop View](/public/overclockedx-admin/inventory.png) 
+*OverClockedX-AdminPanel Inventory Management*
+
+---
+
+![Desktop View](/public/overclockedx-admin/addingProducts.png) 
+*OverClockedX-AdminPanel Add Products Auto/Manual*
+
+---
+
+![Desktop View](/public/overclockedx-admin/promotion.png) 
+*OverClockedX-AdminPanel Adding/Cancel Product Promotions/Discounts*
+
+---
+
+![Desktop View](/public/overclockedx-admin/orders.png) 
+*OverClockedX-AdminPanel Orders Management*
+
+---
+
+![Desktop View](/public/overclockedx-admin/updateOrderStatus.png) 
+*OverClockedX-AdminPanel QR Code Scanner - update order status - reciept scanner*
+
+---
 
