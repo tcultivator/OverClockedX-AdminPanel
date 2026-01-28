@@ -8,23 +8,40 @@ import Popular_Product from './components/popular-product/Popular-Product'
 import Recent_Orders from './components/recent-orders/Recent-Orders'
 const Dashboard = () => {
     return (
-        <div className='w-full '>
-            <div className='flex gap-2 w-full h-[88vh] max-h-[88vh]  '>
-                <div className='w-[65%] flex flex-col gap-2 h-max'>
-                    <div className='flex gap-2 w-full '>
+        <div className="w-full">
+            <div className="grid grid-cols-[65%_35%] gap-2 w-full">
+                {/* LEFT COLUMN */}
+                <div className="flex flex-col gap-2">
+                    <div className="grid grid-cols-2 gap-2">
                         <Total_products_card />
                         <Total_orders_card />
                     </div>
+
                     <Revenue_charts />
                     <Recent_Orders />
                 </div>
-                <div className='flex flex-col gap-2 p-0 w-[35%] h-[88vh] '>
-                    <Popular_Product />
-                    <Top_selling_products />
-                    <Low_Stocks_Alert />
+
+                {/* RIGHT COLUMN */}
+                <div className="flex flex-col gap-2 h-full">
+                    {/* Popular Product */}
+                    <div className="flex-1">
+                        <Popular_Product />
+                    </div>
+
+                    {/* Top Selling Products */}
+                    <div className="flex-1">
+                        <Top_selling_products />
+                    </div>
+
+                    {/* Low Stocks Alert */}
+                    <div className="flex-1">
+                        <Low_Stocks_Alert />
+                    </div>
                 </div>
+
             </div>
         </div>
+
     )
 }
 

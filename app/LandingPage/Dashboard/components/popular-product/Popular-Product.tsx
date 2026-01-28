@@ -70,7 +70,7 @@ const Popular_Product = () => {
 
 
     return (
-        <div className="rounded-[15px] shadow-sm bg-white min-h-[30vh] max-h-[30vh] border border-black/15">
+        <div className="rounded-[15px] shadow-sm bg-white h-full border border-black/15">
 
             <div className="w-full p-3 px-5 border-b flex justify-between items-center">
                 <div>
@@ -87,9 +87,9 @@ const Popular_Product = () => {
             </div>
 
 
-            <div className="h-[75%] box-border">
+            <div className="box-border">
                 {loading ? (
-                    <div className="flex h-[23vh] p-2 items-center">
+                    <div className="flex  p-2 items-center">
                         <div className="w-[40%]">
                             <Skeleton className="h-50 w-full" />
                         </div>
@@ -105,7 +105,7 @@ const Popular_Product = () => {
                     </div>
                 ) : popular_product?.length > 0 ? (
 
-                    <div className="flex h-[23vh] items-center">
+                    <div className="flex items-center">
                         <div className="w-[40%]">
                             <Image
                                 src={popular_product[0]?.product_image}
@@ -136,7 +136,7 @@ const Popular_Product = () => {
                     </div>
                 ) : (
                     // Fallback if no data
-                    <div className="flex items-center justify-center h-full text-gray-400">
+                    <div className="flex items-center justify-center h-full  text-gray-400">
                         No popular products found
                     </div>
                 )}

@@ -35,8 +35,8 @@ const Top_selling_products = () => {
     fetch_top_selling_products_func()
   }, [selectedDate])
   return (
-    <div className='w-full '>
-      <Card className="pt-0 gap-0 border border-black/15">
+    <div className='w-full h-full '>
+      <Card className="pt-0 gap-0 border h-full border-black/15">
         <CardHeader className="flex items-center  space-y-0 border-b py-5 sm:flex-row">
           <div className='flex items-center justify-between w-full'>
             <CardTitle className=''>Top Selling Products</CardTitle>
@@ -50,7 +50,7 @@ const Top_selling_products = () => {
           </div>
 
         </CardHeader>
-        <CardContent className=" px-1 pb-0 mb-0 m-0 h-[23.5vh]">
+        <CardContent className=" flex-1 p-1 ">
           {loading ?
             <div className='flex flex-col gap-1 h-[23.5vh] p-1'>
               <Skeleton className="w-full h-full p-1 rounded" />
@@ -58,13 +58,13 @@ const Top_selling_products = () => {
               <Skeleton className="w-full h-full p-1 rounded" />
             </div> : (
               topSellingProducts?.length > 0 ?
-                <ScrollArea className="flex flex-col max-h-[23.5vh] overflow-y-auto">
+                <ScrollArea className="flex flex-col  overflow-y-auto">
                   {topSellingProducts.map((data, index) => (
                     <div
                       key={index}
                       className="flex items-center justify-between p-3 mb-2 bg-white  shadow-sm hover:shadow-md transition-shadow"
                     >
-                      
+
                       <div className="flex items-center gap-3">
                         <Image
                           src={data.product_image}
@@ -86,7 +86,7 @@ const Top_selling_products = () => {
                         </div>
                       </div>
 
-                      
+
                       <div className="flex items-center gap-4">
                         <div className="flex flex-col items-end gap-0.5">
                           <Label className="font-medium text-xs text-pink-500">
