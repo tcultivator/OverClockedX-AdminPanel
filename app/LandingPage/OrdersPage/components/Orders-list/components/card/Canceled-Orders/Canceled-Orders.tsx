@@ -9,7 +9,7 @@ const Canceled_Orders = () => {
     return (
         <div className='flex shadow-sm border border-black/15 bg-white p-2 rounded-[15px] w-full'>
             <div className='flex gap-2 items-center w-full p-3'>
-                <div className='bg-red-400 flex justify-center items-center p-2 rounded-[50%]'>
+                <div className='bg-primary flex justify-center items-center p-2 rounded-[50%]'>
                     <TbShoppingCartX className='text-white text-xl' />
                 </div>
                 <div className='w-full'>

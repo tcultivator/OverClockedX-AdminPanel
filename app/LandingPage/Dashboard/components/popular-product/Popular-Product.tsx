@@ -70,11 +70,11 @@ const Popular_Product = () => {
 
 
     return (
-        <div className="rounded-[15px] shadow-sm bg-white h-full border border-black/15">
+        <div className="rounded-[15px] bg-white h-full border border-black/15">
 
             <div className="w-full p-3 px-5 border-b flex justify-between items-center">
                 <div>
-                    <Label className="text-[15px] font-semibold">Popular Product</Label>
+                    <Label className="text-[15px] text-primary font-semibold">Popular Product</Label>
                 </div>
                 <div>
                     <Input type='month' defaultValue={`${selectedDate[0]}-${selectedDate[1]}`} onChange={(e) => {

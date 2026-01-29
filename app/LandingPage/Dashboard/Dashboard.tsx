@@ -9,10 +9,10 @@ import Recent_Orders from './components/recent-orders/Recent-Orders'
 const Dashboard = () => {
     return (
         <div className="w-full">
-            <div className="grid grid-cols-[65%_35%] gap-2 w-full">
+            <div className="grid grid-cols-1 pb-[50px] md:pb-0 md:grid-cols-[65%_35%] gap-1 md:gap-2 w-full">
                 {/* LEFT COLUMN */}
-                <div className="flex flex-col gap-2">
-                    <div className="grid grid-cols-2 gap-2">
+                <div className="flex flex-col gap-1 md:gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2">
                         <Total_products_card />
                         <Total_orders_card />
                     </div>
@@ -22,7 +22,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* RIGHT COLUMN */}
-                <div className="flex flex-col gap-2 h-full">
+                <div className="flex flex-col gap-1 md:gap-2 h-full">
                     {/* Popular Product */}
                     <div className="flex-1">
                         <Popular_Product />
