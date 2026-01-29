@@ -78,20 +78,20 @@ const Revenue_charts = () => {
 
 
     return (
-        <div className='w-full'>
+        <div className='w-full '>
             <Card className="pt-0 border border-black/15">
                 <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
                     <div className="grid flex-1 gap-1">
                         <div className='flex justify-between items-center'>
-                            <CardTitle className=''>Revenues Overview</CardTitle>
+                            <CardTitle className='text-primary'>Revenues Overview</CardTitle>
                             <Select onValueChange={(value) => setSelectedYear(value)} defaultValue={dropDownYearSelection[dropDownYearSelection.length - 1].toString()}>
                                 <SelectTrigger
-                                    className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex"
+                                    className="w-[160px] rounded-lg sm:ml-auto flex"
                                     aria-label="Select a range"
                                 >
                                     <SelectValue placeholder={dropDownYearSelection[dropDownYearSelection.length - 1].toString()} />
                                 </SelectTrigger>
-                                <SelectContent className="rounded-xl">
+                                <SelectContent className="rounded md:rounded-xl">
                                     {dropDownYearSelection.map((data, index) => (
                                         <SelectItem key={index} value={data.toString()}>{data}</SelectItem>
                                     ))}
@@ -124,8 +124,8 @@ const Revenue_charts = () => {
                 </CardHeader>
 
                 <CardContent className="">
-                    <ChartContainer config={chartConfig} className="aspect-auto h-[30vh]  w-full">
-                        <AreaChart data={chartData} margin={{ left: 20, right: 20 }}>
+                    <ChartContainer config={chartConfig} className="aspect-auto h-[20vh] md:h-[30vh]  w-full">
+                        <AreaChart data={chartData} margin={{ left: 10, right: 10 }}>
                             <defs>
                                 <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
                                     <stop offset="5%" stopColor="var(--color-revenue)" stopOpacity={0.8} />

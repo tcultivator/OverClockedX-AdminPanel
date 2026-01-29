@@ -1,23 +1,23 @@
 "use client"
-import { useState, useEffect } from "react"; // Added hooks
+import { useState, useEffect } from "react"; 
 import { doCredentialsSignin } from "@/components/Signin/actions/doCredentialsSignin";
 import { redirect } from "next/navigation";
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { alertClasses } from "@/utils/AlertNotificationClass";
-//zustand store
+
 import { useAlertNotification } from "@/stores/alertNotificationStore";
 import { useLoading } from "@/stores/loadingStore";
 
-//spinners
+
 import { ClipLoader } from "react-spinners";
 import { CiLock } from "react-icons/ci";
-import { IoClose } from "react-icons/io5"; // Close icon
+import { IoClose } from "react-icons/io5"; 
 
-//icons 
+
 const CheckIcon = () => (
-  <svg className="w-5 h-5 text-indigo-600 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+  <svg className="w-5 h-5 text-primary mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
 )
 
 export default function Home() {
@@ -27,10 +27,10 @@ export default function Home() {
   const loading = useLoading((state) => state.loading)
   const setLoading = useLoading((state) => state.setLoading)
 
-  // State for Mobile Popup
+  
   const [isMobileLoginOpen, setIsMobileLoginOpen] = useState(false);
 
-  // Prevent background scrolling when mobile modal is open
+  
   useEffect(() => {
     if (isMobileLoginOpen) {
       document.body.style.overflow = 'hidden';
@@ -60,13 +60,13 @@ export default function Home() {
   return (
     <div className="min-h-[100dvh] w-full bg-slate-50 flex items-center justify-center p-4 md:p-8 relative overflow-x-hidden">
 
-      {/* Background Soft Glow Effect */}
+      
       <div className="absolute top-[-10%] right-[-20%] md:top-[-20%] md:right-[-10%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-indigo-200/40 rounded-full blur-[80px] md:blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center relative z-10 py-4 lg:py-0 mb-20 lg:mb-0">
 
-        {/* LEFT SIDE: Content & Copy */}
-        <div className="flex flex-col gap-6 order-1 lg:order-none">
+        
+        <div className="flex flex-col gap-3 order-1 lg:order-none">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl text-center sm:text-start font-big_shoulders_inline font-bold tracking-wide text-slate-900 leading-tight">
             OverClockedX - Admin Panel
           </h1>
@@ -75,7 +75,7 @@ export default function Home() {
             Manage your Products inventory, order requests, and oversee components from a streamlined and responsive interface.
           </p>
 
-          {/* Feature Cards */}
+          
           <div className="flex flex-col sm:flex-row gap-4 mt-2 w-full">
             <div className="flex items-center w-full text-slate-600 font-medium text-sm rounded-sm bg-white shadow-[0_4px_20px_-5px_rgba(0,0,0,0.1)] p-4 border border-slate-100">
               <div className="flex flex-col gap-3 w-full">
@@ -112,7 +112,7 @@ export default function Home() {
           </div>
 
           <div className="mt-2 block flex items-center justify-center sm:justify-start">
-            <div className="inline-flex h-10 gap-2 items-center justify-center rounded-md bg-indigo-100 px-6 font-medium text-indigo-900 transition-colors hover:bg-indigo-200 pointer-events-none">
+            <div className="inline-flex h-10 gap-2 items-center justify-center rounded-md bg-primary/20 px-6 font-medium text-primary transition-colors hover:bg-primary/30 pointer-events-none">
               <CiLock className="text-lg" /> Authorized Personnel Only
             </div>
           </div>
@@ -146,7 +146,7 @@ export default function Home() {
             </button>
 
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-slate-800">Sign In</h2>
+              <h2 className="text-2xl font-bold text-slate-800 font-big_shoulders_inline tracking-wide">Sign In</h2>
               <p className="text-slate-400 text-sm">Enter your admin credentials</p>
             </div>
 
@@ -179,7 +179,7 @@ export default function Home() {
 
               <Button
                 type="submit"
-                className="w-full cursor-pointer h-11 md:h-12 mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-base shadow-indigo-200 shadow-lg transition-all"
+                className="w-full cursor-pointer h-11 md:h-12 mt-4 bg-primary hover:bg-primary/80 text-white font-semibold rounded-xl text-base shadow-indigo-200 shadow-lg transition-all"
               >
                 {loading && <ClipLoader color="white" size={20} className="mr-2" />}
                 {loading ? 'Verifying...' : 'Access Dashboard'}
@@ -194,7 +194,7 @@ export default function Home() {
       <div className="fixed bottom-0 left-0 w-full p-4 bg-white/80 backdrop-blur-md border-t border-slate-200 lg:hidden z-40 flex flex-col gap-2">
         <Button
           onClick={() => setIsMobileLoginOpen(true)}
-          className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow-lg text-lg"
+          className="w-full h-12 bg-primary hover:bg-primary/80 text-white rounded-xl font-semibold shadow-lg text-lg"
         >
           Login to Admin Panel
         </Button>

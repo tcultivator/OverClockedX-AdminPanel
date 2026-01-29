@@ -39,7 +39,7 @@ const Top_selling_products = () => {
       <Card className="pt-0 gap-0 border h-full border-black/15">
         <CardHeader className="flex items-center  space-y-0 border-b py-5 sm:flex-row">
           <div className='flex items-center justify-between w-full'>
-            <CardTitle className=''>Top Selling Products</CardTitle>
+            <CardTitle className='text-primary'>Top Selling Products</CardTitle>
             <div>
               <Input type='month' defaultValue={`${selectedDate[0]}-${selectedDate[1]}`} onChange={(e) => {
                 const [year, month] = e.target.value.split("-")
@@ -87,24 +87,17 @@ const Top_selling_products = () => {
                       </div>
 
 
-                      <div className="flex items-center gap-4">
+                      <div className="flex flex-col items-center gap-2">
+                        <div className='w-[130px]  relative h-[30px] rounded border border-primary'>
+                          <div className={`flex items-center justify-center w-[${data.stocks / data.base_stocks * 100}%] max-w-[150px] h-full  bg-primary`} />
+                          <Label className={`font-light absolute top-1/2 right-1/2 translate-x-[50%] translate-y-[-50%] ${Math.round(data.stocks / data.base_stocks * 100) > 50 ? 'text-white' : 'text-black'}  text-sm`}>{data.stocks / data.base_stocks * 100}%</Label>
+                        </div>
                         <div className="flex flex-col items-end gap-0.5">
-                          <Label className="font-medium text-xs text-pink-500">
-                            {data.total_orders} sold in{" "}
-                            {new Date(0, Number(selectedDate[1]) - 1).toLocaleString("en-GB", {
-                              month: "long",
-                            })}
-                          </Label>
                           <Label className="font-thin text-[11px] text-gray-400">
                             {data.sales_count} / {data.base_stocks} Total sold
                           </Label>
                         </div>
-                        <ProgressCircle
-                          size={50}
-                          strokeWidth={5}
-                          progress={Math.round(data.stocks / data.base_stocks * 100)}
-                          className="text-black/50"
-                        />
+
                       </div>
                     </div>
                   ))}

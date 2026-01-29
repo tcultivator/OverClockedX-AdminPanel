@@ -7,14 +7,20 @@ import { useRouter } from 'next/navigation';
 import { TbPackageOff } from "react-icons/tb";
 import { LuPackageCheck } from "react-icons/lu";
 import { LuPackageX } from "react-icons/lu";
-
-
+import { GoArrowSwitch } from "react-icons/go";
+import { useMobileControllerStore } from '@/stores/mobileControllerStore';
 const Total_products_card = () => {
     const [totalProducts, setTotalProducts] = useState(0)
     const [totalOutOfStocks, setTotalOutOfStocks] = useState(0)
     const [totalDeleted, setTotalDeleted] = useState(0)
     const [loading, setLoading] = useState(false)
     const router = useRouter()
+
+    // zustand state for switching display of card in mobile view
+    const cardDisplaySwitcher = useMobileControllerStore((state) => state.cardDisplaySwitcher)
+    const setCardDisplaySwitcher = useMobileControllerStore((state) => state.setCardDisplaySwitcher)
+
+    // fetch the products data in initial reload/page reload
     useEffect(() => {
         setLoading(true)
         const fetchProductsCount = async () => {
@@ -32,34 +38,45 @@ const Total_products_card = () => {
         fetchProductsCount()
     }, [])
     return (
-        <div className=' p-7 flex bg-white items-center gap-1 rounded-[10px] border border-black/15 shadow-sm h-max w-full px-4 border border-black/15'>
-            <div className='flex gap-1 items-center w-full '>
-                <div className='bg-[#fa6093]/70 flex justify-center items-center p-2.5 rounded-[50%]'>
-                    <LuPackageCheck className='text-white text-2xl' />
+        <div className={`${cardDisplaySwitcher ? 'hidden md:flex' : 'flex'} p-3 md:p-7  flex-col  bg-white items-center gap-3 justify-start rounded md:rounded-[10px] border border-black/15  h-max w-full md:px-4 border border-black/15`}>
+            <div className='flex md:hidden items-center justify-between w-full'>
+                <Label className=' '>Products</Label>
+                <button onClick={() => setCardDisplaySwitcher(true)} type='button' className=' p-1'>
+                    <GoArrowSwitch className='text-black' />
+                </button>
+
+            </div>
+            <div className='flex items-center justify-start w-full gap-1'>
+                <div className='flex gap-1 items-center w-full '>
+                    <div className='bg-[#fa6093]/70 flex justify-center items-center p-1 md:p-2.5 rounded-[50%]'>
+                        <LuPackageCheck className='text-white text-lg md:text-2xl' />
+                    </div>
+                    <div className='w-full flex flex-col'>
+                        <Label className='text-black/50 text-[13px]'>Total<span className='hidden md:block'>Products</span></Label>
+                        <Label className='text-black/70 text-[15px]'>{totalProducts}</Label>
+                    </div>
                 </div>
-                <div className='w-full'>
-                    <Label className='text-black/50 text-[13px]'>Total Products</Label>
-                    <Label className='text-black/70 text-[15px]'>{totalProducts}</Label>
+                <div className='flex gap-1 items-center w-full '>
+                    <div className='bg-[#fa6093]/70 flex justify-center items-center p-1 md:p-2.5 rounded-[50%]'>
+                        <LuPackageX className='text-white text-lg md:text-2xl' />
+                    </div>
+                    <div className='w-full flex flex-col'>
+                        <Label className='text-black/50 text-[13px]'>Out of Stocks</Label>
+
+                        <Label className='text-black/70 text-[15px]'>{totalOutOfStocks}</Label>
+                    </div>
+                </div>
+                <div className='flex gap-1 items-center w-full '>
+                    <div className='bg-[#fa6093]/70 flex justify-center items-center p-1 md:p-2.5 rounded-[50%]'>
+                        <TbPackageOff className='text-white text-lg md:text-2xl' />
+                    </div>
+                    <div className='w-full flex flex-col'>
+                        <Label className='text-black/50 text-[13px]'>Deleted <span className='hidden md:block'>Products</span></Label>
+                        <Label className='text-black/70 text-[15px]'>{totalDeleted}</Label>
+                    </div>
                 </div>
             </div>
-            <div className='flex gap-1 items-center w-full '>
-                <div className='bg-[#fa6093]/70 flex justify-center items-center p-2.5 rounded-[50%]'>
-                    <LuPackageX className='text-white text-2xl' />
-                </div>
-                <div className='w-full'>
-                    <Label className='text-black/50 text-[13px]'>Out of Stocks</Label>
-                    <Label className='text-black/70 text-[15px]'>{totalOutOfStocks}</Label>
-                </div>
-            </div>
-            <div className='flex gap-1 items-center w-full '>
-                <div className='bg-[#fa6093]/70 flex justify-center items-center p-2.5 rounded-[50%]'>
-                    <TbPackageOff className='text-white text-2xl' />
-                </div>
-                <div className='w-full'>
-                    <Label className='text-black/50 text-[13px]'>Deleted Products</Label>
-                    <Label className='text-black/70 text-[15px]'>{totalDeleted}</Label>
-                </div>
-            </div>
+
 
         </div>
     )

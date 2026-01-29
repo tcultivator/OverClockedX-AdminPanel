@@ -45,8 +45,8 @@ const Low_Stocks_Alert = () => {
             <Card className="pt-0 gap-0 border h-full border-black/15">
                 <CardHeader className="flex items-center  py-3 sm:flex-row">
                     <div className='flex items-center justify-between w-full gap-1'>
-                        <CardTitle className=''>Low Stocks Alert</CardTitle>
-                        <div className='bg-red-400 flex justify-center items-center p-2 rounded-[50%]'>
+                        <CardTitle className='text-primary'>Low Stocks Alert</CardTitle>
+                        <div className='bg-primary flex justify-center items-center p-2 rounded-[50%]'>
                             <IoAlertSharp className='text-white' />
                         </div>
                     </div>

@@ -41,9 +41,9 @@ const Recent_Orders = () => {
         }));
     };
     return (
-        <div className='flex flex-col w-full  bg-white  pb-5 rounded-[15px] shadow-sm border border-black/15 text-black/70'>
+        <div className='flex flex-col w-full  bg-white  pb-5 rounded-[15px]  border border-black/15 text-black/70'>
             <div className='w-full p-3 px-5 border-b flex justify-between items-center'>
-                <Label className="text-[15px] font-semibold">Recent Orders</Label>
+                <Label className="text-[15px] text-primary font-semibold">Recent Orders</Label>
             </div>
             <div className='w-full border-b flex items-center px-3 bg-black/10 py-2 text-black/60'>
                 <div className='w-[6%] flex items-center justify-start '>
@@ -86,7 +86,7 @@ const Recent_Orders = () => {
                                 const isExpanded = expandedGroups[groupIndex] || false;
                                 return (
                                     <div
-                                        className={`flex flex-col border-b relative ${group.updated_at == group.created_at && 'bg-linear-65 from-[#fac1d3] to-[#ffd9e4]'} `}
+                                        className={`flex flex-col border-b relative ${group.updated_at == group.created_at && 'bg-primary/20'} `}
                                         key={groupIndex}
                                     >
                                         <div
