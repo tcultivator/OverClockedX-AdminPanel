@@ -172,7 +172,7 @@ const Accept_Order = ({ orderData }: props) => {
                                                 </div>
                                                 <div className='flex items-center  justify-start text-black/70 gap-1'>
                                                     <FaRegFlag className='mb-[2px]' />
-                                                    <Label className='text-[13px] '>{orderData.country}</Label>
+                                                    <Label className='text-[13px] '>{orderData.address_line_1}</Label>
                                                 </div>
                                                 <div className='flex flex-col gap-2'>
                                                     <div className='flex items-center  justify-start text-black/70 gap-1'>
