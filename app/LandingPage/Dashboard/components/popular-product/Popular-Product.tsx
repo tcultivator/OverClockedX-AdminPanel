@@ -70,7 +70,7 @@ const Popular_Product = () => {
 
 
     return (
-        <div className="rounded-[15px] bg-white h-full border border-black/15">
+        <div className="rounded bg-white h-full">
 
             <div className="w-full p-3 px-5 border-b flex justify-between items-center">
                 <div>

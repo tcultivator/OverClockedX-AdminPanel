@@ -44,7 +44,10 @@ interface RevenueItem {
     created_at: string;
 }
 const Revenue_charts = () => {
-    const [selectedYear, setSelectedYear] = useState('2025')
+    const [selectedYear, setSelectedYear] = useState(()=>{
+        const date = new Date();
+        return date.getFullYear().toString();
+    })
     const [chartData, setChartData] = useState<ChartDataItem[]>([]);
     const [dropDownYearSelection, setDropDownYearSelection] = useState<number[]>(() => year())
     const months = [
@@ -79,7 +82,7 @@ const Revenue_charts = () => {
 
     return (
         <div className='w-full '>
-            <Card className="pt-0 border border-black/15">
+            <Card className="pt-0">
                 <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
                     <div className="grid flex-1 gap-1">
                         <div className='flex justify-between items-center'>
@@ -125,7 +128,7 @@ const Revenue_charts = () => {
 
                 <CardContent className="">
                     <ChartContainer config={chartConfig} className="aspect-auto h-[20vh] md:h-[30vh]  w-full">
-                        <AreaChart data={chartData} margin={{ left: 10, right: 10 }}>
+                        <AreaChart data={chartData} margin={{ left: 20, right: 10 }}>
                             <defs>
                                 <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
                                     <stop offset="5%" stopColor="var(--color-revenue)" stopOpacity={0.8} />

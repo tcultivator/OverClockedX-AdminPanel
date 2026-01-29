@@ -41,34 +41,34 @@ const Recent_Orders = () => {
         }));
     };
     return (
-        <div className='flex flex-col w-full  bg-white  pb-5 rounded-[15px]  border border-black/15 text-black/70'>
+        <div className='flex flex-col w-full  bg-white  pb-5 rounded  text-black/70'>
             <div className='w-full p-3 px-5 border-b flex justify-between items-center'>
                 <Label className="text-[15px] text-primary font-semibold">Recent Orders</Label>
             </div>
-            <div className='w-full border-b flex items-center px-3 bg-black/10 py-2 text-black/60'>
+            <div className='w-full border-b flex items-center px-3 bg-primary py-2 text-white/90'>
                 <div className='w-[6%] flex items-center justify-start '>
-                    <Label className='text-black/70 text-[12px]'>Order id</Label>
+                    <Label className=' text-[12px]'>ID</Label>
                 </div>
                 <div className='w-[24%] flex items-center justify-start '>
-                    <Label className='text-black/70 text-[12px]'>Product</Label>
+                    <Label className=' text-[12px]'>Product</Label>
                 </div>
                 <div className='w-[20%] flex items-center justify-start '>
-                    <Label className='text-black/70 text-[12px]'>Customer</Label>
+                    <Label className=' text-[12px]'>Customer</Label>
                 </div>
                 <div className='w-[15%] flex items-center justify-center '>
-                    <Label className='text-black/70 text-[12px]'>Price</Label>
+                    <Label className=' text-[12px]'>Price</Label>
                 </div>
                 <div className='w-[10%] flex items-center justify-center '>
-                    <Label className='text-black/70 text-[12px]'>Payment</Label>
+                    <Label className=' text-[12px]'>Payment</Label>
                 </div>
                 <div className='w-[7%] flex items-center justify-center '>
-                    <Label className='text-black/70 text-[12px]'>Quantity</Label>
+                    <Label className='text-[12px]'>Quantity</Label>
                 </div>
                 <div className='w-[9%] flex items-center justify-center'>
-                    <Label className='text-black/70 text-[12px]'>Payment Status</Label>
+                    <Label className='text-[12px]'>Payment Status</Label>
                 </div>
                 <div className='w-[9%] flex items-center justify-center'>
-                    <Label className='text-black/70 text-[12px]'>Order Status</Label>
+                    <Label className=' text-[12px]'>Order Status</Label>
                 </div>
             </div>
             {loading ?

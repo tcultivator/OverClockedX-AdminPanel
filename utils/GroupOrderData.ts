@@ -21,11 +21,11 @@ export function GroupOrdersData(data: any) {
                 updated_at: product.updated_at,
                 rname: product.rname,
                 phone_number: product.phone_number,
-                country: product.country,
+                address_line_1: product.address_line_1,
                 city_municipality: product.city_municipality,
                 barangay: product.barangay,
                 province: product.province,
-                trademark: product.trademark,
+                postal_code: product.postal_code,
                 items: [
                     {
                         product_id: product.product_id,
