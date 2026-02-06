@@ -1,13 +1,11 @@
 "use client"
-import React from 'react'
-import { useEffect, useState } from 'react'
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { Label } from '@/components/ui/label'
-import { ProgressCircle } from '@/components/upload/progress-circle'
-import { IoAlertSharp } from "react-icons/io5";
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
+import { ProgressCircle } from '@/components/upload/progress-circle'
+import { MdWarning, MdInventory2, MdArrowForward } from "react-icons/md";
+
 type lowStocksProducts = {
     product_id: string;
     product_name: string;
@@ -16,12 +14,12 @@ type lowStocksProducts = {
     stocks: number;
     base_stocks: number;
 }
+
 const Low_Stocks_Alert = () => {
     const [lowStocksProducts, setLowStocksProducts] = useState<lowStocksProducts[]>([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-
         const fetchLowStocksProductsFunc = async () => {
             setLoading(true)
             try {
@@ -38,65 +36,130 @@ const Low_Stocks_Alert = () => {
             setLoading(false)
         }
         fetchLowStocksProductsFunc()
-
     }, [])
+
     return (
-        <div className='w-full h-full'>
-            <Card className="pt-0 gap-0  h-full">
-                <CardHeader className="flex items-center  py-3 sm:flex-row">
-                    <div className='flex items-center justify-between w-full gap-1'>
-                        <CardTitle className='text-primary'>Low Stocks Alert</CardTitle>
-                        <div className='bg-primary flex justify-center items-center p-2 rounded-[50%]'>
-                            <IoAlertSharp className='text-white' />
-                        </div>
+        <div className='w-full h-full p-6 rounded bg-gradient-to-br from-gray-900 to-gray-800 text-white shadow-xl border border-gray-700/50 flex flex-col'>
+
+            {/* Header Section */}
+            <div className="flex justify-between items-center mb-6 shrink-0">
+                <div className="flex items-center gap-3">
+                    <div className="p-2 bg-red-500/10 rounded-lg border border-red-500/20 animate-pulse">
+                        <MdWarning className="text-xl text-red-400" />
                     </div>
-                </CardHeader>
-                <CardContent className=" px-1 pb-0 mb-0 m-0 border-t">
-                    {
-                        loading ?
-                            <div className='flex flex-col  gap-1 p-1 h-full'>
-                                <Skeleton className="w-full h-full p-1 rounded" />
-                                <Skeleton className="w-full h-full p-1 rounded" />
-                                <Skeleton className="w-full h-full p-1 rounded" />
-                                <Skeleton className="w-full h-full p-1 rounded" />
-                            </div> : (
-                                lowStocksProducts.length > 0 ?
-                                    <ScrollArea className='flex flex-col  text-black/70'>
-                                        {lowStocksProducts.map((data, index) => (
-                                            <div key={index} className='p-2 px-3 flex flex-col gap-1 w-full border-b border-black/15 items-center'>
-                                                <div className='p-1 flex justify-between w-full items-center'>
-                                                    <div className='flex items-center gap-1'>
-                                                        <Image src={data.product_image} alt='' width={200} height={200} className='w-[40px] rounded aspect-square' />
-                                                        <div className='flex flex-col gap-1'>
+                    <div>
+                        <h3 className="text-sm font-semibold text-gray-200 tracking-wide">Low Stock Alert</h3>
+                        <p className="text-[10px] text-gray-400">Restock recommended</p>
+                    </div>
+                </div>
 
-                                                            <Label className='font-thin '>{data.product_name}</Label>
-                                                            <Label className='font-thin'>{new Intl.NumberFormat('en-PH', {
-                                                                style: 'currency',
-                                                                currency: 'PHP',
-                                                            }).format(data.price)}</Label>
-                                                        </div>
-                                                    </div>
+                {/* Count Badge */}
+                {!loading && lowStocksProducts.length > 0 && (
+                    <span className="bg-red-500/20 text-red-300 text-xs font-bold px-2.5 py-1 rounded-full border border-red-500/30">
+                        {lowStocksProducts.length} Items
+                    </span>
+                )}
+            </div>
 
-                                                    <div className='flex gap-5 items-center'>
-                                                        <div className='flex flex-col gap-1'>
-                                                            <Label className={`font-thin text-[12px] ${data.stocks <= data.base_stocks / 10 ? 'text-[#fa6093]' : 'text-orange-400'} `}>{data.stocks} / {data.base_stocks}</Label>
-                                                        </div>
-                                                        <ProgressCircle size={40} progress={(data.stocks / data.base_stocks * 100)} className='text-black/50 ' />
-                                                    </div>
+            {/* Content Section */}
+            <div className="flex-1 min-h-0 overflow-hidden relative">
+                {loading ? (
+                    <div className='flex flex-col gap-3 h-full'>
+                        {[1, 2, 3, 4].map((i) => (
+                            <div key={i} className="flex items-center gap-4 p-2 rounded-xl border border-gray-800">
+                                <Skeleton className="w-10 h-10 rounded-lg bg-gray-700/50" />
+                                <div className="flex-1 space-y-2">
+                                    <Skeleton className="h-3 w-3/4 bg-gray-700/50" />
+                                    <Skeleton className="h-2 w-1/2 bg-gray-700/50" />
+                                </div>
+                                <Skeleton className="h-8 w-8 rounded-full bg-gray-700/50" />
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    lowStocksProducts.length > 0 ? (
+                        <ScrollArea className='h-full pr-4 -mr-4'>
+                            <div className="flex flex-col gap-3 pb-2">
+                                {lowStocksProducts.map((data, index) => {
+                                    const percentage = (data.stocks / data.base_stocks) * 100;
+                                    const isCritical = percentage <= 10;
+
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={`
+                                                group flex items-center justify-between p-3 rounded-xl border transition-all duration-300
+                                                ${isCritical
+                                                    ? 'bg-red-950/20 border-red-500/30 hover:bg-red-900/30'
+                                                    : 'bg-gray-800/40 border-gray-700/30 hover:bg-gray-700/60'
+                                                }
+                                            `}
+                                        >
+                                            {/* Left: Image & Text */}
+                                            <div className='flex items-center gap-3 flex-1 min-w-0'>
+                                                <div className="relative shrink-0">
+                                                    <Image
+                                                        src={data.product_image}
+                                                        alt={data.product_name}
+                                                        width={200}
+                                                        height={200}
+                                                        className={`w-10 h-10 rounded-lg object-cover border ${isCritical ? 'border-red-500/40' : 'border-gray-600'}`}
+                                                    />
+                                                    {isCritical && (
+                                                        <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-gray-900"></div>
+                                                    )}
                                                 </div>
 
+                                                <div className='flex flex-col min-w-0'>
+                                                    <span className='font-medium text-sm text-gray-200 truncate group-hover:text-white transition-colors'>
+                                                        {data.product_name}
+                                                    </span>
+                                                    <span className='font-medium text-xs text-gray-500'>
+                                                        {new Intl.NumberFormat('en-PH', {
+                                                            style: 'currency',
+                                                            currency: 'PHP',
+                                                        }).format(data.price)}
+                                                    </span>
+                                                </div>
                                             </div>
-                                        ))}
-                                    </ScrollArea> :
-                                    <div className="flex items-center h-full  justify-center text-gray-400">
-                                        No Low Stocks Products Found
-                                    </div>
-                            )
 
-                    }
+                                            {/* Right: Stats & Circle */}
+                                            <div className='flex gap-4 items-center pl-2'>
+                                                <div className='flex flex-col items-end'>
+                                                    <span className={`text-xs font-bold ${isCritical ? 'text-red-400' : 'text-orange-400'}`}>
+                                                        {data.stocks} Left
+                                                    </span>
+                                                    <span className="text-[10px] text-gray-500">
+                                                        of {data.base_stocks}
+                                                    </span>
+                                                </div>
 
-                </CardContent>
-            </Card>
+                                                {/* 
+                                                    Adjusted ProgressCircle styles for Dark Mode.
+                                                    Assuming className allows text color changes for the stroke.
+                                                */}
+                                                <div className="relative">
+                                                    <ProgressCircle
+                                                        size={40}
+                                                        progress={percentage}
+                                                        strokeWidth={4}
+                                                        className={isCritical ? 'text-red-500' : 'text-orange-400'}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </ScrollArea>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center h-full text-gray-500 gap-2">
+                            <MdInventory2 className="text-4xl opacity-20 text-emerald-500" />
+                            <span className="text-sm">Stock levels are healthy</span>
+                        </div>
+                    )
+                )}
+            </div>
         </div>
     )
 }

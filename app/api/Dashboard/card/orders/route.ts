@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 type Count = {
     totalOrders: number
     pendingOrders: number
-    cancelOrders: number
 }
 export async function GET() {
     try {
@@ -16,10 +15,8 @@ export async function GET() {
         //get total count of pending orders
         const pendingOrders = await db.query(pendingOrdersQuery)
         const resultPendingOrders = pendingOrders[0] as Count[]
-        //get total count of processed orders
-        const cancelOrders = await db.query(cancelOrdersQuery)
-        const resultCancelOrders = cancelOrders[0] as Count[]
-        return NextResponse.json({ totalOrders: resultTotalOrders[0], pendingOrders: resultPendingOrders[0], cancelOrders: resultCancelOrders[0] })
+        
+        return NextResponse.json({ totalOrders: resultTotalOrders[0], pendingOrders: resultPendingOrders[0] })
 
     } catch (err) {
         return NextResponse.json({ status: 500 })

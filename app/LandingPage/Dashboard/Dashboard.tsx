@@ -8,24 +8,26 @@ import Popular_Product from './components/popular-product/Popular-Product'
 import Recent_Orders from './components/recent-orders/Recent-Orders'
 const Dashboard = () => {
     return (
-        <div className="w-full">
-            <div className="grid grid-cols-1 pb-[50px] md:pb-0 md:grid-cols-[65%_35%] gap-1  w-full h-full">
+        <div className="flex w-full h-screen p-1  flex-col">
+            <div className="grid grid-cols-1 pb-[50px] md:pb-0 md:grid-cols-[2fr_1fr] gap-1 h-screen">
                 {/* LEFT COLUMN */}
-                <div className="grid grid-cols-1 gap-1 h-full">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-1 ">
-                        <Total_products_card />
-                        <Total_orders_card />
-                    </div>
+                <div className="flex flex-col gap-1 h-full">
                     <Revenue_charts />
-                    <Recent_Orders />
-                </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-1 ">
+                        <div className="flex-1">
+                            <Popular_Product />
+                        </div>
+                        <div className="flex flex-1 flex-col gap-1">
+                            <Total_products_card />
+                            <Total_orders_card />
+                        </div>
 
+                    </div>
+                </div>
                 {/* RIGHT COLUMN */}
                 <div className="flex flex-col gap-1 h-full">
                     {/* Popular Product */}
-                    <div className="flex-1">
-                        <Popular_Product />
-                    </div>
 
                     {/* Top Selling Products */}
                     <div className="flex-1">

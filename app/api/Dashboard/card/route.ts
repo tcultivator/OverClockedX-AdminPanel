@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 type Count = {
     totalProducts: number
     totalSoldOut: number
-    totalDeletedProducts: number
 }
 export async function GET() {
     try {
@@ -16,10 +15,8 @@ export async function GET() {
         //get total count of sold out products
         const totalSoldout = await db.query(totalSoldOutQuery)
         const resultTotalSoldout = totalSoldout[0] as Count[]
-        //get total count of deleted products
-        const totalDeleted = await db.query(totalDeletedQuery)
-        const resultTotalDeleted = totalDeleted[0] as Count[]
-        return NextResponse.json({ totalProducts: resultTotalProducts[0], totalSoldOut: resultTotalSoldout[0], totalDeletedProducts: resultTotalDeleted[0] })
+        
+        return NextResponse.json({ totalProducts: resultTotalProducts[0], totalSoldOut: resultTotalSoldout[0] })
 
     } catch (err) {
         return NextResponse.json({ status: 500 })

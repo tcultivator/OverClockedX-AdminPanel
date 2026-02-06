@@ -30,7 +30,7 @@ export const description = "An interactive area chart"
 const chartConfig = {
     revenue: {
         label: "Total Revenue",
-        color: "var(--primary)",
+        color: "white",
     },
 
 } satisfies ChartConfig
@@ -44,7 +44,7 @@ interface RevenueItem {
     created_at: string;
 }
 const Revenue_charts = () => {
-    const [selectedYear, setSelectedYear] = useState(()=>{
+    const [selectedYear, setSelectedYear] = useState(() => {
         const now = new Date();
         return now.getFullYear().toString()
     })
@@ -81,49 +81,42 @@ const Revenue_charts = () => {
 
 
     return (
-        <div className='w-full  '>
+        <div className='w-full flex-1 bg-gradient-to-br from-gray-900 to-gray-800 rounded justify-between'>
             <Card className="pt-0 border border-black/15 flex-1">
-                <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
-                    <div className="grid flex-1 gap-1">
-                        <div className='flex justify-between items-center'>
-                            <CardTitle className='text-primary'>Revenues Overview</CardTitle>
-                            <Select onValueChange={(value) => setSelectedYear(value)} defaultValue={dropDownYearSelection[dropDownYearSelection.length - 1].toString()}>
-                                <SelectTrigger
-                                    className="w-[160px] rounded-lg sm:ml-auto flex"
-                                    aria-label="Select a range"
-                                >
-                                    <SelectValue placeholder={dropDownYearSelection[dropDownYearSelection.length - 1].toString()} />
-                                </SelectTrigger>
-                                <SelectContent className="rounded md:rounded-xl">
-                                    {dropDownYearSelection.map((data, index) => (
-                                        <SelectItem key={index} value={data.toString()}>{data}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
-
-                        <div className='flex items-center pt-1 border-t border-black/15'>
-                            <div>
-                                <div className='flex items-center gap-1'>
-                                    <RiCheckboxBlankFill className='text-primary text-[10px]' />
-
-                                    <CardDescription className='text-sm'>
-                                        Total Revenue
-                                    </CardDescription>
-                                </div>
-
-                                <CardDescription className='text-xl text-black'>
-                                    {new Intl.NumberFormat('en-PH', {
-                                        style: 'currency',
-                                        currency: 'PHP',
-                                    }).format(totalRevenue)}
-                                </CardDescription>
-                            </div>
-
-                        </div>
-
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b border-gray-700/50 py-5">
+                    <div className="grid gap-1">
+                        <CardTitle className='text-gray-100 font-bold tracking-tight'>
+                            Revenues Overview
+                        </CardTitle>
+                        <CardDescription className='text-gray-400'>
+                            Total Revenue: <span className="text-emerald-400 font-bold ml-1">
+                                {new Intl.NumberFormat('en-PH', {
+                                    style: 'currency',
+                                    currency: 'PHP',
+                                }).format(totalRevenue)}
+                            </span>
+                        </CardDescription>
                     </div>
 
+                    <Select onValueChange={(value) => setSelectedYear(value)} defaultValue={selectedYear}>
+                        <SelectTrigger
+                            className="w-[120px] rounded-lg bg-gray-800 border-gray-700 text-white focus:ring-emerald-500/20 focus:border-emerald-500"
+                            aria-label="Select a range"
+                        >
+                            <SelectValue placeholder="Select Year" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                            {dropDownYearSelection.map((data, index) => (
+                                <SelectItem
+                                    key={index}
+                                    value={data.toString()}
+                                    className="focus:bg-gray-700 focus:text-white cursor-pointer"
+                                >
+                                    {data}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </CardHeader>
 
                 <CardContent className="">
