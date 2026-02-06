@@ -51,7 +51,7 @@ const Low_Stocks_Alert = () => {
                         </div>
                     </div>
                 </CardHeader>
-                <CardContent className=" px-1 pb-0 mb-0 m-0  border-t">
+                <CardContent className=" px-1 pb-0 mb-0 m-0 border-t">
                     {
                         loading ?
                             <div className='flex flex-col  gap-1 p-1 h-full'>
@@ -88,7 +88,7 @@ const Low_Stocks_Alert = () => {
                                             </div>
                                         ))}
                                     </ScrollArea> :
-                                    <div className="flex items-center  justify-center text-gray-400">
+                                    <div className="flex items-center h-full  justify-center text-gray-400">
                                         No Low Stocks Products Found
                                     </div>
                             )

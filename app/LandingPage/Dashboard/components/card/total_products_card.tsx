@@ -38,7 +38,7 @@ const Total_products_card = () => {
         fetchProductsCount()
     }, [])
     return (
-        <div className={`${cardDisplaySwitcher ? 'hidden md:flex' : 'flex'} p-3 md:p-7  flex-col  bg-white items-center gap-3 justify-start rounded md:rounded-[10px] border border-black/15  h-max w-full md:px-4 border border-black/15`}>
+        <div className={`${cardDisplaySwitcher ? 'hidden md:flex' : 'flex-1'} p-3 md:p-7  flex-col  bg-white items-center gap-3 justify-start rounded border border-black/15  w-full md:px-4 border border-black/15`}>
             <div className='flex md:hidden items-center justify-between w-full'>
                 <Label className=' '>Products</Label>
                 <button onClick={() => setCardDisplaySwitcher(true)} type='button' className=' p-1'>
@@ -48,7 +48,7 @@ const Total_products_card = () => {
             </div>
             <div className='flex items-center justify-start w-full gap-1'>
                 <div className='flex gap-1 items-center w-full '>
-                    <div className='bg-[#fa6093]/70 flex justify-center items-center p-1 md:p-2.5 rounded-[50%]'>
+                    <div className='bg-primary flex justify-center items-center p-1 md:p-2.5 rounded-[50%]'>
                         <LuPackageCheck className='text-white text-lg md:text-2xl' />
                     </div>
                     <div className='w-full flex flex-col'>
@@ -57,7 +57,7 @@ const Total_products_card = () => {
                     </div>
                 </div>
                 <div className='flex gap-1 items-center w-full '>
-                    <div className='bg-[#fa6093]/70 flex justify-center items-center p-1 md:p-2.5 rounded-[50%]'>
+                    <div className='bg-primary flex justify-center items-center p-1 md:p-2.5 rounded-[50%]'>
                         <LuPackageX className='text-white text-lg md:text-2xl' />
                     </div>
                     <div className='w-full flex flex-col'>
@@ -67,7 +67,7 @@ const Total_products_card = () => {
                     </div>
                 </div>
                 <div className='flex gap-1 items-center w-full '>
-                    <div className='bg-[#fa6093]/70 flex justify-center items-center p-1 md:p-2.5 rounded-[50%]'>
+                    <div className='bg-primary flex justify-center items-center p-1 md:p-2.5 rounded-[50%]'>
                         <TbPackageOff className='text-white text-lg md:text-2xl' />
                     </div>
                     <div className='w-full flex flex-col'>

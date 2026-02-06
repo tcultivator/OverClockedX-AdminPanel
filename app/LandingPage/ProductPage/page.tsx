@@ -7,18 +7,18 @@ import { Label } from '@/components/ui/label';
 import { Skeleton } from "@/components/ui/skeleton"
 const ProductPage = () => {
     return (
-        <div className='flex w-full h-[98vh] flex-col gap-2'>
+        <div className='flex w-full  flex-col gap-1'>
             <Suspense fallback={
                 <>
                     <div className="w-full h-full">
-                        <div className="flex flex-col gap-2 h-[98vh]">
-                            <Skeleton className="h-[10%] w-full p-1 shadow-sm bg-white/60 rounded-[15px]" />    
-                            <Skeleton className="h-[90%] w-full p-1 shadow-sm bg-white/60 rounded-[15px]" />
+                        <div className="flex flex-col gap-1 h-[98vh]">
+                            <Skeleton className="h-[10%] w-full p-1 shadow-sm bg-white/60 rounded" />    
+                            <Skeleton className="h-[90%] w-full p-1 shadow-sm bg-white/60 rounded" />
                         </div>
                     </div>
                 </>}>
                 <Header />
-                <div className='flex gap-2 w-full'>
+                <div className='flex gap-1 w-full'>
                     <ProductList />
 
                 </div>

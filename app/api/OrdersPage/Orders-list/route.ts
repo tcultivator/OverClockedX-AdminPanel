@@ -19,11 +19,11 @@ type Recent_Orders = {
     product_image: string;
     rname: string;
     phone_number: string;
-    country: string;
+    address_line_1: string;
     city_municipality: string;
     barangay: string;
     province: string;
-    trademark: string;
+    postal_code: string;
 }
 export async function GET(req: NextRequest) {
     try {
@@ -53,11 +53,11 @@ export async function GET(req: NextRequest) {
         accounts.profile_Image,
         customer_address.rname,
         customer_address.phone_number,
-        customer_address.country,
+        customer_address.address_line_1,
         customer_address.city_municipality,
         customer_address.barangay,
         customer_address.province,
-        customer_address.trademark 
+        customer_address.postal_code 
         FROM orders JOIN order_items ON order_items.order_id = orders.id 
         JOIN products ON order_items.product_id = products.product_id 
         JOIN accounts ON orders.email = accounts.email 

@@ -20,7 +20,7 @@ const Header = () => {
 
     }
     return (
-        <div className='rounded-[15px] bg-white shadow-sm border border-black/15 flex justify-between px-5 items-center'>
+        <div className='rounded bg-white border border-black/15 flex justify-between px-5 items-center'>
             <div>
                 <Label className='py-2 text-[25px] text-black/70'>Products</Label>
                 <div className='flex gap-1 items-center text-black'>

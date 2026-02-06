@@ -10,11 +10,11 @@ export type GroupedOrder = {
     created_at: string;
     rname: string;
     phone_number: string;
-    country: string;
+    address_line_1: string;
     city_municipality: string;
     barangay: string;
     province: string;
-    trademark: string;
+    postal_code: string;
     updated_at: string;
     items: {
         product_id: string;

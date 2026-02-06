@@ -44,7 +44,10 @@ interface RevenueItem {
     created_at: string;
 }
 const Revenue_charts = () => {
-    const [selectedYear, setSelectedYear] = useState('2025')
+    const [selectedYear, setSelectedYear] = useState(()=>{
+        const now = new Date();
+        return now.getFullYear().toString()
+    })
     const [chartData, setChartData] = useState<ChartDataItem[]>([]);
     const [dropDownYearSelection, setDropDownYearSelection] = useState<number[]>(() => year())
     const months = [
@@ -78,8 +81,8 @@ const Revenue_charts = () => {
 
 
     return (
-        <div className='w-full '>
-            <Card className="pt-0 border border-black/15">
+        <div className='w-full  '>
+            <Card className="pt-0 border border-black/15 flex-1">
                 <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
                     <div className="grid flex-1 gap-1">
                         <div className='flex justify-between items-center'>

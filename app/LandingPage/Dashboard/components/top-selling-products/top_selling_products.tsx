@@ -88,7 +88,7 @@ const Top_selling_products = () => {
 
 
                       <div className="flex flex-col items-center gap-2">
-                        <div className='w-[130px]  relative h-[30px] rounded border border-primary'>
+                        <div className='w-[130px]  relative h-[30px] rounded bg-primary/50'>
                           <div className={`flex items-center justify-center w-[${data.stocks / data.base_stocks * 100}%] max-w-[150px] h-full  bg-primary`} />
                           <Label className={`font-light absolute top-1/2 right-1/2 translate-x-[50%] translate-y-[-50%] ${Math.round(data.stocks / data.base_stocks * 100) > 50 ? 'text-white' : 'text-black'}  text-sm`}>{data.stocks / data.base_stocks * 100}%</Label>
                         </div>
