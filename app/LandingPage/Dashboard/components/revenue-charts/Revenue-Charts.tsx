@@ -128,7 +128,7 @@ const Revenue_charts = () => {
 
                 <CardContent className="">
                     <ChartContainer config={chartConfig} className="aspect-auto h-[20vh] md:h-[30vh]  w-full">
-                        <AreaChart data={chartData} margin={{ left: 10, right: 10 }}>
+                        <AreaChart data={chartData} margin={{ left: 20, right: 10 }}>
                             <defs>
                                 <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
                                     <stop offset="5%" stopColor="var(--color-revenue)" stopOpacity={0.8} />

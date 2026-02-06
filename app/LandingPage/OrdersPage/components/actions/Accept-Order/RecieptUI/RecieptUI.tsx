@@ -47,12 +47,12 @@ const RecieptUI = ({ orderData, QRCodeData }: props) => {
                                     <Label className="font-thin text-md">{orderData.barangay}</Label>
                                     <Label className="font-thin text-md">{orderData.city_municipality}</Label>
                                     <Label className="font-thin text-md">{orderData.province}</Label>
-                                    <Label className="font-thin text-md">{orderData.country}</Label>
+                                    <Label className="font-thin text-md">{orderData.address_line_1}</Label>
                                 </div>
                             </div>
                             <div className='flex gap-2'>
                                 <Label>Trademark :</Label>
-                                <Label className="font-thin text-md">{orderData.trademark}</Label>
+                                <Label className="font-thin text-md">{orderData.postal_code}</Label>
                             </div>
 
                         </div>
@@ -83,12 +83,12 @@ const RecieptUI = ({ orderData, QRCodeData }: props) => {
                                     <Label className="font-thin text-md">{orderData.barangay}</Label>
                                     <Label className="font-thin text-md">{orderData.city_municipality}</Label>
                                     <Label className="font-thin text-md">{orderData.province}</Label>
-                                    <Label className="font-thin text-md">{orderData.country}</Label>
+                                    <Label className="font-thin text-md">{orderData.address_line_1}</Label>
                                 </div>
                             </div>
                             <div className='flex gap-2'>
                                 <Label>Trademark :</Label>
-                                <Label className="font-thin text-md">{orderData.trademark}</Label>
+                                <Label className="font-thin text-md">{orderData.postal_code}</Label>
                             </div>
 
                         </div>

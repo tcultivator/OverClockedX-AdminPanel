@@ -139,6 +139,6 @@ input[type="number"] {
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-gradient-to-b from-[#e6e6e6] to-[#e6e6e6] text-foreground;
   }
 }

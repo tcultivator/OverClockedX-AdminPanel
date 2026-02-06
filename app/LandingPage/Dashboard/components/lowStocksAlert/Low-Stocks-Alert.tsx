@@ -42,7 +42,7 @@ const Low_Stocks_Alert = () => {
     }, [])
     return (
         <div className='w-full h-full'>
-            <Card className="pt-0 gap-0 border h-full border-black/15">
+            <Card className="pt-0 gap-0  h-full">
                 <CardHeader className="flex items-center  py-3 sm:flex-row">
                     <div className='flex items-center justify-between w-full gap-1'>
                         <CardTitle className='text-primary'>Low Stocks Alert</CardTitle>

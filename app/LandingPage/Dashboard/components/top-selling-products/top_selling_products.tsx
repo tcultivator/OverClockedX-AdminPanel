@@ -36,7 +36,7 @@ const Top_selling_products = () => {
   }, [selectedDate])
   return (
     <div className='w-full h-full '>
-      <Card className="pt-0 gap-0 border h-full border-black/15">
+      <Card className="pt-0 gap-0  h-full">
         <CardHeader className="flex items-center  space-y-0 border-b py-5 sm:flex-row">
           <div className='flex items-center justify-between w-full'>
             <CardTitle className='text-primary'>Top Selling Products</CardTitle>
