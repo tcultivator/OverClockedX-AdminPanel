@@ -45,8 +45,8 @@ interface RevenueItem {
 }
 const Revenue_charts = () => {
     const [selectedYear, setSelectedYear] = useState(()=>{
-        const date = new Date();
-        return date.getFullYear().toString();
+        const now = new Date();
+        return now.getFullYear().toString()
     })
     const [chartData, setChartData] = useState<ChartDataItem[]>([]);
     const [dropDownYearSelection, setDropDownYearSelection] = useState<number[]>(() => year())
@@ -81,8 +81,8 @@ const Revenue_charts = () => {
 
 
     return (
-        <div className='w-full '>
-            <Card className="pt-0">
+        <div className='w-full  '>
+            <Card className="pt-0 border border-black/15 flex-1">
                 <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
                     <div className="grid flex-1 gap-1">
                         <div className='flex justify-between items-center'>

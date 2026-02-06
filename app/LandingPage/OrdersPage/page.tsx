@@ -12,8 +12,8 @@ import Completed_Orders from './components/Orders-list/components/card/Completed
 import { Suspense } from 'react'
 const OrdersPage = () => {
     return (
-        <div className='w-full flex flex-col gap-2'>
-            <div className='flex items-center gap-2'>
+        <div className='w-full flex flex-col gap-1'>
+            <div className='flex items-center gap-1'>
                 <Total_Orders />
                 <Pending_Orders />
                 <Preparing_Orders />

@@ -23,7 +23,7 @@ type Recent_Orders = {
     city_municipality: string;
     barangay: string;
     province: string;
-    postal_code: number;
+    postal_code: string;
 }
 export async function GET(req: NextRequest) {
     try {

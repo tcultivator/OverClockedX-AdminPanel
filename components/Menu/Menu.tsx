@@ -37,7 +37,7 @@ const Menu = () => {
     { name: "QRCode Scanner", icon: <MdOutlineQrCodeScanner className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />, path: "/LandingPage/QRCodeScanner" },
   ];
   return (
-    <div className={`${parentOpen ? 'w-[300px]' : 'w-[80px] '} hidden md:block h-full duration-200  text-black/80 py-2`}>
+    <div className={`${parentOpen ? 'w-[300px]' : 'w-[80px] '} hidden md:block h-full duration-200   rounded  text-black/80 py-2`}>
       <div className={`flex ${open ? 'justify-between  p-5' : 'justify-center  p-2 text-[25px] text-center'} items-center border-b border-white/15`}>
         {open && <Label>OverClockedX</Label>}
         <button className='cursor-pointer' onClick={menuBarToggle}><FiSidebar /></button>
@@ -54,7 +54,7 @@ const Menu = () => {
         </div>
         <button onClick={() => signOut()} className={`flex items-center gap-2 justify-start cursor-pointer hover:bg-primary hover:text-white ${open ? 'rounded' : 'rounded-[50%]'} p-1`}>
           <FaUserCircle className={`p-1 text-[25px] rounded ${!open && ' text-[40px] p-2 '}`} />
-          {open && <label className='cursor-pointer'>Logout</label>}
+          {open && <Label className='cursor-pointer'>Logout</Label>}
         </button>
       </div>
 

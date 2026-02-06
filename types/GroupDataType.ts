@@ -14,7 +14,7 @@ export type GroupedOrder = {
     city_municipality: string;
     barangay: string;
     province: string;
-    postal_code: number;
+    postal_code: string;
     updated_at: string;
     items: {
         product_id: string;
