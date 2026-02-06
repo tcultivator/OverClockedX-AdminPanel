@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Skeleton } from "@/components/ui/skeleton"
 const ProductPage = () => {
     return (
-        <div className='flex w-full  flex-col gap-1'>
+        <div className='flex w-full h-screen p-1  flex-col gap-1'>
             <Suspense fallback={
                 <>
                     <div className="w-full h-full">
@@ -18,7 +18,7 @@ const ProductPage = () => {
                     </div>
                 </>}>
                 <Header />
-                <div className='flex gap-1 w-full'>
+                <div className='flex-1 w-full flex overflow-hidden'>
                     <ProductList />
 
                 </div>

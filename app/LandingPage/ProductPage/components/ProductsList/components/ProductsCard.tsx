@@ -148,8 +148,8 @@ const ProductsCard = ({ totalPages }: Props) => {
 
 
     return (
-        <div className='flex flex-col h-[81.5vh] justify-between'>
-            <ScrollArea className="px-2 max-h-[78vh] overflow-auto sticky">
+        <div className='flex flex-col relative overflow-auto justify-between'>
+            <ScrollArea className="px-2  flex-1 overflow-auto w-full h-full">
 
                 <div className='flex items-center bg-[#F1F0EE] rounded-t p-2 sticky top-0 z-30 border-b border-black/15 text-black/70 text-[14px]'>
                     <div className='w-[7%] flex justify-start '>Id</div>
@@ -212,8 +212,8 @@ const ProductsCard = ({ totalPages }: Props) => {
 
             </ScrollArea>
 
-            <div className='items-end flex justify-start relative font-thin text-black/70'>
-                <Pagination className=' w-max right-10 absolute '>
+            <div className={` absolute bottom-0 bg-white p-1 ${loading ? 'hidden' : 'flex'} items-end justify-end relative font-thin text-black/70`}>
+                <Pagination className=' w-max  '>
                     <PaginationContent>
                         <PaginationItem>
                             <PaginationPrevious className='cursor-pointer' onClick={() => {

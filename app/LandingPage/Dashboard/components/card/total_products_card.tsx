@@ -1,20 +1,17 @@
 "use client"
 import React from 'react'
-import { BiStoreAlt } from "react-icons/bi";
 import { Label } from '@/components/ui/label';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { TbPackageOff } from "react-icons/tb";
 import { LuPackageCheck } from "react-icons/lu";
 import { LuPackageX } from "react-icons/lu";
 import { GoArrowSwitch } from "react-icons/go";
 import { useMobileControllerStore } from '@/stores/mobileControllerStore';
+import { MdInventory, MdShoppingBag, MdWarning, MdPendingActions } from "react-icons/md";
 const Total_products_card = () => {
     const [totalProducts, setTotalProducts] = useState(0)
     const [totalOutOfStocks, setTotalOutOfStocks] = useState(0)
-    const [totalDeleted, setTotalDeleted] = useState(0)
     const [loading, setLoading] = useState(false)
-    const router = useRouter()
+
 
     // zustand state for switching display of card in mobile view
     const cardDisplaySwitcher = useMobileControllerStore((state) => state.cardDisplaySwitcher)
@@ -32,52 +29,35 @@ const Total_products_card = () => {
 
             setTotalProducts(response.totalProducts.totalProducts)
             setTotalOutOfStocks(response.totalSoldOut.totalSoldOut)
-            setTotalDeleted(response.totalDeletedProducts.totalDeletedProducts)
             setLoading(false)
         }
         fetchProductsCount()
     }, [])
     return (
-        <div className={`${cardDisplaySwitcher ? 'hidden md:flex' : 'flex-1'} p-3 md:p-7  flex-col  bg-white items-center gap-3 justify-start rounded border border-black/15  w-full md:px-4 border border-black/15`}>
-            <div className='flex md:hidden items-center justify-between w-full'>
-                <Label className=' '>Products</Label>
-                <button onClick={() => setCardDisplaySwitcher(true)} type='button' className=' p-1'>
-                    <GoArrowSwitch className='text-black' />
-                </button>
+        <div className="w-full max-w-sm p-6 rounded bg-gradient-to-br from-gray-900 to-gray-800 text-white border border-gray-700/50">
+            <div className="flex justify-between items-center mb-4">
 
+                <span className="text-xs font-medium text-gray-400 bg-gray-800 px-2 py-1 rounded-full border border-gray-700">Inventory</span>
             </div>
-            <div className='flex items-center justify-start w-full gap-1'>
-                <div className='flex gap-1 items-center w-full '>
-                    <div className='bg-primary flex justify-center items-center p-1 md:p-2.5 rounded-[50%]'>
-                        <LuPackageCheck className='text-white text-lg md:text-2xl' />
-                    </div>
-                    <div className='w-full flex flex-col'>
-                        <Label className='text-black/50 text-[13px]'>Total<span className='hidden md:block'>Products</span></Label>
-                        <Label className='text-black/70 text-[15px]'>{totalProducts}</Label>
-                    </div>
+            <div className='flex items-start gap-4'>
+                <div className="p-3 bg-gray-700/50 rounded-xl backdrop-blur-sm">
+                    <MdInventory className="text-2xl text-emerald-400" />
                 </div>
-                <div className='flex gap-1 items-center w-full '>
-                    <div className='bg-primary flex justify-center items-center p-1 md:p-2.5 rounded-[50%]'>
-                        <LuPackageX className='text-white text-lg md:text-2xl' />
-                    </div>
-                    <div className='w-full flex flex-col'>
-                        <Label className='text-black/50 text-[13px]'>Out of Stocks</Label>
-
-                        <Label className='text-black/70 text-[15px]'>{totalOutOfStocks}</Label>
-                    </div>
-                </div>
-                <div className='flex gap-1 items-center w-full '>
-                    <div className='bg-primary flex justify-center items-center p-1 md:p-2.5 rounded-[50%]'>
-                        <TbPackageOff className='text-white text-lg md:text-2xl' />
-                    </div>
-                    <div className='w-full flex flex-col'>
-                        <Label className='text-black/50 text-[13px]'>Deleted <span className='hidden md:block'>Products</span></Label>
-                        <Label className='text-black/70 text-[15px]'>{totalDeleted}</Label>
-                    </div>
+                <div className="mb-4">
+                    <h3 className="text-4xl font-bold">{totalProducts}</h3>
+                    <p className="text-gray-400 text-sm">Total items</p>
                 </div>
             </div>
 
 
+            {/* Out of stock alert */}
+            <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 p-2 rounded-lg">
+                <MdWarning className="text-red-400 text-xl shrink-0" />
+                <div>
+                    <p className="text-sm font-bold text-red-400">{totalOutOfStocks} Items</p>
+                    <p className="text-[10px] text-red-300/70 uppercase tracking-wide">Currently Out of Stock</p>
+                </div>
+            </div>
         </div>
     )
 }
