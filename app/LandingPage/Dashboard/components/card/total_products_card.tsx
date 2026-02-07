@@ -1,61 +1,66 @@
 "use client"
-import React from 'react'
-import { Label } from '@/components/ui/label';
-import { useState, useEffect } from 'react';
-import { LuPackageCheck } from "react-icons/lu";
-import { LuPackageX } from "react-icons/lu";
-import { GoArrowSwitch } from "react-icons/go";
-import { useMobileControllerStore } from '@/stores/mobileControllerStore';
-import { MdInventory, MdShoppingBag, MdWarning, MdPendingActions } from "react-icons/md";
+import React, { useState, useEffect } from 'react'
+import { MdInventory, MdWarning } from "react-icons/md";
+import { Skeleton } from "@/components/ui/skeleton";
+import {Label} from '@/components/ui/label';
 const Total_products_card = () => {
     const [totalProducts, setTotalProducts] = useState(0)
     const [totalOutOfStocks, setTotalOutOfStocks] = useState(0)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
-
-    // zustand state for switching display of card in mobile view
-    const cardDisplaySwitcher = useMobileControllerStore((state) => state.cardDisplaySwitcher)
-    const setCardDisplaySwitcher = useMobileControllerStore((state) => state.setCardDisplaySwitcher)
-
-    // fetch the products data in initial reload/page reload
     useEffect(() => {
-        setLoading(true)
         const fetchProductsCount = async () => {
-            const totalCountInCard = await fetch('/api/Dashboard/card', {
-                method: 'GET'
-            })
-            const response = await totalCountInCard.json()
-            if (response.status == 500) return
-
-            setTotalProducts(response.totalProducts.totalProducts)
-            setTotalOutOfStocks(response.totalSoldOut.totalSoldOut)
-            setLoading(false)
+            try {
+                setLoading(true)
+                const res = await fetch('/api/Dashboard/card')
+                const response = await res.json()
+                if (response.status !== 500) {
+                    setTotalProducts(response.totalProducts.totalProducts)
+                    setTotalOutOfStocks(response.totalSoldOut.totalSoldOut)
+                }
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false)
+            }
         }
         fetchProductsCount()
     }, [])
+
     return (
-        <div className="w-full max-w-sm p-6 rounded bg-gradient-to-br from-gray-900 to-gray-800 text-white border border-gray-700/50">
-            <div className="flex justify-between items-center mb-4">
-
-                <span className="text-xs font-medium text-gray-400 bg-gray-800 px-2 py-1 rounded-full border border-gray-700">Inventory</span>
-            </div>
-            <div className='flex items-start gap-4'>
-                <div className="p-3 bg-gray-700/50 rounded-xl backdrop-blur-sm">
-                    <MdInventory className="text-2xl text-emerald-400" />
+        <div className="w-full max-w-sm p-5 rounded bg-white text-slate-900 border border-black/15 flex flex-col justify-between">
+            <div>
+                <div className="flex justify-between items-center mb-3">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
+                        Stock Inventory
+                    </span>
                 </div>
-                <div className="mb-4">
-                    <h3 className="text-4xl font-bold">{totalProducts}</h3>
-                    <p className="text-gray-400 text-sm">Total items</p>
+
+                <div className='flex items-center gap-5 mb-4'>
+                    <div className="p-3.5 bg-indigo-50 rounded-2xl border border-indigo-100">
+                        <MdInventory className="text-3xl text-primary" />
+                    </div>
+                    <div>
+                        {loading ? (
+                            <Skeleton className="h-10 w-20 bg-slate-100 mb-1" />
+                        ) : (
+                            <Label className="text-4xl font-bold  text-slate-900 tracking-tight">{totalProducts}</Label>
+                        )}
+                        <p className="text-slate-500 text-xs font-medium uppercase tracking-wide">Unique Items</p>
+                    </div>
                 </div>
             </div>
 
-
-            {/* Out of stock alert */}
-            <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 p-2 rounded-lg">
-                <MdWarning className="text-red-400 text-xl shrink-0" />
+           
+            <div className={`flex items-center gap-3 p-3 rounded-xl transition-all ${totalOutOfStocks > 0 ? 'bg-rose-50 border border-rose-100' : 'bg-slate-50 border border-slate-100'}`}>
+                <div className="p-1.5 bg-white rounded-lg shadow-sm">
+                    <MdWarning className={`${totalOutOfStocks > 0 ? 'text-rose-500' : 'text-slate-400'} text-xl shrink-0`} />
+                </div>
                 <div>
-                    <p className="text-sm font-bold text-red-400">{totalOutOfStocks} Items</p>
-                    <p className="text-[10px] text-red-300/70 uppercase tracking-wide">Currently Out of Stock</p>
+                    <p className={`text-sm font-bold leading-none ${totalOutOfStocks > 0 ? 'text-rose-700' : 'text-slate-700'}`}>
+                        {loading ? "..." : totalOutOfStocks} Out of Stock
+                    </p>
+                    <p className="text-[10px] text-slate-500 font-medium mt-1 uppercase tracking-tight">Stock replenishment</p>
                 </div>
             </div>
         </div>

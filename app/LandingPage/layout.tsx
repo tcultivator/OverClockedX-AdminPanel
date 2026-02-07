@@ -18,7 +18,7 @@ export default function RootLayout({
     return (
 
 
-        <div className={`relative flex h-full bg-black ${anton.variable}`}>
+        <div className={`relative flex h-full ${anton.variable}`}>
             <Menu />
             <MobileMenu/>
             <EdgeStoreProvider>
