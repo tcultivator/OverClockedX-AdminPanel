@@ -23,14 +23,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { RiCheckboxBlankFill } from "react-icons/ri";
+import { MdLeaderboard } from "react-icons/md";
 import { useState, useEffect } from 'react'
 import { year } from '@/utils/yearGenerator'
 export const description = "An interactive area chart"
 const chartConfig = {
     revenue: {
         label: "Total Revenue",
-        color: "white",
+        color: "#104254",
     },
 
 } satisfies ChartConfig
@@ -63,33 +63,41 @@ const Revenue_charts = () => {
             if (response.status !== 500) {
                 const newChartData: ChartDataItem[] = months.map((month, index) => {
                     const monthData = (response as RevenueItem[]).filter(
-                        (d) => new Date(d.created_at).getMonth() === index// the .getMonth will return number , that's why the index is use for conditioning
+                        (d) => new Date(d.created_at).getMonth() === index
                     );
 
-                    const totalRevenue = monthData.reduce((sum: number, d: RevenueItem) => sum + Number(d.total_amount), 0);// if the condition is match, which is the month converted to number and index which is the index of month it will add all the data using useReducer
+                    const totalRevenue = monthData.reduce((sum: number, d: RevenueItem) => sum + Number(d.total_amount), 0);
 
-                    return { month, totalRevenue };// return this object in newChartData
+                    return { month, totalRevenue };
                 });
-                setChartData(newChartData);//set the data to state which is use for displaying in chart
+                setChartData(newChartData);
             }
         };
         fetchDataForChart();
-        const interval = setInterval(fetchDataForChart, 10000); // refresh every 10s
+        const interval = setInterval(fetchDataForChart, 10000); 
         return () => clearInterval(interval);
     }, [selectedYear]);
     const totalRevenue = chartData.reduce((sum, data) => sum + data.totalRevenue, 0);
 
 
     return (
-        <div className='w-full flex-1 bg-gradient-to-br from-gray-900 to-gray-800 rounded justify-between'>
-            <Card className="pt-0 border border-black/15 flex-1">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b border-gray-700/50 py-5">
+        <div className='w-full flex-1 bg-white rounded border border-black/15 justify-between'>
+            <Card className="pt-0  flex-1">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 border-b border-black/15 py-5">
                     <div className="grid gap-1">
-                        <CardTitle className='text-gray-100 font-bold tracking-tight'>
-                            Revenues Overview
+                        <CardTitle className='text-black font-bold tracking-tight'>
+                            <div className="flex items-center gap-3">
+                                <div className="p-2.5 bg-primary/20 rounded-lg border border-primary/30">
+                                    <MdLeaderboard className="text-xl text-primary" />
+                                </div>
+                                <div>
+                                    <h3 className="text-sm font-bold text-slate-800 uppercase tracking-tight">Revenue Chart</h3>
+                                    <p className="text-[11px] text-slate-500 font-medium">Monthly breakdown & total for selected year</p>
+                                </div>
+                            </div>
                         </CardTitle>
                         <CardDescription className='text-gray-400'>
-                            Total Revenue: <span className="text-emerald-400 font-bold ml-1">
+                            Total Revenue: <span className="text-primary font-bold ml-1">
                                 {new Intl.NumberFormat('en-PH', {
                                     style: 'currency',
                                     currency: 'PHP',
@@ -100,12 +108,12 @@ const Revenue_charts = () => {
 
                     <Select onValueChange={(value) => setSelectedYear(value)} defaultValue={selectedYear}>
                         <SelectTrigger
-                            className="w-[120px] rounded-lg bg-gray-800 border-gray-700 text-white focus:ring-emerald-500/20 focus:border-emerald-500"
+                            className="w-[120px] rounded-lg  border-gray-700 text-black focus:ring-white focus:border-white"
                             aria-label="Select a range"
                         >
                             <SelectValue placeholder="Select Year" />
                         </SelectTrigger>
-                        <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                        <SelectContent className="bg-white border-gray-700 text-black">
                             {dropDownYearSelection.map((data, index) => (
                                 <SelectItem
                                     key={index}
@@ -130,7 +138,7 @@ const Revenue_charts = () => {
 
                             </defs>
 
-                            <CartesianGrid vertical={false} />
+                            <CartesianGrid vertical={false} horizontal={false} />
                             <XAxis
                                 dataKey="month"
                                 tickLine={true}

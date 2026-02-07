@@ -59,7 +59,7 @@ const ProductCardLayout = ({ data }: Props) => {
     const editStocks = useProductsStore((state) => state.editStocks)
     const date = new Date()
     return (
-        <div className='border-b border-black/15 flex items-center p-2 relative'>
+        <div className='border-b border-black/15 flex items-center p-2 relative text-black'>
             <div className='w-[7%]'>
                 <Label className='font-thin text-[12px]'>{data.product_id}</Label>
             </div>

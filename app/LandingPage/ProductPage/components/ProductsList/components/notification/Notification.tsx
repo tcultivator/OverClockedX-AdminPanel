@@ -1,104 +1,210 @@
 "use client"
-import React from 'react'
-import { IoIosNotificationsOutline } from "react-icons/io";
-import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label';
-import { NotificationType } from '@/types/NotificationType';
-import { useState, useEffect, useRef } from 'react';
-import { ScrollArea } from "@/components/ui/scroll-area"
+
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
-import { MdCircle } from "react-icons/md";
+
+// Icons
+import { IoIosNotificationsOutline } from "react-icons/io";
+import { MdCircle, MdDeleteOutline, MdCheck, MdMarkEmailRead } from "react-icons/md";
+import { BiTrash } from "react-icons/bi";
+
+// UI Components (Assumed to be in your project based on your description)
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+// Types & Stores
+import { NotificationType } from '@/types/NotificationType';
 import { useNotificationStore } from '@/stores/notificationStore';
 import { ActionInNotification } from '@/utils/ActionInNotificationClass';
+
 type Props = {
     notificationData: NotificationType[]
 }
+
 const Notification = ({ notificationData }: Props) => {
-    const [display, setDisplay] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
+    
+    // Store
     const notificationDataStore = useNotificationStore((state) => state.notificationDataStore)
     const setNotificationData = useNotificationStore((state) => state.setNotificationData)
     const markAsRead = useNotificationStore((state) => state.markAsRead)
     const delete_notification = useNotificationStore((state) => state.delete_notification)
     const delete_all_notification = useNotificationStore((state) => state.delete_all_notification)
     const mark_all_read = useNotificationStore((state) => state.mark_all_read)
+
     useEffect(() => {
         setNotificationData(notificationData)
-    }, [])
-    const dropdownRef = useRef<HTMLDivElement | null>(null);
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            const target = event.target as Node;
+    }, [notificationData, setNotificationData])
 
-            if (!dropdownRef.current) return;
+    const unreadCount = notificationDataStore.filter((item) => !item.isRead).length;
 
-            if (dropdownRef.current.contains(target)) return;
+    
+    const NotificationList = ({ data }: { data: NotificationType[] }) => (
+        <div className='flex flex-col'>
+            {data.length > 0 ? (
+                data.map((item) => (
+                    <div 
+                        key={item.notif_id} 
+                        
+                        className={`group flex gap-3 p-3 border-b border-gray-100 transition-all hover:bg-gray-50 relative ${!item.isRead ? 'bg-blue-50/40' : 'bg-white'}`}
+                    >
+                        
+                        {!item.isRead && (
+                            <MdCircle className='absolute top-3 right-3 text-blue-500 text-[8px]' />
+                        )}
 
-            if (document.querySelector("[data-radix-popper-content-wrapper]")?.contains(target)) {
-                return;
-            }
+                        
+                        <div className="flex-shrink-0 pt-1">
+                            <Image 
+                                src={item.product_image} 
+                                alt={item.product_name} 
+                                width={100} 
+                                height={100} 
+                                className='h-12 w-12 object-cover rounded-md border border-gray-200 bg-white' 
+                            />
+                        </div>
 
-            setDisplay(false);
-        };
+                       
+                        <div className='flex flex-col gap-1 w-full'>
+                            <div className='flex items-center justify-between pr-4'>
+                                
+                                <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border border-gray-200 ${ActionInNotification[item.action]}`}>
+                                    {item.action}
+                                </span>
+                                <span className='text-[10px] text-gray-400'>
+                                    {new Date(item.created_at).toLocaleDateString('en-GB')}
+                                </span>
+                            </div>
+                            
+                            <p className='text-sm font-medium leading-tight mt-0.5 text-gray-800 line-clamp-2'>
+                                {item.product_name}
+                            </p>
 
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
+                            
+                            <div className='flex items-center gap-2 mt-2'>
+                                {!item.isRead && (
+                                    <Button 
+                                        variant="ghost" 
+                                        size="sm" 
+                                        className="h-6 px-2 text-[10px] text-blue-600 hover:text-blue-700 hover:bg-blue-100"
+                                        onClick={() => markAsRead(item.notif_id)}
+                                    >
+                                        <MdCheck className="mr-1 h-3 w-3" /> Mark read
+                                    </Button>
+                                )}
+                                <Button 
+                                    variant="ghost" 
+                                    size="sm" 
+                                    className="h-6 px-2 text-[10px] text-gray-500 hover:text-red-600 hover:bg-red-50 ml-auto"
+                                    onClick={() => delete_notification(item.notif_id)}
+                                >
+                                    <BiTrash className="mr-1 h-3 w-3" /> Remove
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                ))
+            ) : (
+                <div className='flex flex-col justify-center items-center py-12 text-gray-400 gap-2'>
+                    <IoIosNotificationsOutline className="h-10 w-10 opacity-20" />
+                    <span className='text-sm'>No notifications</span>
+                </div>
+            )}
+        </div>
+    );
 
     return (
-        <div>
-            <div className='relative'>
-                <Button id='open-btn' onClick={() => setDisplay(prev => !prev)} variant={'secondary'} className='border border-black/50 cursor-pointer'><IoIosNotificationsOutline /></Button>
-                <Label className='absolute top-[-5px] right-[-5px] bg-primary text-white rounded px-1 aspect-square w-max text-[10px]'>{notificationDataStore.filter((item) => item.isRead == false).length}</Label>
-            </div>
-
-            <div ref={dropdownRef} className={`bg-white pb-3 border border-black/15 shadow-2xl rounded-[15px] w-[500px]  absolute z-40 right-42 mt-1 ${display ? 'block' : 'hidden'}`}>
-                <div className='w-full flex items-center justify-between p-2 border-b border-black/15 px-4'>
-                    <Label>Notifications</Label>
-                    <div className='flex items-center gap-1'>
-                        <Button onClick={mark_all_read} className='text-[12px] w-[100px] p-0' variant={'outline'}>Read All</Button>
-                        <Button onClick={delete_all_notification} className='text-[12px] w-[100px] p-0' variant={'outline'}>Delete All</Button>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+            <PopoverTrigger asChild>
+                <Button 
+                    variant="default" 
+                    size="icon" 
+                    className="relative  text-white  border border-black/50 cursor-pointer"
+                >
+                    <IoIosNotificationsOutline/>
+                    {unreadCount > 0 && (
+                        <span className="absolute top-2 right-2 flex h-2.5 w-2.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500 border-2 border-white"></span>
+                        </span>
+                    )}
+                </Button>
+            </PopoverTrigger>
+            
+            <PopoverContent className="w-[400px] p-0 mr-4 shadow-xl border-gray-200" align="end">
+              
+                <div className='p-3 px-4 flex items-center justify-between border-b border-gray-100 bg-white rounded-t-lg'>
+                    <div className='flex items-center gap-2'>
+                        <h4 className='font-semibold text-sm text-gray-800'>Notifications</h4>
+                        {unreadCount > 0 && (
+                            <span className='bg-blue-100 text-blue-600 text-[10px] font-bold px-1.5 py-0.5 rounded-full'>
+                                {unreadCount}
+                            </span>
+                        )}
+                    </div>
+                    
+                 
+                    <div className='flex gap-1'>
+                         <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-7 w-7 text-gray-500 hover:text-blue-600 hover:bg-blue-50" 
+                            title="Mark all as read"
+                            onClick={mark_all_read}
+                        >
+                            <MdMarkEmailRead className='h-4 w-4' />
+                        </Button>
+                         <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-7 w-7 text-gray-500 hover:text-red-600 hover:bg-red-50" 
+                            title="Clear all"
+                            onClick={delete_all_notification}
+                        >
+                            <MdDeleteOutline className='h-4 w-4' />
+                        </Button>
                     </div>
                 </div>
-                <ScrollArea className='h-[44vh]'>
-                    <div className='flex flex-col '>
-                        {notificationDataStore.length > 0 ?
-                            notificationDataStore.map((data, index) => (
-                                <div key={index} className={`flex items-center  rounded border-b border-black/15 p-5 bg-white`}>
-                                    <div className='flex flex-col gap-1 w-full'>
-                                        <div className='flex items-center justify-between w-full'>
-                                            <div className='flex items-center gap-1'>
-                                                <Label className={ActionInNotification[data.action]}>{data.action}</Label>
-                                                <Label className='text-[12px] text-black/50'>{new Date(data.created_at).toLocaleDateString('en-GB')}</Label>
-                                            </div>
-                                            {!data.isRead ? <MdCircle className='text-green-400 text-[12px]' /> : <Label className='text-[12px] text-black/50'>Read</Label>}
-                                        </div>
 
-                                        <div className='flex gap-2 justify-start items-start'>
-                                            <Image src={data.product_image} alt='' width={200} height={200} className='w-[80px] p-1 rounded shadow-md' />
-                                            <div className='flex flex-col gap-2'>
-                                                <Label className='text-[14px]'>{data.product_name}</Label>
-                                                <div className='flex items-center gap-2 w-full'>
-                                                    <Button variant={'outline'} className='text-[12px] w-[120px] p-0' onClick={() => markAsRead(data.notif_id)}>Mark as read</Button>
-                                                    <Button variant={'outline'} className='text-[12px] w-[120px] p-0' onClick={() => delete_notification(data.notif_id)}>Delete</Button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )) :
-                            <div className='flex justify-center items-center p-1 text-black/50 p-3'>
-                                <Label>No Notifications</Label>
-                            </div>
-
-
-                        }
+             
+                <Tabs defaultValue="all" className="w-full bg-white">
+                    <div className="px-4 pt-2 pb-0">
+                        <TabsList className="w-full justify-start h-9 bg-transparent p-0 border-b border-gray-100">
+                            <TabsTrigger 
+                                value="all" 
+                                className="text-xs h-9 rounded-none border-b-2 border-transparent data-[state=active]:border-black data-[state=active]:bg-transparent data-[state=active]:text-black text-gray-500 px-4 shadow-none"
+                            >
+                                All
+                            </TabsTrigger>
+                            <TabsTrigger 
+                                value="unread" 
+                                className="text-xs h-9 rounded-none border-b-2 border-transparent data-[state=active]:border-black data-[state=active]:bg-transparent data-[state=active]:text-black text-gray-500 px-4 shadow-none"
+                            >
+                                Unread
+                            </TabsTrigger>
+                        </TabsList>
                     </div>
-                </ScrollArea>
 
-            </div>
-        </div>
+                    <ScrollArea className='h-[400px] bg-white'>
+                        <TabsContent value="all" className="m-0 focus-visible:ring-0">
+                           <NotificationList data={notificationDataStore} />
+                        </TabsContent>
+                        <TabsContent value="unread" className="m-0 focus-visible:ring-0">
+                            <NotificationList data={notificationDataStore.filter(n => !n.isRead)} />
+                        </TabsContent>
+                    </ScrollArea>
+                </Tabs>
+                
+               
+                <div className='p-2 border-t border-gray-100 bg-gray-50 rounded-b-lg'>
+                     <Button onClick={()=>setIsOpen(false)} variant="ghost" className='w-full h-8 text-xs text-gray-500 hover:bg-gray-200/50 hover:text-gray-900'>
+                        Close
+                     </Button>
+                </div>
+            </PopoverContent>
+        </Popover>
     )
 }
 

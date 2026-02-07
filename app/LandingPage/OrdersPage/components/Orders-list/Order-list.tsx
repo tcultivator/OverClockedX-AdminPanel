@@ -130,16 +130,17 @@ const Order_list = () => {
                                 const isExpanded = expandedGroups[groupIndex] || false;
                                 return (
                                     <div
-                                        className={`flex flex-col border-b relative ${group.updated_at == group.created_at && ' bg-primary/20'} `}
+                                        className={`flex flex-col border-b relative ${group.updated_at == group.created_at && ' bg-indigo-50/30'} `}
                                         key={groupIndex}
                                     >
+
                                         <div
                                             style={{
                                                 maxHeight: isExpanded ? `${group.items.length * 60}px` : '60px',
                                                 overflow: 'hidden',
                                                 transition: 'max-height 0.3s ease-out',
-                                                borderLeft: isExpanded ? '4px solid #fac1d3' : '4px solid #ffffff',
-                                                borderRight: isExpanded ? '4px solid #fac1d3' : '4px solid #ffffff', // highlight the group
+                                                borderLeft: isExpanded ? '4px solid #104254' : '4px solid white',
+                                                borderRight: isExpanded ? '4px solid #104254' : '4px solid white', // highlight the group
                                                 paddingLeft: '8px'
                                             }}
                                             className='px-3'
@@ -150,8 +151,17 @@ const Order_list = () => {
                                                     className='flex items-center'
                                                     key={itemIndex}
                                                 >
-                                                    <div className='flex items-center justify-start w-[6%]   '>
+                                                    <div className='flex flex-col items-start justify-start w-[6%]   '>
                                                         <Label className='font-thin'>{group.order_id}</Label>
+                                                        {group.updated_at == group.created_at && itemIndex === 0 && (
+                                                            <div className="flex items-center gap-1 mt-1">
+                                                                <span className="relative flex h-2 w-2">
+                                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                                                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                                                                </span>
+                                                                <span className="text-[10px] font-bold text-indigo-600 uppercase">New</span>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                     <div className='flex gap-1 items-center justify-start w-[24%] pr-1'>
                                                         <Image

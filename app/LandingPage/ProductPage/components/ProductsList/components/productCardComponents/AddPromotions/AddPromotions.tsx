@@ -119,11 +119,11 @@ const AddPromotions = ({ product_id }: props) => {
 
                         <div className='flex flex-col gap-3'>
 
-                            {/* PRODUCT INFORMATION SECTION */}
+                           
 
                             <div className="space-y-1 p-2 py-4 rounded border shadow-md">
                                 <div className="flex justify-between items-center">
-                                    <Label className="text-sm text-black/50">Product Information</Label>
+                                    <Label className="text-sm text-white/50">Product Information</Label>
                                     <div className={`${products_data.stocks > 0 ? 'bg-[#C5FFC8] text-green-800 ' : 'bg-[#FFD5D8] text-red-500 '} w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]`}>
                                         {products_data.stocks > 0 ? <IoMdCheckmark className='text-[12px]' /> : <RxCross1 className='text-[12px]' />}
                                         <Label className='text-[11px] flex items-center justify-center'>{products_data.stocks > 0 ? 'Available' : 'Out of stock'}</Label>
@@ -137,22 +137,22 @@ const AddPromotions = ({ product_id }: props) => {
                                         alt=""
                                         className="rounded-lg r w-[30%] object-cover" />
                                     <div className='flex flex-col items-start w-[70%]'>
-                                        <Label className="text-xs text-black/50">{products_data.brand}</Label>
+                                        <Label className="text-xs text-white/50">{products_data.brand}</Label>
                                         <Label className="text-sm font-medium">{products_data.product_name}</Label>
                                         <Label className="text-sm font-medium">{new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP", }).format(products_data.price)}</Label>
                                     </div>
                                 </div>
-                                <div className="flex items-center justify-between px-8 py-3  border-y border-black/10">
+                                <div className="flex items-center justify-between px-8 py-3  border-y border-white/10">
 
                                     <div className="flex flex-col justify-center items-center">
-                                        <Label className="text-xs text-black/50">Total Sales</Label>
+                                        <Label className="text-xs text-white/50">Total Sales</Label>
                                         <Label className="text-sm font-semibold">
                                             {products_data.sales_count}
                                         </Label>
                                     </div>
 
                                     <div className="flex flex-col justify-center items-center">
-                                        <Label className="text-xs text-black/50">Stocks</Label>
+                                        <Label className="text-xs text-white/50">Stocks</Label>
                                         <Label className="text-sm font-semibold">
                                             {products_data.stocks}
                                         </Label>
@@ -163,22 +163,22 @@ const AddPromotions = ({ product_id }: props) => {
                                             size={55}
                                             strokeWidth={5}
                                             progress={Math.round(products_data.stocks / products_data.base_stocks * 100)}
-                                            className="text-black/40"
+                                            className="text-white/40"
                                         />
-                                        <Label className="text-[11px] text-black/50 mt-1 tracking-wide">
+                                        <Label className="text-[11px] text-white/50 mt-1 tracking-wide">
                                             Remaining
                                         </Label>
                                     </div>
                                 </div>
 
-                                {/* PROMOTION SECTION */}
+                            
                             </div>
                             {products_data.isActive ? (
                                 <div className="space-y-1 p-2 py-4 rounded border shadow-md flex flex-col gap-3">
 
 
                                     <div className="flex justify-between items-center">
-                                        <Label className="text-sm text-black/50">Promotion Information</Label>
+                                        <Label className="text-sm text-white/50">Promotion Information</Label>
                                         <div className='bg-[#C5FFC8] text-green-800 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]'>
                                             <IoMdCheckmark className='text-[12px]' />
                                             <Label className='text-[11px] flex items-center justify-center'>Active</Label>
@@ -203,7 +203,7 @@ const AddPromotions = ({ product_id }: props) => {
 
                                     {/* VALUE */}
                                     <div className="flex flex-col">
-                                        <Label className="text-xs text-black/50">Promotion Value</Label>
+                                        <Label className="text-xs text-white/50">Promotion Value</Label>
                                         <Input disabled defaultValue={new Intl.NumberFormat("en-PH", {
                                             style: "currency",
                                             currency: "PHP",
@@ -215,7 +215,7 @@ const AddPromotions = ({ product_id }: props) => {
                                     {/* END DATE */}
                                     <div className="flex justify-between items-end">
                                         <div className='flex flex-col gap-1'>
-                                            <Label className="text-xs text-black/50">End Date</Label>
+                                            <Label className="text-xs text-white/50">End Date</Label>
                                             <Label className="text-sm px-2">
                                                 {new Date(products_data.end_date).toLocaleDateString("en-GB")}
                                             </Label>
@@ -233,7 +233,7 @@ const AddPromotions = ({ product_id }: props) => {
 
 
                                     <div className="flex justify-between items-center">
-                                        <Label className="text-sm text-black/50">Promotion Information</Label>
+                                        <Label className="text-sm text-white/50">Promotion Information</Label>
                                         <div className='bg-[#FFD5D8] text-red-500 w-max  rounded-[10px]  flex justify-center items-center px-4 py-[4px]'>
                                             <RxCross1 className='text-[12px]' />
                                             <Label className='text-[11px] flex items-center justify-center'>Not Active</Label>
@@ -242,7 +242,7 @@ const AddPromotions = ({ product_id }: props) => {
 
 
                                     <div className="flex flex-col">
-                                        <Label className="text-xs text-black/50">Promotion Type</Label>
+                                        <Label className="text-xs text-white/50">Promotion Type</Label>
                                         <Select onValueChange={(value) => setPromotionType(value)}>
                                             <SelectTrigger className="w-full">
                                                 <SelectValue placeholder="Select Promotion Type" />
@@ -259,19 +259,19 @@ const AddPromotions = ({ product_id }: props) => {
 
                                     {/* VALUE */}
                                     <div className="flex flex-col">
-                                        <Label className="text-xs text-black/50">Promotion Value</Label>
+                                        <Label className="text-xs text-white/50">Promotion Value</Label>
                                         <Input type='number' onChange={(e) => setPromotionValue(Number(e.target.value))} />
                                     </div>
 
                                     {/* END DATE */}
                                     <div className="flex justify-between items-end">
                                         <div className='flex flex-col gap-1 w-full'>
-                                            <Label className="text-xs text-black/50">End Date</Label>
+                                            <Label className="text-xs text-white/50">End Date</Label>
                                             <Input
                                                 value={promotionEndDate}
                                                 min={minDateTime}
                                                 type='datetime-local'
-                                                className='w-full '
+                                                className='w-full text-white'
                                                 onChange={(e) => setPromotionendDate(e.target.value)} />
                                         </div>
                                     </div>

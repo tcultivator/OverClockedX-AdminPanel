@@ -1,64 +1,66 @@
 "use client"
-import React from 'react'
-import { TbShoppingCartPin } from "react-icons/tb";
-import { TbShoppingCart } from "react-icons/tb";
-import { Label } from '@/components/ui/label';
-import { useState, useEffect } from 'react';
-import { GoArrowSwitch } from "react-icons/go";
-import { useMobileControllerStore } from '@/stores/mobileControllerStore';
-import { MdInventory, MdShoppingBag, MdWarning, MdPendingActions } from "react-icons/md";
-
+import React, { useState, useEffect } from 'react'
+import { MdShoppingBag, MdPendingActions } from "react-icons/md";
+import { Skeleton } from "@/components/ui/skeleton";
+import {Label} from '@/components/ui/label';
 const Total_orders_card = () => {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [totalOrders, setTotalOrders] = useState(0)
     const [pendingOrders, setPendingOrders] = useState(0)
 
-
-    // zustand state for switching display of card in mobile view
-    const cardDisplaySwitcher = useMobileControllerStore((state) => state.cardDisplaySwitcher)
-    const setCardDisplaySwitcher = useMobileControllerStore((state) => state.setCardDisplaySwitcher)
-
-
-    // fetch the orders count in initial page/ reload page
     useEffect(() => {
-        setLoading(true)
         const fetchProductsCount = async () => {
-            const totalCountInCard = await fetch('/api/Dashboard/card/orders', {
-                method: 'GET'
-            })
-            const response = await totalCountInCard.json()
-            if (response.status != 500) {
-                setTotalOrders(response.totalOrders.totalOrders)
-                setPendingOrders(response.pendingOrders.pendingOrders)
-
+            try {
+                setLoading(true)
+                const res = await fetch('/api/Dashboard/card/orders')
+                const response = await res.json()
+                if (response.status !== 500) {
+                    setTotalOrders(response.totalOrders.totalOrders)
+                    setPendingOrders(response.pendingOrders.pendingOrders)
+                }
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setLoading(false)
             }
-            setLoading(false)
         }
         fetchProductsCount()
     }, [])
+
     return (
-        <div className="w-full max-w-sm p-6 rounded  bg-gradient-to-br from-gray-900 to-gray-800 text-white border border-gray-700/50 ">
-            <div className="flex justify-between items-center mb-4">
-
-                <span className="text-xs font-medium text-gray-400 bg-gray-800 px-2 py-1 rounded-full border border-gray-700">Sales</span>
-            </div>
-            <div className='flex items-start gap-4'>
-                <div className="p-3 bg-gray-700/50 rounded-xl backdrop-blur-sm">
-                    <MdShoppingBag className="text-2xl text-emerald-400" />
+        <div className="w-full max-w-sm p-5 rounded bg-white text-slate-900 border border-black/15 flex flex-col justify-between">
+            <div>
+                <div className="flex justify-between items-center mb-3">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
+                        Sales Overview
+                    </span>
                 </div>
-                <div className="mb-4">
-                    <h3 className="text-4xl font-bold">{totalOrders}</h3>
-                    <p className="text-indigo-200 text-sm">Total orders</p>
+
+                <div className='flex items-center gap-5 mb-4'>
+                    <div className="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-100">
+                        <MdShoppingBag className="text-3xl text-primary" />
+                    </div>
+                    <div>
+                        {loading ? (
+                            <Skeleton className="h-10 w-20 bg-slate-100 mb-1" />
+                        ) : (
+                            <Label className="text-4xl font-bold  text-slate-900 tracking-tight">{totalOrders}</Label>
+                        )}
+                        <p className="text-slate-500 text-xs font-medium uppercase tracking-wide">Total orders</p>
+                    </div>
                 </div>
             </div>
 
-
-            {/* Pending alert */}
-            <div className="flex items-center gap-3 bg-orange-500/10 border border-orange-500/20 p-2 rounded-lg">
-                <MdPendingActions className="text-orange-400 text-xl shrink-0" />
+            
+            <div className="flex items-center gap-3 bg-orange-50 border border-orange-100 p-3 rounded-xl transition-all hover:bg-orange-100/50">
+                <div className="p-1.5 bg-white rounded-lg shadow-sm">
+                    <MdPendingActions className="text-orange-500 text-xl shrink-0" />
+                </div>
                 <div>
-                    <p className="text-sm font-bold text-orange-400">{pendingOrders} Orders</p>
-                    <p className="text-[10px] text-orange-300/70 uppercase tracking-wide">Waiting for process</p>
+                    <p className="text-sm font-bold text-orange-700 leading-none">
+                        {loading ? "..." : pendingOrders} Pending
+                    </p>
+                    <p className="text-[10px] text-orange-600/80 font-medium mt-1 uppercase tracking-tight">Needs processing</p>
                 </div>
             </div>
         </div>

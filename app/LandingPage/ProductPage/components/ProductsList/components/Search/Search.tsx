@@ -84,8 +84,8 @@ const Search = () => {
     return (
         <div className='w-full relative'>
             <form onSubmit={submitSearch} className='flex gap-1 items-center w-full '>
-                <Input type="text" placeholder="Search" ref={inputRef} onChange={(e) => searchProducts(e.target.value)} />
-                <Button variant={'secondary'} className='text-black/80 border border-black/50 cursor-pointer' type='submit'><GoSearch /></Button>
+                <Input type="text" placeholder="Search" ref={inputRef} onChange={(e) => searchProducts(e.target.value)} className='text-white' />
+                <Button variant={'default'} className=' text-white  border border-black/50 cursor-pointer' type='submit'><GoSearch /></Button>
             </form>
             <div className={` bg-[#F1F0EE] max-h-[50vh] shadow-2xl border border-black/15 overflow-auto mt-1 rounded w-full absolute z-50  flex-col ${searchResults.length != 0 ? 'flex' : 'hidden'}`}>
                 <div className='flex bg-white text-black p-1 rounded-t sticky top-0 border-b border-black/30'>

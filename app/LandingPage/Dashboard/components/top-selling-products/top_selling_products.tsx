@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Input } from '@/components/ui/input'
-import { MdLeaderboard, MdCalendarMonth, MdArrowForward } from "react-icons/md";
+import { MdLeaderboard, MdCalendarMonth, MdTrendingUp } from "react-icons/md";
 import { topSellingProducts } from '@/types/topSellingProductsType'
 
 const Top_selling_products = () => {
@@ -20,38 +20,51 @@ const Top_selling_products = () => {
     const fetch_top_selling_products_func = async () => {
       setLoading(true)
       try {
-        const fetch_top_selling_products = await fetch(`/api/Dashboard/top-selling-products?year=${selectedDate[0]}&month=${selectedDate[1]}`, {
-          method: 'GET'
-        })
-        const fetch_top_selling_products_result = await fetch_top_selling_products.json()
-        if (fetch_top_selling_products_result.status == 500) return
-        setTopSellingProducts(fetch_top_selling_products_result)
+        const response = await fetch(`/api/Dashboard/top-selling-products?year=${selectedDate[0]}&month=${selectedDate[1]}`)
+        const result = await response.json()
+        if (result.status !== 500) {
+          setTopSellingProducts(result)
+        }
       } catch (err) {
-        console.log(err)
+        console.error(err)
+      } finally {
+        setLoading(false)
       }
-      setLoading(false)
     }
     fetch_top_selling_products_func()
   }, [selectedDate])
 
-  return (
-    <div className='w-full h-full p-6 rounded bg-gradient-to-br from-gray-900 to-gray-800 text-white shadow-xl border border-gray-700/50 flex flex-col'>
+  
+  const getRankStyle = (index: number) => {
+    switch (index) {
+      case 0: return "bg-amber-400 text-white shadow-sm ring-2 ring-amber-100"; 
+      case 1: return "bg-slate-300 text-slate-700 shadow-sm ring-2 ring-slate-100"; 
+      case 2: return "bg-orange-400 text-white shadow-sm ring-2 ring-orange-100"; 
+      default: return "bg-slate-100 text-slate-500 border border-slate-200";
+    }
+  }
 
-      {/* Header Section */}
-      <div className="flex justify-between items-center mb-6 shrink-0">
+  return (
+    <div className='w-full h-full p-6 rounded bg-white text-slate-900 border border-black/15 flex flex-col'>
+
+      
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 shrink-0">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-indigo-500/10 rounded-lg border border-indigo-500/20">
-            <MdLeaderboard className="text-xl text-indigo-400" />
+          <div className="p-2.5 bg-primary/20 rounded-lg border border-primary/30">
+            <MdLeaderboard className="text-xl text-primary" />
           </div>
-          <span className="text-sm font-semibold text-gray-200 tracking-wide">Top Selling</span>
+          <div>
+            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-tight">Top Sellings</h3>
+            <p className="text-[11px] text-slate-500 font-medium">Ranked by volume</p>
+          </div>
         </div>
 
-        {/* Date Input */}
-        <div className="relative group">
-          <MdCalendarMonth className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-white transition-colors z-10" />
+     
+        <div className="relative group w-full sm:w-auto">
+          <MdCalendarMonth className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-indigo-600 transition-colors z-10" />
           <Input
             type='month'
-            className="pl-9 bg-gray-800 border-gray-700 text-white h-9 text-xs w-auto focus:border-indigo-500 focus:ring-indigo-500/20 hover:bg-gray-700/80 transition-all"
+            className="pl-9 bg-slate-50 border-slate-200 text-slate-700 h-10 text-xs w-full sm:w-44 rounded-lg focus:ring-2 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all cursor-pointer"
             defaultValue={`${selectedDate[0]}-${selectedDate[1]}`}
             onChange={(e) => {
               if (e.target.value) {
@@ -63,16 +76,16 @@ const Top_selling_products = () => {
         </div>
       </div>
 
-      {/* Content Section */}
-      <div className="flex-1 min-h-0 overflow-hidden relative">
+      
+      <div className="flex-1 min-h-0 relative">
         {loading ? (
           <div className='flex flex-col gap-3 h-full'>
             {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-center gap-4 p-3 rounded-xl bg-gray-800/40 border border-gray-700/30">
-                <Skeleton className="w-12 h-12 rounded-lg bg-gray-700/50" />
+              <div key={i} className="flex items-center gap-4 p-4 bg-slate-50/50 border border-slate-100 rounded-xl">
+                <Skeleton className="w-12 h-12 rounded-lg bg-slate-200" />
                 <div className="flex-1 space-y-2">
-                  <Skeleton className="h-4 w-1/3 bg-gray-700/50" />
-                  <Skeleton className="h-3 w-1/4 bg-gray-700/50" />
+                  <Skeleton className="h-4 w-1/2 bg-slate-200" />
+                  <Skeleton className="h-3 w-1/4 bg-slate-200" />
                 </div>
               </div>
             ))}
@@ -82,32 +95,32 @@ const Top_selling_products = () => {
             <ScrollArea className="h-full pr-4 -mr-4">
               <div className="flex flex-col gap-3 pb-2">
                 {topSellingProducts.map((data, index) => {
-                  const percentage = (data.stocks / data.base_stocks) * 100;
+                  const stockPercentage = Math.min((data.stocks / data.base_stocks) * 100, 100);
 
                   return (
                     <div
                       key={index}
-                      className="group flex items-center justify-between p-3 rounded-xl bg-gray-800/40 border border-gray-700/30 hover:bg-gray-700/60 hover:border-indigo-500/30 transition-all duration-300"
+                      className="group flex flex-col sm:flex-row items-center justify-between p-4 rounded-xl bg-white border border-slate-100 hover:border-indigo-200 hover:shadow-md hover:shadow-indigo-500/5 transition-all duration-300"
                     >
-                      {/* Product Info */}
-                      <div className="flex items-center gap-4 flex-1 min-w-0">
-                        <div className="relative w-12 h-12 shrink-0">
+                      
+                      <div className="flex items-center gap-4 flex-1 min-w-0 w-full sm:w-auto">
+                        <div className="relative w-14 h-14 shrink-0">
                           <Image
                             src={data.product_image}
                             alt={data.product_name}
                             fill
-                            className="rounded-lg object-cover border border-gray-600 group-hover:border-indigo-400/50 transition-colors"
+                            className="rounded-xl object-cover border border-slate-100 shadow-sm group-hover:scale-105 transition-transform duration-300"
                           />
-                          <div className="absolute -top-1 -left-1 w-5 h-5 bg-gray-900 rounded-full flex items-center justify-center border border-gray-700 text-[10px] font-bold text-indigo-400">
-                            #{index + 1}
+                          <div className={`absolute -top-2 -left-2 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black z-20 ${getRankStyle(index)}`}>
+                            {index + 1}
                           </div>
                         </div>
 
                         <div className="flex flex-col min-w-0">
-                          <h4 className="font-semibold text-sm text-gray-200 truncate group-hover:text-white transition-colors">
+                          <h4 className="font-semibold text-sm text-slate-800 truncate group-hover:text-primary transition-colors">
                             {data.product_name}
                           </h4>
-                          <p className="font-medium text-xs text-indigo-400">
+                          <p className="font-semibold text-xs text-emerald-600 mt-0.5">
                             {new Intl.NumberFormat("en-PH", {
                               style: "currency",
                               currency: "PHP",
@@ -116,28 +129,28 @@ const Top_selling_products = () => {
                         </div>
                       </div>
 
-                      {/* Stats & Progress */}
-                      <div className="flex flex-col items-end gap-1.5 w-[140px] shrink-0 pl-4">
-                        <div className="flex justify-between w-full text-[10px] uppercase font-bold tracking-wider">
-                          <span className="text-gray-500">Inventory</span>
-                          <span className="text-gray-300">{Math.round(percentage)}%</span>
+                    
+                      <div className="flex flex-col items-end gap-2 w-full sm:w-[160px] shrink-0 mt-4 sm:mt-0 pl-0 sm:pl-6 border-t sm:border-t-0 sm:border-l border-slate-100 pt-3 sm:pt-0">
+                        <div className="flex justify-between w-full text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                          <span>Sold {data.sales_count}</span>
+                          <span className={stockPercentage < 20 ? 'text-rose-500' : 'text-slate-400'}>
+                            {Math.round(stockPercentage)}% Stock
+                          </span>
                         </div>
 
-                        {/* Modern Progress Bar */}
-                        <div className="w-full h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                        
+                        <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                           <div
-                            style={{ width: `${percentage}%` }}
-                            className={`h-full rounded-full transition-all duration-500 ${percentage < 20 ? 'bg-red-500' :
-                                percentage < 50 ? 'bg-amber-500' :
-                                  'bg-gradient-to-r from-indigo-500 to-cyan-400'
+                            style={{ width: `${stockPercentage}%` }}
+                            className={`h-full rounded-full transition-all duration-1000 ${stockPercentage < 20 ? 'bg-rose-500' :
+                                stockPercentage < 50 ? 'bg-amber-500' :
+                                  'bg-emerald-400'
                               }`}
                           />
                         </div>
 
-                        <div className="text-[10px] text-gray-400 mt-0.5">
-                          <span className="text-white font-bold">{data.sales_count}</span> sold
-                          <span className="mx-1 text-gray-600">/</span>
-                          {data.base_stocks}
+                        <div className="flex items-center gap-1 text-[10px] text-slate-400 font-medium">
+                          Total Stocks: <span className="text-slate-700 font-bold">{data.stocks}</span>
                         </div>
                       </div>
                     </div>
@@ -146,9 +159,11 @@ const Top_selling_products = () => {
               </div>
             </ScrollArea>
           ) : (
-            <div className="flex flex-col items-center justify-center h-full text-gray-500 gap-2">
-              <MdLeaderboard className="text-4xl opacity-20" />
-              <span className="text-sm">No sales data found</span>
+            <div className="flex flex-col items-center justify-center h-full text-slate-400 gap-3 py-10">
+              <div className="p-4 bg-slate-50 rounded-full">
+                <MdLeaderboard className="text-4xl opacity-20" />
+              </div>
+              <p className="text-sm font-medium">No sales performance found for this month</p>
             </div>
           )
         )}

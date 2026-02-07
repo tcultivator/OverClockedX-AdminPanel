@@ -63,7 +63,6 @@ input[type="number"] {
 }
 
 
-
 :root {
   --radius: 0.625rem;
   --background: #ffffff;
@@ -72,7 +71,7 @@ input[type="number"] {
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #ffffff;
+  --primary: #104254;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -139,6 +138,8 @@ input[type="number"] {
   }
 
   body {
-    @apply bg-gradient-to-b from-[#e6e6e6] to-[#e6e6e6] text-foreground;
+    @apply bg-gradient-to-b from-[#f2f6fa] to-[#f2f6fa] text-foreground;
   }
 }
+
+
