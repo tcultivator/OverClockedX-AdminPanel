@@ -87,10 +87,10 @@ const Low_Stocks_Alert = () => {
                                         <div
                                             key={index}
                                             className={`
-                                                group flex items-center justify-between p-3 rounded-xl border transition-all duration-200
+                                                group flex flex-col md:flex-row items-start gap-2 md:gap-0 md:items-center justify-start md:justify-between p-3 rounded-xl border transition-all duration-200
                                                 ${isCritical
-                                                    ? 'bg-rose-50/30 border-rose-100 hover:bg-rose-50 hover:border-rose-200'
-                                                    : 'bg-white border-slate-100 hover:border-amber-200 hover:bg-amber-50/30'
+                                                    ? 'bg-rose-100 border-rose-200 hover:bg-rose-100 hover:border-rose-300'
+                                                    : 'bg-amber-100 border-amber-200 hover:border-amber-300'
                                                 }
                                             `}
                                         >
@@ -121,7 +121,7 @@ const Low_Stocks_Alert = () => {
                                             </div>
 
                                             
-                                            <div className='flex gap-4 items-center pl-2'>
+                                            <div className='flex gap-4 items-center pl-2  w-full md:w-max justify-between md:justify-end '>
                                                 <div className='flex flex-col items-end'>
                                                     <span className={`text-xs font-bold ${isCritical ? 'text-rose-600' : 'text-amber-600'}`}>
                                                         {data.stocks} left
