@@ -100,7 +100,7 @@ const Top_selling_products = () => {
                   return (
                     <div
                       key={index}
-                      className="group flex flex-col sm:flex-row items-center justify-between p-4 rounded-xl bg-white border border-slate-100 hover:border-indigo-200 hover:shadow-md hover:shadow-indigo-500/5 transition-all duration-300"
+                      className="group flex flex-col sm:flex-row items-center justify-between p-4 rounded-xl bg-white border border-indigo-200 md:border-slate-100 hover:border-indigo-200 hover:shadow-md hover:shadow-indigo-500/5 transition-all duration-300"
                     >
                       
                       <div className="flex items-center gap-4 flex-1 min-w-0 w-full sm:w-auto">
