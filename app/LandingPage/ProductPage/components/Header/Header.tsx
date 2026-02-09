@@ -60,13 +60,13 @@ const Header = () => {
                             <div className='flex-1 overflow-y-auto'>
                                 <div className='flex flex-col gap-2 p-4 pb-10'>
                                     <SheetClose className='items-start flex justify-start'>
-                                        <Button
-                                            variant="ghost"
+                                        <Label
+                                            
                                             className='justify-start font-semibold text-blue-600 hover:text-blue-700 hover:bg-blue-50 active:text-blue-700 active:bg-blue-50'
                                             onClick={() => setCategoryFilter('all')}
                                         >
                                             All Products
-                                        </Button>
+                                        </Label>
                                     </SheetClose>
 
 
@@ -76,25 +76,24 @@ const Header = () => {
                                                 {group}
                                             </Label>
                                             <SheetClose className='items-start flex justify-start'>
-                                                <Button
-                                                    variant="ghost"
+                                                <Label
+                                                    
                                                     className='justify-start pl-6 h-9 text-sm font-medium border-l-2 border-transparent hover:border-black active:border-black rounded-none'
                                                     onClick={() => setCategoryFilter(group)}
                                                 >
                                                     View All {group}
-                                                </Button>
+                                                </Label>
                                             </SheetClose>
 
 
                                             {items.map((item,index) => (
                                                 <SheetClose key={index} className='items-start flex justify-start'>
-                                                    <Button
-                                                        variant="ghost"
+                                                    <Label
                                                         className='justify-start pl-8 h-9 text-sm font-light text-black/60 hover:text-black border-l-2 border-transparent hover:border-gray-300 active:border-gray-300 rounded-none'
                                                         onClick={() => setCategoryFilter(item)}
                                                     >
                                                         {item}
-                                                    </Button>
+                                                    </Label>
                                                 </SheetClose>
 
                                             ))}
