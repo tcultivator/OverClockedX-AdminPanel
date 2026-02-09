@@ -7,11 +7,12 @@ const nextConfig: NextConfig = {
       { hostname: "files.edgestore.dev" },
       { hostname: "res.cloudinary.com" },
       { hostname: "b.tile.openstreetmap.org" },
-      { hostname: "images.barcodelookup.com" }, // ✅ no https://
+      { hostname: "images.barcodelookup.com" },
+      {hostname:"www.mentainstruments.com"} 
     ],
   },
   allowedDevOrigins: [
-    'https://overclockedx-admin.vercel.app', // ✅ no trailing slash
+    'https://overclockedx-admin.vercel.app', 
   ],
 };
 

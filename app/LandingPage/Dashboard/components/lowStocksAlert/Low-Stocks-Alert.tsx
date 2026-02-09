@@ -38,7 +38,7 @@ const Low_Stocks_Alert = () => {
     }, [])
 
     return (
-        <div className='w-full h-full p-6 rounded bg-white text-slate-900 border border-black/15 flex flex-col'>
+        <div className='w-full h-full p-2 md:p-6 rounded bg-white text-slate-900 border border-black/15 flex flex-col'>
 
           
             <div className="flex justify-between items-start mb-6 shrink-0">
@@ -160,7 +160,7 @@ const Low_Stocks_Alert = () => {
 
             
             {!loading && lowStocksProducts.length > 0 && (
-                <button className="mt-4 w-full py-2.5 text-[11px] font-bold uppercase tracking-widest text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 hover:text-slate-900 transition-all flex items-center justify-center gap-2 group">
+                <button className=" w-full py-2.5 text-[11px] font-bold uppercase tracking-widest text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 hover:text-slate-900 transition-all flex items-center justify-center gap-2 group">
                     View Inventory Report
                     <MdChevronRight className="text-lg group-hover:translate-x-0.5 transition-transform" />
                 </button>
