@@ -8,7 +8,7 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { MdCircle, MdDeleteOutline, MdCheck, MdMarkEmailRead } from "react-icons/md";
 import { BiTrash } from "react-icons/bi";
 
-// UI Components (Assumed to be in your project based on your description)
+// UI Components
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -26,7 +26,6 @@ type Props = {
 const Notification = ({ notificationData }: Props) => {
     const [isOpen, setIsOpen] = useState(false);
     
-    // Store
     const notificationDataStore = useNotificationStore((state) => state.notificationDataStore)
     const setNotificationData = useNotificationStore((state) => state.setNotificationData)
     const markAsRead = useNotificationStore((state) => state.markAsRead)
@@ -40,55 +39,48 @@ const Notification = ({ notificationData }: Props) => {
 
     const unreadCount = notificationDataStore.filter((item) => !item.isRead).length;
 
-    
     const NotificationList = ({ data }: { data: NotificationType[] }) => (
         <div className='flex flex-col'>
             {data.length > 0 ? (
                 data.map((item) => (
                     <div 
                         key={item.notif_id} 
-                        
                         className={`group flex gap-3 p-3 border-b border-gray-100 transition-all hover:bg-gray-50 relative ${!item.isRead ? 'bg-blue-50/40' : 'bg-white'}`}
                     >
-                        
                         {!item.isRead && (
                             <MdCircle className='absolute top-3 right-3 text-blue-500 text-[8px]' />
                         )}
 
-                        
                         <div className="flex-shrink-0 pt-1">
                             <Image 
                                 src={item.product_image} 
                                 alt={item.product_name} 
-                                width={100} 
-                                height={100} 
+                                width={48} 
+                                height={48} 
                                 className='h-12 w-12 object-cover rounded-md border border-gray-200 bg-white' 
                             />
                         </div>
 
-                       
-                        <div className='flex flex-col gap-1 w-full'>
-                            <div className='flex items-center justify-between pr-4'>
-                                
-                                <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border border-gray-200 ${ActionInNotification[item.action]}`}>
+                        <div className='flex flex-col gap-1 w-full min-w-0'> 
+                            <div className='flex items-center justify-between gap-2'>
+                                <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full border border-gray-200 truncate ${ActionInNotification[item.action]}`}>
                                     {item.action}
                                 </span>
-                                <span className='text-[10px] text-gray-400'>
+                                <span className='text-[10px] text-gray-400 whitespace-nowrap'>
                                     {new Date(item.created_at).toLocaleDateString('en-GB')}
                                 </span>
                             </div>
                             
-                            <p className='text-sm font-medium leading-tight mt-0.5 text-gray-800 line-clamp-2'>
+                            <p className='text-sm font-medium leading-tight mt-0.5 text-gray-800 line-clamp-2 break-words'>
                                 {item.product_name}
                             </p>
 
-                            
                             <div className='flex items-center gap-2 mt-2'>
                                 {!item.isRead && (
                                     <Button 
                                         variant="ghost" 
                                         size="sm" 
-                                        className="h-6 px-2 text-[10px] text-blue-600 hover:text-blue-700 hover:bg-blue-100"
+                                        className="h-7 px-2 text-[10px] text-blue-600 hover:text-blue-700 hover:bg-blue-100"
                                         onClick={() => markAsRead(item.notif_id)}
                                     >
                                         <MdCheck className="mr-1 h-3 w-3" /> Mark read
@@ -97,7 +89,7 @@ const Notification = ({ notificationData }: Props) => {
                                 <Button 
                                     variant="ghost" 
                                     size="sm" 
-                                    className="h-6 px-2 text-[10px] text-gray-500 hover:text-red-600 hover:bg-red-50 ml-auto"
+                                    className="h-7 px-2 text-[10px] text-gray-500 hover:text-red-600 hover:bg-red-50 ml-auto"
                                     onClick={() => delete_notification(item.notif_id)}
                                 >
                                     <BiTrash className="mr-1 h-3 w-3" /> Remove
@@ -119,13 +111,13 @@ const Notification = ({ notificationData }: Props) => {
         <Popover open={isOpen} onOpenChange={setIsOpen}>
             <PopoverTrigger asChild>
                 <Button 
-                    variant="default" 
-                    size="icon" 
-                    className="relative  text-white  border border-black/50 cursor-pointer"
+                    variant="secondary" 
+                     
+                    className="relative text-black  border border-black/50 cursor-pointer"
                 >
-                    <IoIosNotificationsOutline/>
+                    <IoIosNotificationsOutline className="" />
                     {unreadCount > 0 && (
-                        <span className="absolute top-2 right-2 flex h-2.5 w-2.5">
+                        <span className="absolute top-1 right-1 flex h-2.5 w-2.5">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500 border-2 border-white"></span>
                         </span>
@@ -133,8 +125,12 @@ const Notification = ({ notificationData }: Props) => {
                 </Button>
             </PopoverTrigger>
             
-            <PopoverContent className="w-[400px] p-0 mr-4 shadow-xl border-gray-200" align="end">
-              
+            
+            <PopoverContent 
+                className="w-[calc(100vw-22px)] sm:w-96 p-0 shadow-2xl border-gray-200 z-[100]" 
+                align="end" 
+                sideOffset={8}
+            >
                 <div className='p-3 px-4 flex items-center justify-between border-b border-gray-100 bg-white rounded-t-lg'>
                     <div className='flex items-center gap-2'>
                         <h4 className='font-semibold text-sm text-gray-800'>Notifications</h4>
@@ -145,12 +141,11 @@ const Notification = ({ notificationData }: Props) => {
                         )}
                     </div>
                     
-                 
                     <div className='flex gap-1'>
                          <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="h-7 w-7 text-gray-500 hover:text-blue-600 hover:bg-blue-50" 
+                            className="h-8 w-8 text-gray-500 hover:text-blue-600 hover:bg-blue-50" 
                             title="Mark all as read"
                             onClick={mark_all_read}
                         >
@@ -159,7 +154,7 @@ const Notification = ({ notificationData }: Props) => {
                          <Button 
                             variant="ghost" 
                             size="icon" 
-                            className="h-7 w-7 text-gray-500 hover:text-red-600 hover:bg-red-50" 
+                            className="h-8 w-8 text-gray-500 hover:text-red-600 hover:bg-red-50" 
                             title="Clear all"
                             onClick={delete_all_notification}
                         >
@@ -168,26 +163,26 @@ const Notification = ({ notificationData }: Props) => {
                     </div>
                 </div>
 
-             
                 <Tabs defaultValue="all" className="w-full bg-white">
-                    <div className="px-4 pt-2 pb-0">
-                        <TabsList className="w-full justify-start h-9 bg-transparent p-0 border-b border-gray-100">
+                    <div className="px-4 pt-2">
+                        <TabsList className="w-full justify-start h-9 bg-transparent p-0 border-b border-gray-100 space-x-4">
                             <TabsTrigger 
                                 value="all" 
-                                className="text-xs h-9 rounded-none border-b-2 border-transparent data-[state=active]:border-black data-[state=active]:bg-transparent data-[state=active]:text-black text-gray-500 px-4 shadow-none"
+                                className="text-xs h-9 rounded-none border-b-2 border-transparent data-[state=active]:border-black data-[state=active]:bg-transparent data-[state=active]:text-black text-gray-500 px-2 shadow-none transition-none"
                             >
                                 All
                             </TabsTrigger>
                             <TabsTrigger 
                                 value="unread" 
-                                className="text-xs h-9 rounded-none border-b-2 border-transparent data-[state=active]:border-black data-[state=active]:bg-transparent data-[state=active]:text-black text-gray-500 px-4 shadow-none"
+                                className="text-xs h-9 rounded-none border-b-2 border-transparent data-[state=active]:border-black data-[state=active]:bg-transparent data-[state=active]:text-black text-gray-500 px-2 shadow-none transition-none"
                             >
                                 Unread
                             </TabsTrigger>
                         </TabsList>
                     </div>
 
-                    <ScrollArea className='h-[400px] bg-white'>
+                    
+                    <ScrollArea className='h-[400px] max-h-[50vh] bg-white'>
                         <TabsContent value="all" className="m-0 focus-visible:ring-0">
                            <NotificationList data={notificationDataStore} />
                         </TabsContent>
@@ -197,7 +192,6 @@ const Notification = ({ notificationData }: Props) => {
                     </ScrollArea>
                 </Tabs>
                 
-               
                 <div className='p-2 border-t border-gray-100 bg-gray-50 rounded-b-lg'>
                      <Button onClick={()=>setIsOpen(false)} variant="ghost" className='w-full h-8 text-xs text-gray-500 hover:bg-gray-200/50 hover:text-gray-900'>
                         Close

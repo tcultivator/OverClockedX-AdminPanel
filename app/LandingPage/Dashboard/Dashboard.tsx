@@ -8,8 +8,8 @@ import Popular_Product from './components/popular-product/Popular-Product'
 import Recent_Orders from './components/recent-orders/Recent-Orders'
 const Dashboard = () => {
     return (
-        <div className="flex w-full h-screen p-1  flex-col">
-            <div className="grid grid-cols-1 pb-[50px] md:pb-0 md:grid-cols-[2fr_1fr] gap-1 h-screen">
+        <div className="flex w-full h-screen overflow-auto p-1  flex-col">
+            <div className="grid grid-cols-1 md:pb-0 md:grid-cols-[2fr_1fr] gap-1 h-screen">
                 {/* LEFT COLUMN */}
                 <div className="flex flex-col gap-1 h-full">
                     <Revenue_charts />
@@ -26,7 +26,7 @@ const Dashboard = () => {
                     </div>
                 </div>
                 {/* RIGHT COLUMN */}
-                <div className="flex flex-col gap-1 h-full">
+                <div className="flex flex-col gap-1 h-full pb-[50px] md:pb-0">
                     {/* Popular Product */}
 
                     {/* Top Selling Products */}

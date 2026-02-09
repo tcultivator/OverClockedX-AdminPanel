@@ -70,7 +70,7 @@ const Popular_Product = () => {
     }, [selectedDate])
 
     return (
-        <div className="w-full flex-1 h-full p-6 rounded bg-white text-slate-900 border border-black/15  transition-all">
+        <div className="w-full flex-1 h-full p-2 md:p-6 rounded bg-white text-slate-900 border border-black/15  transition-all">
 
            
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">

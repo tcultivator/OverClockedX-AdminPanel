@@ -97,7 +97,7 @@ const BarCodeScanner = ({ setAddedProducts, setUseBarCode }: { setAddedProducts:
     return (
         <div className="flex flex-col items-center justify-center p-4 items-center w-full gal-2">
             {!isScanning && (
-                <div className="bg-white p-2 rounded-[15px] flex flex-col gap-2 shadow-md w-[400px]">
+                <div className="bg-white p-2 rounded-[15px] flex flex-col gap-2 shadow-md max-w-[400px]">
                     {loadingScan ? (
                         <div className="flex flex-col items-center animate-fadeIn p-4   ">
                             <PulseLoader speedMultiplier={2} color="#fa8eb2" />
@@ -120,7 +120,7 @@ const BarCodeScanner = ({ setAddedProducts, setUseBarCode }: { setAddedProducts:
             )}
 
             {/* Only show scanner when active */}
-            {isScanning && <div id="reader" className="w-[600px] h-[600px]" />}
+            {isScanning && <div id="reader" className="w-full h-full max-w-[600px] max-h-[600px]" />}
         </div>
     )
 }

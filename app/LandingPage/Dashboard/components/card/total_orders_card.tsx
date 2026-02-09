@@ -28,7 +28,7 @@ const Total_orders_card = () => {
     }, [])
 
     return (
-        <div className="w-full max-w-sm p-5 rounded bg-white text-slate-900 border border-black/15 flex flex-col justify-between">
+        <div className="w-full max-w-sm p-2 md:p-5 rounded bg-white text-slate-900 border border-black/15 flex flex-col justify-between">
             <div>
                 <div className="flex justify-between items-center mb-3">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">

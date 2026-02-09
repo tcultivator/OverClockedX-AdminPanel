@@ -30,7 +30,7 @@ export const RemoveProduct = ({ product_id, product_name, product_image }: produ
         <AlertDialogTrigger asChild>
             <Label className='p-2 font-thin cursor-pointer rounded hover:bg-white/5'>Remove Product</Label>
         </AlertDialogTrigger>
-        <AlertDialogContent className="max-w-lg">
+        <AlertDialogContent className="w-[95vw] max-w-lg">
             <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                 <div className="flex flex-col gap-1">
@@ -45,7 +45,7 @@ export const RemoveProduct = ({ product_id, product_name, product_image }: produ
             </AlertDialogHeader>
             <AlertDialogFooter>
                 <AlertDialogCancel className="p-0">
-                    <DropdownMenuItem className="w-full px-10 cursor-pointer">
+                    <DropdownMenuItem className="w-full px-10 cursor-pointer flex items-center justify-center">
                         Cancel
                     </DropdownMenuItem>
                 </AlertDialogCancel>
@@ -53,7 +53,7 @@ export const RemoveProduct = ({ product_id, product_name, product_image }: produ
                     onClick={() => {
                         useProductsStore.getState().removeProduct(product_id)
                     }}>
-                    <DropdownMenuItem className="w-full h-full   px-10 cursor-pointer focus:bg-transparent focus:text-white">
+                    <DropdownMenuItem className="w-full h-full text-center items-center flex justify-center   px-10 cursor-pointer focus:bg-transparent focus:text-white">
                         Continue
                     </DropdownMenuItem>
                 </AlertDialogAction>

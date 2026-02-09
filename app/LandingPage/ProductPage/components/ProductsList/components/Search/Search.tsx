@@ -84,10 +84,12 @@ const Search = () => {
     return (
         <div className='w-full relative'>
             <form onSubmit={submitSearch} className='flex gap-1 items-center w-full '>
-                <Input type="text" placeholder="Search" ref={inputRef} onChange={(e) => searchProducts(e.target.value)} className='text-white' />
-                <Button variant={'default'} className=' text-white  border border-black/50 cursor-pointer' type='submit'><GoSearch /></Button>
+                <Input type="text" placeholder="Search" ref={inputRef} onChange={(e) => searchProducts(e.target.value)} />
+                <Button variant={'secondary'} className=' text-black  border border-black/50 cursor-pointer' type='submit'><GoSearch /></Button>
             </form>
-            <div className={` bg-[#F1F0EE] max-h-[50vh] shadow-2xl border border-black/15 overflow-auto mt-1 rounded w-full absolute z-50  flex-col ${searchResults.length != 0 ? 'flex' : 'hidden'}`}>
+
+            {/* desktop layout */}
+            <div className={` bg-[#F1F0EE] max-h-[50vh] shadow-2xl border border-black/15 overflow-auto mt-1 rounded w-full absolute z-50  flex-col ${searchResults.length != 0 ? 'hidden md:flex' : 'hidden'}`}>
                 <div className='flex bg-white text-black p-1 rounded-t sticky top-0 border-b border-black/30'>
                     <Label className='text-[11px] w-[50%]'>Products</Label>
                     <Label className='text-[11px] w-[15%]'>Price</Label>
@@ -124,10 +126,38 @@ const Search = () => {
                         </div>
                     ))}
                 </div>
-
-
-
             </div>
+
+            {/* mobile layout */}
+            <div className={` bg-[#F1F0EE] max-h-[60vh] shadow-2xl border border-black/15 overflow-auto mt-1 rounded w-full absolute z-50  flex-col ${searchResults.length != 0 ? 'flex' : 'hidden'}`}>
+                <div className='flex flex-col gap-1 p-1'>
+                    {searchResults.map((data, index) => (
+                        <div key={index} className='flex flex-col items-start bg-[#FFFFFF] text-black shadow-sm p-1 rounded border border-black/15'>
+                            <div className={`${data.stocks > 0 ? (data.stocks <= 10 ? 'Low bg-[#FFFBD3] text-[#F6BB3A] border border-[#F6BB3A]' : 'bg-[#C5FFC8] text-green-800 border border-green-800') : 'bg-[#FFD5D8] text-red-500 border border-red-500'} w-max  rounded-[10px]  flex justify-center items-center px-2 py-[2px]`}>
+                                {data.stocks > 0 ? (data.stocks <= 10 ? <IoIosWarning className='text-[12px]' /> : <IoMdCheckmark className='text-[12px]' />) : <RxCross1 className='text-[12px]' />}
+                                <Label className='text-[10px] flex items-center justify-center'>{data.stocks > 0 ? (data.stocks <= 10 ? 'Low Stocks' : 'Available') : 'Out of stock'}</Label>
+                            </div>
+                            <div className='flex items-start gap-1  rounded  cursor-pointer  w-full'>
+                                <Image src={data.product_image} width={100} height={100} alt='' className='w-[80px] aspect-square' />
+                                <div className='flex flex-col cursor-pointer'>
+                                    <Label className='text-[12px] font-semi-bold'>{data.product_name}</Label>
+                                    <Label className='w-[15%] text-[13px] font-thin'>{new Intl.NumberFormat('en-PH', {
+                                        style: 'currency',
+                                        currency: 'PHP',
+                                    }).format(data.price)}</Label>
+                                    <div className=' flex items-center gap-1'>
+                                        <RiStackLine className='text-[12px]' />
+                                        <Label className='text-[13px]  font-thin'>{data.stocks}</Label>
+                                        <Label>remaining</Label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+
         </div>
 
     )

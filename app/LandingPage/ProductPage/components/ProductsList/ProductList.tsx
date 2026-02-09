@@ -24,13 +24,13 @@ const ProductList = async () => {
     const notif = await db.query('SELECT * FROM notification ORDER by id DESC')
     const notificationData = notif[0] as NotificationType[]
     return (
-        <div className='flex flex-col flex-1 rounded relative bg-white w-full border border-black/15 overflow-hidden'>
+        <div className='flex flex-col flex-1 rounded bg-white w-full border border-black/15 overflow-hidden'>
             <div className='border-b border-black/15 p-2 flex justify-end items-end'>
                 
-                <div className='flex gap-5 items-center w-[50%]'>
+                <div className='flex gap-2 md:gap-5 items-center w-full md:w-[50%]'>
                     <Search />
                     <Notification notificationData={notificationData} />
-                    <div className='flex items-center gap-2'>
+                    <div className='hidden md:flex items-center gap-2'>
                         <Label>View</Label>
                         <div className='flex gap-2 items-center'>
                             <Button variant={'secondary'} className='border border-black/50 cursor-pointer'><IoListOutline /></Button>

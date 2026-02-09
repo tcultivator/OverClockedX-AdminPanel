@@ -45,7 +45,7 @@ const Top_selling_products = () => {
   }
 
   return (
-    <div className='w-full h-full p-6 rounded bg-white text-slate-900 border border-black/15 flex flex-col'>
+    <div className='w-full h-full p-2 md:p-6 rounded bg-white text-slate-900 border border-black/15 flex flex-col'>
 
       
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 shrink-0">
