@@ -22,7 +22,7 @@ const MobileMenu = () => {
     const pathname = usePathname();
     
     return (
-        <div className=' z-50 flex md:hidden right-0 fixed h-[50px] bg-white border-t border-black/30 bottom-0 w-full'>
+        <div className=' z-50  flex md:hidden right-0 fixed h-[50px] bg-white border-t border-black/30 bottom-0 w-full'>
             <div className='flex items-center justify-evenly w-full'>
                 {menuItems.map((data, index) => (
                     <div key={index} onClick={() => router.push(data.path)} className={`flex gap-2 justify-start items-center  cursor-pointer hover:bg-primary hover:text-white rounded-[50%] p-1 ${pathname == data.path ? 'bg-primary text-white ' : 'text-black'}`}>

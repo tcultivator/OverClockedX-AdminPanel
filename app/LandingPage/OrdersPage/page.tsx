@@ -12,7 +12,7 @@ import Completed_Orders from './components/Orders-list/components/card/Completed
 import { Suspense } from 'react'
 const OrdersPage = () => {
     return (
-        <div className='w-full flex flex-col gap-1'>
+        <div className='flex w-full h-[100dvh] md:h-screen p-1  flex-col gap-1 overflow-hidden pb-[52px] md:pb-1'>
             <div className='flex items-center gap-1'>
                 <Total_Orders />
                 <Pending_Orders />

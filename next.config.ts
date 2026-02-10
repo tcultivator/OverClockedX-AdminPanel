@@ -8,7 +8,8 @@ const nextConfig: NextConfig = {
       { hostname: "res.cloudinary.com" },
       { hostname: "b.tile.openstreetmap.org" },
       { hostname: "images.barcodelookup.com" },
-      {hostname:"www.mentainstruments.com"} 
+      {hostname:"www.mentainstruments.com"},
+      {hostname:"example.com"} 
     ],
   },
   allowedDevOrigins: [
